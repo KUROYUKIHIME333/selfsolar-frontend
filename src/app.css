@@ -1,0 +1,15 @@
+:root {
+	--primary-color: #994f08;
+	--secondary-color: #c88239;
+	--tertiary-color: #f5a570;
+	--back-dark: rgb(225, 227, 222);
+	--back-yellow-gray: rgb(250, 249, 244);
+	--gray-text: rgb(114, 115, 120);
+	--dark-text: rgb(24, 24, 22);
+	--marron-text: rgb(147, 72, 4);
+	--back-more-dark: #e0e1db;
+	--bg-dark: #1a1a1a;
+	--back-dark-blue: rgb(52, 92, 145);
+	--back-light-blue: rgb(212, 227, 255);
+	--back-yellow: rgb(250, 235, 216);
+}
