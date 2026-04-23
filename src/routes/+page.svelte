@@ -6,6 +6,7 @@
 	import Header from '../lib/components/molecules/Header.svelte';
 
 	let loading = true;
+	let disabled = false;
 </script>
 
 <svelte:head>
@@ -30,7 +31,7 @@
 		try editing <strong>src/routes/+page.svelte</strong>
 	</h2> -->
 
-	<Button variant="primary" label="Click" {loading}>ici</Button>
+	<Button variant="primary" label="Click" {loading} {disabled}>ici</Button>
 </section>
 
 <style>

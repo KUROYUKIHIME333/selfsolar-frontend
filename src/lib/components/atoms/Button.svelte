@@ -15,9 +15,11 @@
 	export let disabled: boolean = false;
 	export let loading: boolean = false;
 	export let label: string;
+
+	const buttonClass: string = disabled ? 'btn-disable' : 'btn';
 </script>
 
-<button {type} class="btn {variant}" {disabled} on:click>
+<button {type} class="{buttonClass} {variant}" {disabled} on:click>
 	{#if loading}
 		<span>
 			<span class="btn-spinner spinner-1"></span>
@@ -38,6 +40,14 @@
 		border-radius: 35px;
 		border: none;
 		cursor: pointer;
+	}
+
+	.btn-disable {
+		padding: 10px 20px;
+		width: 150px;
+		height: 50px;
+		border-radius: 35px;
+		border: none;
 	}
 
 	.btn:hover {
