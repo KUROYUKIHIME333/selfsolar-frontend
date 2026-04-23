@@ -1,8 +1,9 @@
 <script lang="ts">
-	import welcomeFallback from '$lib/images/svelte-welcome.png';
-	import welcome from '$lib/images/svelte-welcome.webp';
+	// import welcomeFallback from '$lib/images/svelte-welcome.png';
+	// import welcome from '$lib/images/svelte-welcome.webp';
 
-	import Counter from './Counter.svelte';
+	import Button from '../lib/components/atoms/Button.svelte';
+
 </script>
 
 <svelte:head>
@@ -11,7 +12,7 @@
 </svelte:head>
 
 <section>
-	<h1>
+	<!-- <h1>
 		<span class="welcome">
 			<picture>
 				<source srcset={welcome} type="image/webp" />
@@ -24,9 +25,9 @@
 
 	<h2>
 		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
+	</h2> -->
 
-	<Counter />
+	<Button variant="primary"> Clique</Button>
 </section>
 
 <style>
