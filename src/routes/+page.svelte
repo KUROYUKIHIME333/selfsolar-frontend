@@ -3,6 +3,7 @@
 	// import welcome from '$lib/images/svelte-welcome.webp';
 
 	import Button from '../lib/components/atoms/Button.svelte';
+	import Header from '../lib/components/molecules/Header.svelte';
 
 </script>
 
@@ -12,6 +13,7 @@
 </svelte:head>
 
 <section>
+<Header></Header>
 	<!-- <h1>
 		<span class="welcome">
 			<picture>

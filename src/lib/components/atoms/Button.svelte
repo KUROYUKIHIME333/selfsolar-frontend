@@ -8,7 +8,10 @@
 		| 'custom'
 		| 'icon-primary'
 		| 'icon-secondary'
-		| 'icon-custom' = 'primary';
+		| 'icon-custom'
+		| 'danger'
+		| 'good'
+		| 'clear' = 'primary';
 </script>
 
 <button {type} class="btn {variant}">
@@ -21,9 +24,16 @@
 		width: 150px;
 		height: 50px;
 		border-radius: 35px;
-		border: 2px solid var(--primary-color);
+		border: none;
 		cursor: pointer;
 	}
+
+	.btn:hover {
+		scale: 1.1;
+		font-size: large;
+		font-weight: bold;
+	}
+
 	.primary {
 		background: linear-gradient(
 			90deg,
@@ -32,6 +42,27 @@
 			var(--tertiary-color) 100%
 		);
 		color: white;
+	}
+
+	.danger {
+		background: var(--danger);
+		color: white;
+	}
+
+	.danger {
+		background: var(--danger);
+		color: white;
+	}
+
+	.good {
+		background: var(--good);
+		color: white;
+	}
+
+	.clear {
+		border: 2px solid var(--gray-text);
+		color: var(--gray-text);
+		background: var(--back-dark);
 	}
 
 	.icon-primary {
