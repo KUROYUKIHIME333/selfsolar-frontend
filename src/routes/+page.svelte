@@ -5,6 +5,7 @@
 	import Button from '../lib/components/atoms/Button.svelte';
 	import Header from '../lib/components/molecules/Header.svelte';
 
+	let loading = true;
 </script>
 
 <svelte:head>
@@ -13,7 +14,7 @@
 </svelte:head>
 
 <section>
-<Header></Header>
+	<Header></Header>
 	<!-- <h1>
 		<span class="welcome">
 			<picture>
@@ -29,7 +30,7 @@
 		try editing <strong>src/routes/+page.svelte</strong>
 	</h2> -->
 
-	<Button variant="primary"> Clique</Button>
+	<Button variant="primary" label="Click" {loading}>ici</Button>
 </section>
 
 <style>
@@ -39,25 +40,5 @@
 		justify-content: center;
 		align-items: center;
 		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
 	}
 </style>
