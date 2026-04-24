@@ -7,21 +7,21 @@ export type FunctionnalityType = {
 
 export const IMPLEMENTED: FunctionnalityType[] = [
   {
+    id: "fn03",
+    functionnality: "STOCKAGE D'ÉNERGIE (CHARGÉE PAR LE RÉSEAU)",
+    label: "Batteries",
+    link: "https://danielramazani.onrender.com",
+  },
+  {
     id: "fn01",
     functionnality: "INSTALLATION PHOTOVOLTAÏQUE",
-    label: "PV",
+    label: "Photovoltaique",
     link: "https://danielramazani.onrender.com",
   },
   {
     id: "fn02",
     functionnality: "CHOIX ET DIMMENSIONNEMENT DU GROUPE ÉLECTROGÈNE",
-    label: "GE",
-    link: "https://danielramazani.onrender.com",
-  },
-  {
-    id: "fn03",
-    functionnality: "STOCKAGE D'ÉNERGIE (CHARGÉE PAR LE RÉSEAU)",
-    label: "Batteries",
+    label: "Groupe Electrogène",
     link: "https://danielramazani.onrender.com",
   },
 
