@@ -5,6 +5,7 @@
 	--back-dark: rgb(225, 227, 222);
 	--back-yellow-gray: rgb(250, 249, 244);
 	--gray-text: rgb(114, 115, 120);
+	--color-text: rgba(0, 0, 0, 0.7);
 	--dark-text: rgb(24, 24, 22);
 	--marron-text: rgb(147, 72, 4);
 	--back-more-dark: #e0e1db;
@@ -15,8 +16,10 @@
 	--danger: rgb(235, 19, 19);
 	--good: rgb(3, 174, 35);
 	--big-title-size: 1.5rem;
+	--little-big-title-size: 1.2rem;
 	--title-size: 1rem;
-	--text-size: 1rem;
+	--text-size: 0.9rem;
+	--small-text-size: 0.9rem;
 	--big-title-weight: 800;
 	--title-weight: 600;
 	--text-weight: 400;
@@ -24,6 +27,7 @@
 	--btn-hover-weight: 600;
 	--btn-size: 0.95rem;
 	--btn-hover-size: 1rem;
+	--max-width: 95vw;
 }
 
 .moving-gradient-text {
@@ -48,6 +52,32 @@
 		var(--tertiary-color) 100%
 	);
 	animation: gradientMove 2s ease infinite;
+}
+
+.nav-link {
+	color: var(--color-text);
+	text-decoration: none;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 0.9rem;
+}
+
+.nav-link:hover {
+	color: var(--primary-color);
+}
+
+.nav-link-container {
+	display: flex;
+	align-items: center;
+	height: 50px;
+	border: 1.5px solid transparent;
+}
+
+.nav-link-container:hover {
+	height: 50px;
+	color: var(--primary-color);
+	border-bottom: 1.5px solid var(--primary-color);
+	/* border-top: 1.5px solid var(--primary-color); */
 }
 
 @keyframes gradientMove {
