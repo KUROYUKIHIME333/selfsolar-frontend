@@ -2,8 +2,6 @@
 	import '../../../app.css';
 	import MainLogo from '../atoms/MainLogo.svelte';
 	import NavHeader from '$components/atoms/NavHeader.svelte';
-	// import { IMPLEMENTED } from '$lib/utils/fonctionnalities';
-	// const items = IMPLEMENTED;
 </script>
 
 <header>
