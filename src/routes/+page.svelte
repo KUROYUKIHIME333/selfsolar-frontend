@@ -5,8 +5,8 @@
 	import Button from '../lib/components/atoms/Button.svelte';
 	import Header from '../lib/components/molecules/Header.svelte';
 
-	let loading = true;
-	let disabled = true;
+	let loading = false;
+	let disabled = false;
 </script>
 
 <svelte:head>
