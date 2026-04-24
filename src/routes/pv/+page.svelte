@@ -20,6 +20,13 @@
 				à ses besoins avec la logic des professionnels.
 			</span>
 		</p>
+		<p>
+			<span>
+				Dimensionnement complet installation photovoltaïque selon normes <span
+					>NFC 15-100, IEC 61215</span
+				>
+			</span>
+		</p>
 	</section>
 
 	<section>

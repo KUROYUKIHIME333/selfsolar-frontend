@@ -3,7 +3,9 @@
 	import NavFooter from '$components/atoms/NavFooter.svelte';
 </script>
 
+<div class="horizontal-line-full"></div>
 <footer>
+	
 	<div>
 		<p class="footer-title">
 			{MAIN_NAME}
@@ -23,7 +25,6 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		/* border: 2px solid red; */
 	}
 
 	.footer-title {

@@ -16,7 +16,7 @@
 <style>
 	header {
 		width: var(--max-width);
-		height: fit-content;
+		height: var(--header-height);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

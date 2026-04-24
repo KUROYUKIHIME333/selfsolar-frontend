@@ -27,10 +27,11 @@
 	--btn-hover-weight: 600;
 	--btn-size: 0.95rem;
 	--btn-hover-size: 1rem;
-	--max-width: 95vw;
+	--max-width: 97vw;
+	--header-height: 6rem;
 }
 
-.full-screen-width{
+.full-screen-width {
 	width: var(--max-width);
 }
 
@@ -82,6 +83,12 @@
 	color: var(--primary-color);
 	border-bottom: 1.5px solid var(--primary-color);
 	/* border-top: 1.5px solid var(--primary-color); */
+}
+
+.horizontal-line-full {
+	width: 100vw;
+	height: 2px;
+	background: var(--tertiary-color);
 }
 
 @keyframes gradientMove {
