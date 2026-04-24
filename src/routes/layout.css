@@ -15,6 +15,7 @@
 	--column-margin-top: 4rem;
 	font-family: var(--font-body);
 	color: var(--color-text);
+	background: var(--back-yellow-gray);
 }
 
 @media (min-width: 720px) {

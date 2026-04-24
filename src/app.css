@@ -30,6 +30,10 @@
 	--max-width: 95vw;
 }
 
+.full-screen-width{
+	width: var(--max-width);
+}
+
 .moving-gradient-text {
 	background: linear-gradient(
 		90deg,

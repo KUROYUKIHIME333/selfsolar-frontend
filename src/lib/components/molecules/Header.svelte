@@ -1,12 +1,16 @@
 <script lang="ts">
-	import '../../../app.css';
 	import MainLogo from '../atoms/MainLogo.svelte';
 	import NavHeader from '$components/atoms/NavHeader.svelte';
+	import Button from '$components/atoms/Button.svelte';
 </script>
 
 <header>
 	<MainLogo />
 	<NavHeader />
+	<div>
+		<Button L="2rem" l="2rem" borderRadius="50%" label="P" />
+		<Button L="2rem" l="2rem" borderRadius="50%" label="S" />
+	</div>
 </header>
 
 <style>
@@ -16,7 +20,5 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-
-		/* border: 2px solid red; */
 	}
 </style>

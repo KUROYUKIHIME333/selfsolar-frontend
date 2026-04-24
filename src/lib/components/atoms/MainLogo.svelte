@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../../app.css';
 	import { MAIN_NAME } from '../../utils/textConstantes.js';
 </script>
 

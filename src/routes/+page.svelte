@@ -2,11 +2,10 @@
 	// import welcomeFallback from '$lib/images/svelte-welcome.png';
 	// import welcome from '$lib/images/svelte-welcome.webp';
 
-	import Button from '../lib/components/atoms/Button.svelte';
-	import Header from '../lib/components/molecules/Header.svelte';
+	// import Button from '../lib/components/atoms/Button.svelte';
 
-	let loading = false;
-	let disabled = false;
+	// let loading = false;
+	// let disabled = false;
 </script>
 
 <svelte:head>
@@ -14,18 +13,16 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section>
-	<Header />
-
+<!-- <section>
 	<Button variant="primary" label="Click" {loading} {disabled}>ici</Button>
-</section>
+</section> -->
 
 <style>
-	section {
+	/* section {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		flex: 0.6;
-	}
+	} */
 </style>

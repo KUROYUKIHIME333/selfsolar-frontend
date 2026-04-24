@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../../app.css';
 	export let type: 'button' | 'submit' | 'reset' | null | undefined = 'button';
 	export let variant:
 		| 'primary'
@@ -15,6 +14,9 @@
 	export let disabled: boolean = false;
 	export let loading: boolean = false;
 	export let label: string;
+	export let L: string = '150px';
+	export let l: string = '50px';
+	export let borderRadius: string = '35px';
 
 	let buttonClass: string = disabled ? 'btn-disable' : 'btn';
 </script>
@@ -22,6 +24,7 @@
 <button
 	{type}
 	class="{buttonClass} {variant === 'primary' ? 'primary moving-gradient' : variant}"
+	style="width: {L}; height: {l}; border-radius: {borderRadius}"
 	{disabled}
 	on:click
 >
@@ -39,19 +42,11 @@
 
 <style>
 	.btn {
-		padding: 10px 20px;
-		width: 150px;
-		height: 50px;
-		border-radius: 35px;
 		border: none;
 		cursor: pointer;
 	}
 
 	.btn-disable {
-		padding: 10px 20px;
-		width: 150px;
-		height: 50px;
-		border-radius: 35px;
 		border: none;
 		font-size: var(--btn-size);
 		font-weight: var(--btn-weight);
