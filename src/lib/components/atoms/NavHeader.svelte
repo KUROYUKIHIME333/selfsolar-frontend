@@ -21,19 +21,18 @@
 		font-size: 0.9rem;
 	}
 
-	/* .nav-link:hover {
+	.nav-link:hover {
 		color: var(--primary-color);
-		font-weight: bold;
-	} */
+	}
 
-	.nav-link-container{
+	.nav-link-container {
 		display: flex;
 		align-items: center;
 		height: 50px;
 		border: 1.5px solid transparent;
 	}
 
-	.nav-link-container:hover{
+	.nav-link-container:hover {
 		height: 50px;
 		color: var(--primary-color);
 		border-bottom: 1.5px solid var(--primary-color);
