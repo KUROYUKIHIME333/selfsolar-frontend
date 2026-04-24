@@ -9,12 +9,13 @@
 <header>
 	<MainLogo />
 	<NavHeader />
+	
 </header>
 
 <style>
 	header {
 		width: 90vw;
-		height: 50px;
+		height: fit-content;
 
 		display: flex;
 		align-items: center;

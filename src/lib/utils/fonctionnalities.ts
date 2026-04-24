@@ -9,7 +9,13 @@ export const IMPLEMENTED: FunctionnalityType[] = [
   {
     id: "fn01",
     functionnality: "INSTALLATION PHOTOVOLTAÏQUE",
-    label: "Installation PV",
+    label: "PV",
+    link: "https://danielramazani.onrender.com",
+  },
+  {
+    id: "fn02",
+    functionnality: "CHOIX ET DIMMENSIONNEMENT DU GROUPE ÉLECTROGÈNE",
+    label: "GE",
     link: "https://danielramazani.onrender.com",
   },
   {
@@ -18,12 +24,7 @@ export const IMPLEMENTED: FunctionnalityType[] = [
     label: "Batteries",
     link: "https://danielramazani.onrender.com",
   },
-  {
-    id: "fn02",
-    functionnality: "CHOIX ET DIMMENSIONNEMENT DU GROUPE ÉLECTROGÈNE",
-    label: "Groupe Electrogène",
-    link: "https://danielramazani.onrender.com",
-  },
+
   {
     id: "fn03",
     functionnality: "DIMENSIONNEMENT ÉLECTRIQUE BASSE TENSION",
@@ -39,7 +40,7 @@ export const IMPLEMENTED: FunctionnalityType[] = [
   {
     id: "fn05",
     functionnality: " INFRASTRUCTURE DE RECHARGE VÉHICULES ÉLECTRIQUES (IRVE)",
-    label: "Recharge Véhicules électriques",
+    label: "Véhicules électriques",
     link: "https://danielramazani.onrender.com",
   },
 ];
