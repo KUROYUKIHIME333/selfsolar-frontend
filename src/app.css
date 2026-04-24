@@ -14,4 +14,14 @@
 	--back-yellow: rgb(250, 235, 216);
 	--danger: rgb(235, 19, 19);
 	--good: rgb(3, 174, 35);
+	--big-title-size: 1.5rem;
+	--title-size: 1rem;
+	--text-size: 1rem;
+	--big-title-weight: 800;
+	--title-weight: 600;
+	--text-weight: 400;
+	--btn-weight: 400;
+	--btn-hover-weight: 600;
+	--btn-size: 0.95rem;
+	--btn-hover-size: 1rem;
 }
