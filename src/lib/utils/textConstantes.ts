@@ -1,0 +1,1 @@
+export const MAIN_NAME: string = "Self Solar";

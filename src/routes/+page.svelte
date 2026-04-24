@@ -6,7 +6,7 @@
 	import Header from '../lib/components/molecules/Header.svelte';
 
 	let loading = true;
-	let disabled = false;
+	let disabled = true;
 </script>
 
 <svelte:head>
@@ -15,21 +15,7 @@
 </svelte:head>
 
 <section>
-	<Header></Header>
-	<!-- <h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcomeFallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2> -->
+	<Header />
 
 	<Button variant="primary" label="Click" {loading} {disabled}>ici</Button>
 </section>

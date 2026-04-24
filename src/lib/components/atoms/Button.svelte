@@ -16,7 +16,7 @@
 	export let loading: boolean = false;
 	export let label: string;
 
-	const buttonClass: string = disabled ? 'btn-disable' : 'btn';
+	let buttonClass: string = disabled ? 'btn-disable' : 'btn';
 </script>
 
 <button {type} class="{buttonClass} {variant}" {disabled} on:click>
