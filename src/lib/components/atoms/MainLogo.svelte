@@ -12,5 +12,7 @@
 		font-size: var(--big-title-size);
 		font-weight: var(--big-title-weight);
 		color: var(--primary-color);
+
+		/* border: 2px solid red; */
 	}
 </style>

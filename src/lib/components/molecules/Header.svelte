@@ -7,16 +7,16 @@
 <header>
 	<MainLogo />
 	<NavHeader />
-	
 </header>
 
 <style>
 	header {
-		width: 95vw;
+		width: var(--max-width);
 		height: fit-content;
-
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+
+		/* border: 2px solid red; */
 	}
 </style>
