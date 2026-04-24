@@ -1,1 +1,1 @@
-export const MAIN_NAME: string = "Self Solar";
+export const MAIN_NAME: string = "The Crafted Calculator";
