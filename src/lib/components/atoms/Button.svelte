@@ -48,12 +48,14 @@
 		height: 50px;
 		border-radius: 35px;
 		border: none;
+		font-size: var(--btn-size);
+		font-weight: var(--btn-weight);
 	}
 
 	.btn:hover {
 		scale: 1.1;
-		font-size: large;
-		font-weight: bold;
+		font-size: var(--btn-hover-size);
+		font-weight: var(--btn-hover-weight);
 	}
 
 	.primary {
