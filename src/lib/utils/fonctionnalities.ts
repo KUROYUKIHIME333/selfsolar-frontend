@@ -55,7 +55,7 @@ export const FOOTER_LINKS: FooterLinkType[] = [
   {
     label: "Normes",
     description: "Les normes utilisées et leurs explications",
-    link: "/standards",
+    link: "/normes",
   },
   {
     label: "Documentation",
