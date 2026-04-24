@@ -19,7 +19,12 @@
 	let buttonClass: string = disabled ? 'btn-disable' : 'btn';
 </script>
 
-<button {type} class="{buttonClass} {variant}" {disabled} on:click>
+<button
+	{type}
+	class="{buttonClass} {variant === 'primary' ? 'primary moving-gradient' : variant}"
+	{disabled}
+	on:click
+>
 	{#if loading}
 		<span>
 			<span class="btn-spinner spinner-1"></span>
@@ -59,12 +64,6 @@
 	}
 
 	.primary {
-		background: linear-gradient(
-			90deg,
-			var(--primary-color) 0%,
-			var(--secondary-color) 51%,
-			var(--tertiary-color) 100%
-		);
 		color: white;
 	}
 

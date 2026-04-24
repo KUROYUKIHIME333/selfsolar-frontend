@@ -25,3 +25,39 @@
 	--btn-size: 0.95rem;
 	--btn-hover-size: 1rem;
 }
+
+.moving-gradient-text {
+	background: linear-gradient(
+		90deg,
+		var(--primary-color) 0%,
+		var(--secondary-color) 51%,
+		var(--tertiary-color) 100%
+	);
+	background-clip: text;
+	color: transparent;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: gradientMove 2s ease infinite;
+}
+
+.moving-gradient {
+	background: linear-gradient(
+		90deg,
+		var(--primary-color) 0%,
+		var(--secondary-color) 51%,
+		var(--tertiary-color) 100%
+	);
+	animation: gradientMove 2s ease infinite;
+}
+
+@keyframes gradientMove {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
