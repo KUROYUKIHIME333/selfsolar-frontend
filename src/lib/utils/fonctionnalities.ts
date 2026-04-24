@@ -16,38 +16,38 @@ export const IMPLEMENTED: FunctionnalityType[] = [
     id: "fn03",
     functionnality: "STOCKAGE D'ÉNERGIE (CHARGÉE PAR LE RÉSEAU)",
     label: "Batteries",
-    link: "https://danielramazani.onrender.com",
+    link: "/batteries",
   },
   {
     id: "fn01",
     functionnality: "INSTALLATION PHOTOVOLTAÏQUE",
     label: "Photovoltaique",
-    link: "https://danielramazani.onrender.com",
+    link: "/pv",
   },
   {
     id: "fn02",
     functionnality: "CHOIX ET DIMMENSIONNEMENT DU GROUPE ÉLECTROGÈNE",
     label: "Groupe Electrogène",
-    link: "https://danielramazani.onrender.com",
+    link: "/ge",
   },
 
   {
     id: "fn03",
     functionnality: "DIMENSIONNEMENT ÉLECTRIQUE BASSE TENSION",
     label: "Installation électrique",
-    link: "https://danielramazani.onrender.com",
+    link: "bt",
   },
   {
     id: "fn04",
     functionnality: "PROTECTION CONTRE LA FOUDRE ET SURTENSIONS",
     label: "Foudre et Surtensions",
-    link: "https://danielramazani.onrender.com",
+    link: "foudres",
   },
   {
     id: "fn05",
     functionnality: " INFRASTRUCTURE DE RECHARGE VÉHICULES ÉLECTRIQUES (IRVE)",
     label: "Véhicules électriques",
-    link: "https://danielramazani.onrender.com",
+    link: "irve",
   },
 ];
 
@@ -55,22 +55,22 @@ export const FOOTER_LINKS: FooterLinkType[] = [
   {
     label: "Normes",
     description: "Les normes utilisées et leurs explications",
-    link: "https://danielramazani.onrender.com",
+    link: "/standards",
   },
   {
     label: "Documentation",
     description: "La documentation du système entier",
-    link: "https://danielramazani.onrender.com",
+    link: "/doc",
   },
   {
     label: "Conditions d'utilisation",
     description: "Les conditions d'utilisation de la plateforme",
-    link: "https://danielramazani.onrender.com",
+    link: "use",
   },
 
   {
     label: "Politique de Confidentialité",
     description: "Private policy du site",
-    link: "https://danielramazani.onrender.com",
+    link: "/private-policy",
   },
 ];
