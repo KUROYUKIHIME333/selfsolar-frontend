@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { FunctionnalityType } from '../../../lib/utils/fonctionnalities';
-	import { IMPLEMENTED } from '../../../lib/utils/fonctionnalities';
+	import type { FunctionnalityType } from '$lib/utils/fonctionnalities';
+	import { IMPLEMENTED } from '$lib/utils/fonctionnalities';
 	const items: FunctionnalityType[] = IMPLEMENTED;
 </script>
 

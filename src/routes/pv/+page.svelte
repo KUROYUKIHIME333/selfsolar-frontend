@@ -1,4 +1,6 @@
-<script></script>
+<script>
+	import FormPV from '$components/organisms/FormPV.svelte';
+</script>
 
 <svelte:head>
 	<meta charset="UTF-8" />
@@ -32,7 +34,7 @@
 	<section>
 		<div>
 			<div></div>
-			<form action="#" method="post"></form>
+			<FormPV />
 		</div>
 		<div>
 			<div></div>

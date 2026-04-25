@@ -35,19 +35,19 @@ export const IMPLEMENTED: FunctionnalityType[] = [
     id: "fn03",
     functionnality: "DIMENSIONNEMENT ÉLECTRIQUE BASSE TENSION",
     label: "Installation électrique",
-    link: "bt",
+    link: "/bt",
   },
   {
     id: "fn04",
     functionnality: "PROTECTION CONTRE LA FOUDRE ET SURTENSIONS",
     label: "Foudre et Surtensions",
-    link: "foudres",
+    link: "/foudres",
   },
   {
     id: "fn05",
     functionnality: " INFRASTRUCTURE DE RECHARGE VÉHICULES ÉLECTRIQUES (IRVE)",
     label: "Véhicules électriques",
-    link: "irve",
+    link: "/irve",
   },
 ];
 
@@ -65,12 +65,12 @@ export const FOOTER_LINKS: FooterLinkType[] = [
   {
     label: "Conditions d'utilisation",
     description: "Les conditions d'utilisation de la plateforme",
-    link: "use",
+    link: "/use",
   },
 
   {
     label: "Politique de Confidentialité",
     description: "Private policy du site",
-    link: "/private-policy",
+    link: "/privatepolicy",
   },
 ];
