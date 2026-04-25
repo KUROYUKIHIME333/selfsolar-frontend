@@ -11,7 +11,6 @@
 	export let isRequired: boolean = false;
 	export let minValue: string | undefined = undefined;
 	export let maxValue: string | undefined = undefined;
-	export let defaultVal: string | number | undefined | null = undefined;
 
 	if (type !== 'number') {
 		minValue = undefined;
