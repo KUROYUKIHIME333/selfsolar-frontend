@@ -17,6 +17,11 @@
 	export let L: string = '150px';
 	export let l: string = '50px';
 	export let borderRadius: string = '35px';
+	export let clickAction;
+
+	if (loading) {
+		disabled = true;
+	}
 
 	let buttonClass: string = disabled ? 'btn-disable' : 'btn';
 </script>
@@ -26,7 +31,7 @@
 	class="{buttonClass} {variant === 'primary' ? 'primary moving-gradient' : variant}"
 	style="width: {L}; height: {l}; border-radius: {borderRadius}"
 	{disabled}
-	on:click
+	on:click={clickAction}
 >
 	{#if loading}
 		<span>
