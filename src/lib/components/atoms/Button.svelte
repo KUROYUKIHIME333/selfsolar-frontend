@@ -14,10 +14,10 @@
 	export let disabled: boolean = false;
 	export let loading: boolean = false;
 	export let label: string;
-	export let L: string = '150px';
+	export let L: string = 'auto';
 	export let l: string = '50px';
-	export let borderRadius: string = '35px';
-	export let clickAction;
+	export let borderRadius: string = '1rem';
+	export let clickAction: (() => void) | undefined = undefined;
 
 	if (loading) {
 		disabled = true;
@@ -28,19 +28,19 @@
 
 <button
 	{type}
-	class="{buttonClass} {variant === 'primary' ? 'primary moving-gradient' : variant}"
+	class="{buttonClass} {variant}"
 	style="width: {L}; height: {l}; border-radius: {borderRadius}"
 	{disabled}
 	on:click={clickAction}
 >
 	{#if loading}
-		<span>
-			<span class="btn-spinner spinner-1"></span>
-			<span class="btn-spinner spinner-2"></span>
-			<span class="btn-spinner spinner-3"></span>
+		<span class="spinner-container">
+			<span class="spinner-dot"></span>
+			<span class="spinner-dot"></span>
+			<span class="spinner-dot"></span>
 		</span>
 	{:else}
-		{label}
+		<span class="btn-label">{label}</span>
 		<slot />
 	{/if}
 </button>
@@ -49,107 +49,123 @@
 	.btn {
 		border: none;
 		cursor: pointer;
+		font-family: inherit;
+		font-weight: var(--btn-weight);
+		font-size: var(--btn-size);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.btn:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(153, 79, 8, 0.25);
+	}
+
+	.btn:active:not(:disabled) {
+		transform: translateY(0);
 	}
 
 	.btn-disable {
 		border: none;
-		font-size: var(--btn-size);
-		font-weight: var(--btn-weight);
+		cursor: not-allowed;
+		opacity: 0.6;
+		font-family: inherit;
 	}
 
-	.btn:hover {
-		scale: 1.1;
-		font-size: var(--btn-hover-size);
-		font-weight: var(--btn-hover-weight);
-	}
-
+	/* Primary - Gradient Artisan */
 	.primary {
+		background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 		color: white;
+		font-weight: 600;
+		letter-spacing: 0.3px;
 	}
 
+	.primary::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+		transition: left 0.5s ease;
+	}
+
+	.primary:hover::before {
+		left: 100%;
+	}
+
+	/* Secondary */
+	.secondary {
+		background: white;
+		color: var(--primary-color);
+		border: 1.5px solid var(--back-dark);
+	}
+
+	.secondary:hover:not(:disabled) {
+		border-color: var(--secondary-color);
+		background: var(--back-yellow-gray);
+	}
+
+	/* Danger */
 	.danger {
 		background: var(--danger);
 		color: white;
 	}
 
-	.danger {
-		background: var(--danger);
-		color: white;
-	}
-
+	/* Good */
 	.good {
 		background: var(--good);
 		color: white;
 	}
 
+	/* Clear */
 	.clear {
-		border: 2px solid var(--gray-text);
+		background: transparent;
 		color: var(--gray-text);
-		background: var(--back-dark);
+		border: 1px solid var(--back-dark);
 	}
 
-	.icon-primary {
-		color: var(--primary-color);
-		width: fit-content;
-		height: fit-content;
+	/* Spinner */
+	.spinner-container {
+		display: flex;
+		gap: 4px;
+		align-items: center;
 	}
 
-	.icon-secondary {
-		color: var(--secondary-color);
-		width: fit-content;
-		height: fit-content;
-	}
-
-	.btn-spinner {
-		display: inline-block;
-		width: 10px;
-		height: 10px;
+	.spinner-dot {
+		width: 6px;
+		height: 6px;
 		background: white;
 		border-radius: 50%;
+		animation: bounce 1.4s infinite ease-in-out both;
 	}
 
-	.spinner-1 {
-		animation: pulse-1 1s infinite;
+	.spinner-dot:nth-child(1) {
+		animation-delay: -0.32s;
 	}
-	.spinner-2 {
-		animation: pulse-2 1s infinite;
-	}
-	.spinner-3 {
-		animation: pulse-3 1s infinite;
+	.spinner-dot:nth-child(2) {
+		animation-delay: -0.16s;
 	}
 
-	@keyframes pulse-2 {
+	@keyframes bounce {
 		0%,
+		80%,
 		100% {
-			transform: scale(0.5);
-			opacity: 1;
+			transform: scale(0);
 		}
-		50% {
+		40% {
 			transform: scale(1);
-			opacity: 1;
-		}
-	}
-	@keyframes pulse-3 {
-		0%,
-		50% {
-			transform: scale(0.5);
-			opacity: 1;
-		}
-		100% {
-			transform: scale(1);
-			opacity: 1;
 		}
 	}
 
-	@keyframes pulse-1 {
-		0% {
-			transform: scale(1);
-			opacity: 1;
-		}
-		50%,
-		100% {
-			transform: scale(0.5);
-			opacity: 1;
-		}
+	.btn-label {
+		position: relative;
+		z-index: 1;
 	}
 </style>

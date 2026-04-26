@@ -5,7 +5,7 @@
 	// Composants
 	import Input from '$components/atoms/Input.svelte';
 	import Button from '$components/atoms/Button.svelte';
-	// import MapSelector from '$components/molecules/MapSelector.svelte';
+	import MapSelector from '$components/molecules/MapSelector.svelte';
 	import EquipementCard from '$components/atoms/EquipementCard.svelte';
 	import Slider from '$components/atoms/Slider.svelte';
 	import Select from '$components/atoms/Select.svelte';
@@ -15,15 +15,67 @@
 	import { SvelteSet } from 'svelte/reactivity';
 
 	// Types API (stricts)
-	import type {
-		Localisation,
-		Equipement,
-		ParametresPanneau,
-		TemperaturesAttendue,
-		ContraintesOnduleur,
-		Cablage,
-		PompageCaracteristiques
-	} from '$lib/types/pv.types';
+	type Localisation = {
+		lat: number;
+		long: number;
+		altitude?: number;
+	};
+
+	type Equipement = {
+		nom?: string;
+		P: number;
+		h: number;
+		ks: number;
+	};
+
+	type ParametresPanneau = {
+		puissanceCreteModule: number;
+		tensionVoc: number;
+		courantCourtCircuit: number;
+		tensionMPP: number;
+		courantMPP?: number;
+		coeffTempTension: number;
+		coeffTempPuissance: number;
+		noct?: number;
+	};
+
+	type TemperaturesAttendue = {
+		temperatureMin: number;
+		temperatureMax: number;
+	};
+
+	type ContraintesOnduleur = {
+		puissanceACNominale?: number;
+		tensionDCMax?: number;
+		tensionMPPTMin?: number;
+		tensionMPPTMax?: number;
+		courantDCMax?: number;
+		puissanceDCMax?: number;
+		puissanceSurcharge?: number;
+		rendementMPPT?: number;
+		tensionBatterieMin?: number;
+		tensionBatterieMax?: number;
+		puissanceChargeBatterieMax?: number;
+	};
+
+	type Cablage = {
+		materiau?: string;
+		longueurString?: number;
+		longueurPrincipalDC?: number;
+		longueurAC?: number;
+		methodePoseDC?: string;
+		methodePoseAC?: string;
+		conditionEnvironnement?: string;
+	};
+
+	type PompageCaracteristiques = {
+		batteries: boolean;
+		masseVolumique?: number;
+		accelerationPesanteur?: number;
+		debit: number;
+		hauteurMano: number;
+		rendementPompe: number;
+	};
 
 	// État réactif
 	let localisation: Localisation = { lat: 0, long: 0 };
@@ -103,8 +155,10 @@
 	}
 
 	// Calcul réactif de la puissance totale
-	$: puissanceTotale =
-		equipements.reduce((acc, eq) => acc + eq.P * eq.h * eq.ks, 0) * facteurFoisonnementGlobal;
+	$: puissanceTotale = equipements.reduce(
+		(acc, eq) => acc + eq.P * eq.h * eq.ks,
+		0
+	) * facteurFoisonnementGlobal;
 
 	// État du submit
 	let isSubmitting: boolean = false;
@@ -112,7 +166,7 @@
 
 	async function handleSubmit(): Promise<void> {
 		if (isSubmitting) return;
-
+		
 		isSubmitting = true;
 		submitError = null;
 
@@ -156,6 +210,7 @@
 
 			const result = await response.json();
 			console.log('Succès:', result);
+			
 		} catch (error) {
 			submitError = error instanceof Error ? error.message : 'Erreur inconnue';
 			console.error('Erreur submit:', error);
@@ -166,31 +221,27 @@
 </script>
 
 <div class="artisan-container">
-	<div class="artisan-header">
+	<header class="artisan-header">
 		<div class="header-content">
 			<h1 class="artisan-title">
-				<span class="title-accent">Dimensionnement </span>
-				<span class="title-main">Photovoltaique</span>
+				<span class="title-main">Photovoltaic</span>
+				<span class="title-accent">Sizing</span>
 			</h1>
 			<p class="artisan-subtitle">
-				<span>Concevoir (presque comme un pro) son autonomie Energétique.</span>
-				<span
-					>Calculer l'installation photovoltaique adaptée à ses besoins et son environnement avec la
-					logique des artisans</span
-				>
+				Design your clean energy future. Let's calculate the perfect solar array for your space
+				using precise artisan logic.
 			</p>
 		</div>
-		<!-- <div class="header-badge">
+		<div class="header-badge">
 			<span class="badge-text">⚡ Artisan's Workspace</span>
-		</div> -->
-	</div>
+		</div>
+	</header>
 
 	<div class="artisan-grid">
 		<!-- Colonne Gauche : Formulaire -->
 		<div class="workspace-card">
-			<div class="badge-text">Workspace</div>
-			
 			<form on:submit|preventDefault={handleSubmit} class="artisan-form">
+				
 				{#if submitError}
 					<div class="error-banner" transition:slide>
 						<span class="error-icon">⚠️</span>
@@ -200,11 +251,11 @@
 
 				<!-- Section 1: Équipements -->
 				<fieldset class="form-section" class:active={isActive(0)}>
-					<button type="button" on:click={() => toggleSection(0)} class="section-legend">
+					<legend on:click={() => toggleSection(0)} class="section-legend">
 						<span class="legend-icon">⚡</span>
 						<span>Inventaire des équipements électriques</span>
 						<span class="legend-toggle">{isActive(0) ? '−' : '+'}</span>
-					</button>
+					</legend>
 
 					{#if isActive(0)}
 						<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
@@ -219,7 +270,7 @@
 										showRemove={equipements.length > 1}
 										on:update={(e) => {
 											const { field, value } = e.detail;
-											equipements = equipements.map((eq, i) =>
+											equipements = equipements.map((eq, i) => 
 												i === index ? { ...eq, [field]: value } : eq
 											);
 										}}
@@ -236,17 +287,11 @@
 							/>
 
 							<div class="global-factor">
-								<label class="factor-label" for="facteurFoisonnementGlobalInput">
+								<label class="factor-label">
 									Facteur de foisonnement global
 									<span class="factor-value">{facteurFoisonnementGlobal.toFixed(2)}</span>
 								</label>
-								<Slider
-									name="facteurFoisonnementGlobalInput"
-									min={0.5}
-									max={1}
-									step={0.05}
-									bind:value={facteurFoisonnementGlobal}
-								/>
+								<Slider min={0.5} max={1} step={0.05} bindValue={facteurFoisonnementGlobal} />
 							</div>
 
 							<div class="power-summary">
@@ -258,12 +303,12 @@
 				</fieldset>
 
 				<!-- Section 2: Localisation -->
-				<!-- <fieldset class="form-section" class:active={isActive(1)}>
-					<button type="button" on:click={() => toggleSection(1)} class="section-legend">
+				<fieldset class="form-section" class:active={isActive(1)}>
+					<legend on:click={() => toggleSection(1)} class="section-legend">
 						<span class="legend-icon">📍</span>
 						<span>Coordonnées géographiques du site</span>
 						<span class="legend-toggle">{isActive(1) ? '−' : '+'}</span>
-					</button>
+					</legend>
 
 					{#if isActive(1)}
 						<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
@@ -274,15 +319,15 @@
 							/>
 						</div>
 					{/if}
-				</fieldset> -->
+				</fieldset>
 
 				<!-- Section 3: Type d'installation -->
 				<fieldset class="form-section" class:active={isActive(2)}>
-					<button type="button" on:click={() => toggleSection(2)} class="section-legend">
+					<legend on:click={() => toggleSection(2)} class="section-legend">
 						<span class="legend-icon">⚙️</span>
 						<span>Type d'installation et de système</span>
 						<span class="legend-toggle">{isActive(2) ? '−' : '+'}</span>
-					</button>
+					</legend>
 
 					{#if isActive(2)}
 						<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
@@ -290,7 +335,7 @@
 								<Select
 									name="typeInstallation"
 									label="Qualité de l'installation"
-									bind:value={typeInstallation}
+									bindValue={typeInstallation}
 									options={[
 										{ value: 'HAUTE_QUALITE', label: 'Haute qualité' },
 										{ value: 'STANDARD', label: 'Standard' },
@@ -304,7 +349,7 @@
 								<Select
 									name="typeSysteme"
 									label="Architecture système"
-									bind:value={typeSysteme}
+									bindValue={typeSysteme}
 									options={[
 										{ value: 'on-grid', label: 'On-grid' },
 										{ value: 'off-grid', label: 'Off-grid' },
@@ -318,11 +363,11 @@
 
 				<!-- Section 4: Caractéristiques STC -->
 				<fieldset class="form-section" class:active={isActive(3)}>
-					<button type="button" on:click={() => toggleSection(3)} class="section-legend">
+					<legend on:click={() => toggleSection(3)} class="section-legend">
 						<span class="legend-icon">☀️</span>
 						<span>Caractéristiques STC du module PV</span>
 						<span class="legend-toggle">{isActive(3) ? '−' : '+'}</span>
-					</button>
+					</legend>
 
 					{#if isActive(3)}
 						<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
@@ -412,11 +457,11 @@
 
 				<!-- Section 5: Onduleur -->
 				<fieldset class="form-section" class:active={isActive(4)}>
-					<button type="button" on:click={() => toggleSection(4)} class="section-legend">
+					<legend on:click={() => toggleSection(4)} class="section-legend">
 						<span class="legend-icon">🔌</span>
 						<span>Caractéristiques onduleur candidat</span>
 						<span class="legend-toggle">{isActive(4) ? '−' : '+'}</span>
-					</button>
+					</legend>
 
 					{#if isActive(4)}
 						<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
@@ -465,33 +510,27 @@
 				<!-- Section 6: Autonomie -->
 				{#if typeSysteme !== 'on-grid'}
 					<fieldset class="form-section" class:active={isActive(5)}>
-						<button type="button" on:click={() => toggleSection(5)} class="section-legend">
+						<legend on:click={() => toggleSection(5)} class="section-legend">
 							<span class="legend-icon">🔋</span>
 							<span>Jours d'autonomie et stockage</span>
 							<span class="legend-toggle">{isActive(5) ? '−' : '+'}</span>
-						</button>
+						</legend>
 
 						{#if isActive(5)}
 							<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
 								<div class="form-row">
 									<div class="slider-group">
-										<label class="slider-label" for="autonomieBatterieSlider">
+										<label class="slider-label">
 											Autonomie souhaitée
 											<span class="slider-value">{autonomieBatterie} jours</span>
 										</label>
-										<Slider
-											name="autonomieBatterieSlider"
-											min={0.5}
-											max={10}
-											step={0.5}
-											bind:value={autonomieBatterie}
-										/>
+										<Slider min={0.5} max={10} step={0.5} bindValue={autonomieBatterie} />
 									</div>
 
 									<Select
 										name="technologieBatterie"
 										label="Technologie"
-										bind:value={technologieBatterie}
+										bindValue={technologieBatterie}
 										options={[
 											{ value: 'Plomb-acide', label: 'Plomb-acide' },
 											{ value: 'AGM/Gel', label: 'AGM/Gel' },
@@ -504,7 +543,7 @@
 									<Select
 										name="tensionSystemeBatterie"
 										label="Tension système (V)"
-										bind:value={tensionSystemeBatterie}
+										bindValue={tensionSystemeBatterie}
 										options={[
 											{ value: 12, label: '12V' },
 											{ value: 24, label: '24V' },
@@ -519,11 +558,11 @@
 
 				<!-- Section 7: Câblage -->
 				<fieldset class="form-section" class:active={isActive(6)}>
-					<button type="button" on:click={() => toggleSection(6)} class="section-legend">
+					<legend on:click={() => toggleSection(6)} class="section-legend">
 						<span class="legend-icon">🔗</span>
 						<span>Câblage</span>
 						<span class="legend-toggle">{isActive(6) ? '−' : '+'}</span>
-					</button>
+					</legend>
 
 					{#if isActive(6)}
 						<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
@@ -531,7 +570,7 @@
 								<Select
 									name="materiau"
 									label="Matériau conducteur"
-									bind:value={cablage.materiau}
+									bindValue={cablage.materiau}
 									options={[
 										{ value: 'cuivre', label: 'Cuivre' },
 										{ value: 'aluminium', label: 'Aluminium' }
@@ -562,11 +601,11 @@
 
 				<!-- Section 8: Pompage -->
 				<fieldset class="form-section" class:active={isActive(7)}>
-					<button type="button" on:click={() => toggleSection(7)} class="section-legend">
+					<legend on:click={() => toggleSection(7)} class="section-legend">
 						<span class="legend-icon">💧</span>
 						<span>Application pompage d'eau</span>
 						<span class="legend-toggle">{isActive(7) ? '−' : '+'}</span>
-					</button>
+					</legend>
 
 					{#if isActive(7)}
 						<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
@@ -595,16 +634,15 @@
 										isRequired={true}
 									/>
 									<div class="slider-group">
-										<label class="slider-label" for="rendementPompeSlider">
+										<label class="slider-label">
 											Rendement pompe
 											<span class="slider-value">{pompageCaracteristiques.rendementPompe}</span>
 										</label>
 										<Slider
-											name="rendementPompeSlider"
 											min={0.4}
 											max={0.7}
 											step={0.01}
-											bind:value={pompageCaracteristiques.rendementPompe}
+											bindValue={pompageCaracteristiques.rendementPompe}
 										/>
 									</div>
 								</div>
@@ -671,16 +709,42 @@
 </div>
 
 <style>
+	:global(:root) {
+		--primary-color: #994f08;
+		--secondary-color: #c88239;
+		--tertiary-color: #f5a570;
+		--back-dark: rgb(225, 227, 222);
+		--back-yellow-gray: rgb(250, 249, 244);
+		--gray-text: rgb(114, 115, 120);
+		--color-text: rgba(0, 0, 0, 0.7);
+		--dark-text: rgb(24, 24, 22);
+		--marron-text: rgb(147, 72, 4);
+		--back-more-dark: #e0e1db;
+		--bg-dark: #1a1a1a;
+		--back-dark-blue: rgb(52, 92, 145);
+		--back-light-blue: rgb(212, 227, 255);
+		--back-yellow: rgb(250, 235, 216);
+		--danger: rgb(235, 19, 19);
+		--good: rgb(3, 174, 35);
+		--big-title-size: 2.5rem;
+		--little-big-title-size: 1.2rem;
+		--title-size: 1rem;
+		--text-size: 0.9rem;
+		--small-text-size: 0.85rem;
+		--big-title-weight: 800;
+		--title-weight: 600;
+		--text-weight: 400;
+		--btn-weight: 500;
+		--btn-hover-weight: 600;
+		--btn-size: 1rem;
+		--btn-hover-size: 1.05rem;
+	}
+
 	.artisan-container {
 		min-height: 100vh;
 		background: var(--back-yellow-gray);
 		padding: 2rem 1rem;
-		font-family:
-			'Inter',
-			'Segoe UI',
-			system-ui,
-			-apple-system,
-			sans-serif;
+		font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
 	}
 
 	/* ===== ERROR BANNER ===== */
@@ -723,19 +787,21 @@
 	}
 
 	.artisan-title {
-		display: flex;
 		font-size: var(--big-title-size);
 		font-weight: var(--big-title-weight);
 		line-height: 1.1;
 		margin-bottom: 0.75rem;
 		color: var(--dark-text);
 		letter-spacing: -0.02em;
-		border: 2px solid red;
-		gap: 1rem;
 	}
 
+	.title-main {
+		display: block;
+	}
 
 	.title-accent {
+		display: block;
+		font-style: italic;
 		color: var(--primary-color);
 		background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
 		-webkit-background-clip: text;
@@ -744,15 +810,13 @@
 	}
 
 	.artisan-subtitle {
-		display: flex;
-		flex-direction: column;
 		font-size: var(--text-size);
 		color: var(--gray-text);
 		max-width: 500px;
 		line-height: 1.6;
 	}
 
-	/* .header-badge {
+	.header-badge {
 		background: var(--back-dark-blue);
 		color: white;
 		padding: 0.6rem 1.2rem;
@@ -761,7 +825,7 @@
 		font-weight: var(--title-weight);
 		box-shadow: 0 4px 15px rgba(52, 92, 145, 0.3);
 		flex-shrink: 0;
-	} */
+	}
 
 	/* ===== GRID ===== */
 	.artisan-grid {
@@ -1146,9 +1210,9 @@
 			position: static;
 		}
 
-		/* .header-badge {
+		.header-badge {
 			width: 100%;
 			text-align: center;
-		} */
+		}
 	}
 </style>

@@ -5,6 +5,7 @@
 	--back-dark: rgb(225, 227, 222);
 	--back-yellow-gray: rgb(250, 249, 244);
 	--gray-text: rgb(114, 115, 120);
+	--less-gray-text: rgb(164, 165, 172);
 	--color-text: rgba(0, 0, 0, 0.7);
 	--dark-text: rgb(24, 24, 22);
 	--marron-text: rgb(147, 72, 4);
@@ -27,8 +28,12 @@
 	--btn-hover-weight: 600;
 	--btn-size: 0.95rem;
 	--btn-hover-size: 1rem;
-	--max-width: 97vw;
+	--max-width: 95vw;
+	--full-width: 100vw;
 	--header-height: 6rem;
+
+	--test-border: 2px solid red;
+	--test-border-2: 2px solid blue;
 }
 
 .full-screen-width {
@@ -85,10 +90,16 @@
 	/* border-top: 1.5px solid var(--primary-color); */
 }
 
-.horizontal-line-full {
+.horizontal-line-full-primary {
 	width: 100vw;
 	height: 2px;
 	background: var(--tertiary-color);
+}
+
+.horizontal-line-full-less-gray {
+	width: 100vw;
+	height: 2px;
+	background: var(--less-gray-text);
 }
 
 @keyframes gradientMove {

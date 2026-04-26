@@ -3,28 +3,39 @@
 	import NavFooter from '$components/atoms/NavFooter.svelte';
 </script>
 
-<div class="horizontal-line-full"></div>
+<div class="horizontal-line-full-less-gray"></div>
 <footer>
-	
-	<div>
-		<p class="footer-title">
-			{MAIN_NAME}
-		</p>
-		<p class="footer-small">
-			<span>copyright 2026</span><span>{MAIN_NAME}.</span><span
-				>La securité energetique enfin en vue</span
-			>
-		</p>
+	<div class="footer-container">
+		<div>
+			<p class="footer-title">
+				{MAIN_NAME}
+			</p>
+			<p class="footer-small">
+				<span>copyright 2026</span><span>{MAIN_NAME}.</span><span
+					>La securité energetique enfin en vue</span
+				>
+			</p>
+		</div>
+		<NavFooter />
 	</div>
-	<NavFooter />
 </footer>
 
 <style>
 	footer {
+		width: var(--full-width);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		/* border: var(--test-border-2); */
+	}
+
+	.footer-container {
 		width: var(--max-width);
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
+		justify-content: space-between;
+
+		/* border: var(--test-border); */
 	}
 
 	.footer-title {
