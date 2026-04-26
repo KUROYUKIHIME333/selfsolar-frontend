@@ -1,25 +1,24 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	// Composants
-	// import Input from '$components/atoms/Input.svelte';
+
 	import Button from '$components/atoms/Button.svelte';
-	// import MapSelector from '$components/molecules/MapSelector.svelte';
 	import EquipementSection from '$components/molecules/PVForm/EquipementSection.svelte';
-	// import Slider from '$components/atoms/Slider.svelte';
-	// import Select from '$components/atoms/Select.svelte';
+	import TypeInstallationSection from '$components/molecules/PVForm/TypeInstallationSection.svelte';
 	import PostIt from '$components/atoms/PostIt.svelte';
 	// Constantes
 	import { DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL } from '$lib/utils/textConstantes';
-	// import { SvelteSet } from 'svelte/reactivity';
+
 	// Types API (stricts)
 	import type {
 		// Localisation,
-		Equipement
+		Equipement,
 		// ParametresPanneau,
 		// TemperaturesAttendue,
 		// ContraintesOnduleur,
 		// Cablage,
 		// PompageCaracteristiques
+		TypeInstallationType,
+		TypeSystemType
 	} from '$lib/types/pv.types';
 
 	let step: number = $state(1);
@@ -28,11 +27,13 @@
 	let formData: {
 		equipements: Equipement[];
 		facteurFoisonnementGlobal: number;
-		typeInstallation: string;
+		typeInstallation: TypeInstallationType;
+		typeSysteme: TypeSystemType;
 	} = $state({
 		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }],
 		facteurFoisonnementGlobal: DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
-		typeInstallation: 'STANDARD'
+		typeInstallation: 'STANDARD',
+		typeSysteme: "off-grid",
 	});
 
 	const nextStep = () => {
@@ -53,14 +54,26 @@
 	<!-- Formulaire -->
 	<div class="workspace-card">
 		<form method="POST" use:enhance>
-			<!-- Equipement inventory -->
+			<!-- 1. Equipement inventory -->
 			<EquipementSection
 				allEquipements={formData.equipements}
 				facteurFoisonnementGlobal={formData.facteurFoisonnementGlobal}
 				visibility={step === 1 ? true : false}
 			/>
 
-			<!-- Location -->
+			<!-- 2. Location -->
+
+			<!-- 3. Installation and system type -->
+			<TypeInstallationSection
+				installation={formData.typeInstallation}
+				systeme={formData.typeSysteme}
+				visibility={step === 3 ? true : false}
+			/>
+
+			<!-- 4. cells datas -->
+
+			<!-- 5.  -->
+
 			<div class="form-actions">
 				{#if !theFirst}
 					<Button variant="secondary" type="button" label="Retour" L="20%" clickAction={prevStep} />
@@ -74,53 +87,51 @@
 					clickAction={nextStep}
 				/>
 			</div>
+
 			<Button label="soumettre" variant="primary" type="submit" L="100%" />
 		</form>
-
-		<!-- Colonne Droite : Informations -->
-		<aside class="info-panel">
-			<div class="info-card image-card">
-				<img
-					src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80"
-					alt="Installation photovoltaïque"
-					class="info-image"
-				/>
-			</div>
-
-			<div class="info-card">
-				<h3 class="info-title">Why Precision Matters</h3>
-				<p class="info-text">
-					A system that's too small won't meet your needs, while one that's too large increases
-					initial costs without proportional returns. We find the "Goldilocks" zone.
-				</p>
-			</div>
-
-			<div class="info-card pro-tip">
-				<div class="pro-tip-header">
-					<span class="pro-tip-icon">💡</span>
-					<h4 class="pro-tip-title">Pro Tip: Shading</h4>
-				</div>
-				<p class="pro-tip-text">
-					Even a small amount of shade from a chimney or tree can drop your entire array's
-					efficiency by 50%. Always measure in peak sunlight!
-				</p>
-			</div>
-
-			<div class="stats-grid">
-				<div class="stat-card">
-					<span class="stat-icon">☀️</span>
-					<span class="stat-label">Avg. Sun Hours</span>
-					<span class="stat-value">--</span>
-				</div>
-				<div class="stat-card">
-					<span class="stat-icon">🌱</span>
-					<span class="stat-label">CO2 Offset</span>
-					<span class="stat-value">--</span>
-				</div>
-			</div>
-		</aside>
 	</div>
 
 	<!-- Infos -->
-	<aside class="info-panel"></aside>
+	<aside class="info-panel">
+		<div class="info-card image-card">
+			<img
+				src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80"
+				alt="Installation photovoltaïque"
+				class="info-image"
+			/>
+		</div>
+
+		<div class="info-card">
+			<h3 class="info-title">Why Precision Matters</h3>
+			<p class="info-text">
+				A system that's too small won't meet your needs, while one that's too large increases
+				initial costs without proportional returns. We find the "Goldilocks" zone.
+			</p>
+		</div>
+
+		<div class="info-card pro-tip">
+			<div class="pro-tip-header">
+				<span class="pro-tip-icon">💡</span>
+				<h4 class="pro-tip-title">Pro Tip: Shading</h4>
+			</div>
+			<p class="pro-tip-text">
+				Even a small amount of shade from a chimney or tree can drop your entire array's efficiency
+				by 50%. Always measure in peak sunlight!
+			</p>
+		</div>
+
+		<div class="stats-grid">
+			<div class="stat-card">
+				<span class="stat-icon">☀️</span>
+				<span class="stat-label">Avg. Sun Hours</span>
+				<span class="stat-value">--</span>
+			</div>
+			<div class="stat-card">
+				<span class="stat-icon">🌱</span>
+				<span class="stat-label">CO2 Offset</span>
+				<span class="stat-value">--</span>
+			</div>
+		</div>
+	</aside>
 </div>

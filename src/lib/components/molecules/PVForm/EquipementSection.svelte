@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
-	import { quintOut } from 'svelte/easing';
 	import EquipementCard from '$components/molecules/EquipementCard.svelte';
 	import Button from '$components/atoms/Button.svelte';
 	import Slider from '$components/atoms/Slider.svelte';
@@ -28,7 +26,7 @@
 	let {
 		allEquipements = [{ nom: '', P: NaN, h: NaN, ks: 0.5 }],
 		facteurFoisonnementGlobal = DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
-		visibility = true,
+		visibility = true
 	}: {
 		allEquipements: Equipement[];
 		facteurFoisonnementGlobal: number;
@@ -41,7 +39,7 @@
 		<span>Inventaire des équipements électriques</span>
 	</legend>
 
-	<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
+	<div class="section-content">
 		{#each allEquipements as equipement, index (index)}
 			<EquipementCard
 				identifier={index}
@@ -63,9 +61,10 @@
 
 		<div class="global-factor">
 			<label class="factor-label" for="facteurFoisonnementGlobalInput">
-				Facteur de foisonnement global
+				Facteur de foisonnement global (Kf)
 				<span class="factor-value">{facteurFoisonnementGlobal.toFixed(2)}</span>
 			</label>
+
 			<Slider
 				name="facteurFoisonnementGlobalInput"
 				min={0.5}
@@ -73,9 +72,17 @@
 				step={0.05}
 				bind:value={facteurFoisonnementGlobal}
 			/>
+			<p>
+				<span class="factor-label"
+					>Il s'agit d'un facteur qui permet de prendre en compte de la non-simultanéité entre
+					usages</span
+				>
+				<span class="factor-label"
+					>Généralement, pour des milieux résidentiels, il oscille entre 0.5 et 0.7.</span
+				>
+				<span class="factor-label">En pratique, on utilise souvent 0.8 comme valeur standard</span>
+			</p>
 		</div>
-
-		
 	</div>
 </fieldset>
 
