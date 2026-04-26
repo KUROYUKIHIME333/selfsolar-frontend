@@ -15,8 +15,8 @@
 	export let loading: boolean = false;
 	export let label: string;
 	export let L: string = 'auto';
-	export let l: string = '50px';
-	export let borderRadius: string = '1rem';
+	export let l: string = 'fit-containt';
+	export let borderRadius: string = '9999px';
 	export let clickAction: (() => void) | undefined = undefined;
 
 	if (loading) {
@@ -29,7 +29,7 @@
 <button
 	{type}
 	class="{buttonClass} {variant}"
-	style="width: {L}; height: {l}; border-radius: {borderRadius}"
+	style="width: {L}; height: {l}; border-radius: {borderRadius}; padding: 10px"
 	{disabled}
 	on:click={clickAction}
 >
