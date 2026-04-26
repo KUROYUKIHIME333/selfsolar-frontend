@@ -59,3 +59,34 @@ export type PompageCaracteristiques = {
   hauteurMano: number;
   rendementPompe: number;
 };
+
+export const TYPE_INSTALATTION_OPTIONS = [
+  { value: "HAUTE_QUALITE", label: "Haute qualité" },
+  { value: "STANDARD", label: "Standard" },
+  { value: "POUSSIEREUX", label: "Poussiéreux" },
+  { value: "FAIBLE_MAINTENANCE", label: "Faible maintenance" },
+  { value: "ANCIEN", label: "Ancien" },
+  { value: "CABLE_LONG", label: "Câble long" },
+];
+
+export type TypeInstallationType =
+  | "HAUTE_QUALITE"
+  | "STANDARD"
+  | "POUSSIEREUX"
+  | "FAIBLE_MAINTENANCE"
+  | "ANCIEN"
+  | "CABLE_LONG";
+
+export const TYPE_SYSTEME_OPTIONS = [
+  {
+    value: "on-grid",
+    label: "Votre installation est reliée au réseau électrique urbain",
+  },
+  {
+    value: "off-grid",
+    label: "Votre installation est isolé du réseau électrique",
+  },
+  { value: "hybride", label: "Hybride" },
+];
+
+export type TypeSystemType = "on-grid" | "off-grid" | "hybride";

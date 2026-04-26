@@ -1,9 +1,18 @@
 <script lang="ts">
-	export let name: string;
-	export let label: string = '';
-	export let value: string | number | undefined;
-	export let options: Array<{ value: string | number; label: string }> = [];
-	export let isRequired: boolean = false;
+	type OptionSelect = { value: string | number; label: string };
+	let {
+		name,
+		label = '',
+		value,
+		options = [],
+		isRequired = false
+	}: {
+		name: string;
+		label: string;
+		value: string | number | undefined;
+		options: OptionSelect[];
+		isRequired: boolean;
+	} = $props();
 </script>
 
 <div class="select-wrapper">
@@ -31,7 +40,6 @@
 		font-size: var(--small-text-size);
 		font-weight: 500;
 		color: var(--gray-text);
-		text-transform: uppercase;
 		letter-spacing: 0.5px;
 	}
 
