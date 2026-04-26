@@ -1,4 +1,5 @@
 <script>
+	import '../../lib/components/organisms/formPV.css';
 	import FormPV from '$components/organisms/FormPV.svelte';
 </script>
 
@@ -12,24 +13,22 @@
 	<title>Photovoltaique</title>
 </svelte:head>
 
-<section class="full-screen-width">
-	<section>
-		<h1>Dimensionnement Photovoltaique</h1>
-		<p>
-			<span>Concevoir sa propre installation d'énergie.</span>
-			<span
-				>Calculer les bonnes caractéristiques d'une installation (Panneaux, Batteries, etc.) adaptés
-				à ses besoins avec la logic des professionnels.
-			</span>
-		</p>
-		<p>
-			<span>
-				Dimensionnement complet installation photovoltaïque selon normes <span
-					>NFC 15-100, IEC 61215</span
+<section class="full-screen-width artisan-container">
+	<div class="artisan-header">
+		<div class="header-content">
+			<h1 class="artisan-title">
+				<span class="title-main">Dimensionnement </span>
+				<span class="title-main">Photovoltaique</span>
+			</h1>
+			<p class="artisan-subtitle">
+				<span>Concevoir (presque comme un pro) son autonomie Energétique.</span>
+				<span
+					>Calculer l'installation photovoltaique adaptée à ses besoins et son environnement avec la
+					logique des artisans</span
 				>
-			</span>
-		</p>
-	</section>
+			</p>
+		</div>
+	</div>
 
 	<section>
 		<div>

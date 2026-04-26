@@ -1,25 +1,35 @@
 <script lang="ts">
 	import Input from './Input.svelte';
 	import Button from './Button.svelte';
+	import { PLACEHOLDER_EQUIPEMENT } from '$lib/utils/textConstantes';
+	import type { PlaceholderEquipementType } from '$lib/types/general.types';
 	import { createEventDispatcher } from 'svelte';
 
 	export let identifier: string = '0';
 	export let nom: string = '';
-	export let puissance: number = 0;
-	export let duree: number = 0;
+	export let puissance: number | undefined | string = '';
+	export let duree: number | undefined | string = '';
 	export let simultaneite: number = 0.5;
 	export let showRemove: boolean = true;
 
+	const getRandomPlaceholder = (): PlaceholderEquipementType => {
+		const placeholderNbr = PLACEHOLDER_EQUIPEMENT.length;
+		const index = Math.floor(Math.random() * placeholderNbr);
+
+		return PLACEHOLDER_EQUIPEMENT[index];
+	};
+
+	let placeholderGet = getRandomPlaceholder();
 	const dispatch = createEventDispatcher();
 </script>
 
 <div class="equipement-card">
 	<div class="card-header">
-		<span class="card-number">#{parseInt(identifier) + 1}</span>
+		<span class="card-number">Equipement {parseInt(identifier) + 1}</span>
 		{#if showRemove}
 			<Button
 				variant="clear"
-				label="×"
+				label="x"
 				clickAction={() => dispatch('remove')}
 				L="32px"
 				l="32px"
@@ -32,31 +42,35 @@
 		<Input
 			type="text"
 			name={'nom-equipement-' + identifier}
-			label="Nom"
-			defaultName="Nom de l'équipement"
+			label="Nom de l'équipement"
+			defaultName="ex. {placeholderGet.nom} jj"
 			bindValue={nom}
-			icon="🔖"
+			L="90%"
 		/>
 		<Input
 			type="number"
 			name={'puissance-equipement-' + identifier}
-			label="Puissance (W)"
-			defaultName="Puissance nominale"
+			label="Puissance nominale (en Watts)"
+			defaultName="ex. {placeholderGet.puissance} Watts"
 			bindValue={puissance}
 			isRequired={true}
 			minValue="0"
-			icon="⚡"
+			inputMode="numeric"
+			writingPattern="[0-9]*"
+			L="90%"
 		/>
 		<Input
 			type="number"
 			name={'duree-utilisation-equipement-' + identifier}
-			label="Durée (h/j)"
-			defaultName="Durée journalière"
+			label="Durée d'utilisation journalière (en h/j)"
+			defaultName="ex. {placeholderGet.puissance} h/j"
 			bindValue={duree}
 			isRequired={true}
 			minValue="0"
 			maxValue="24"
-			icon="⏱️"
+			inputMode="numeric"
+			writingPattern="[0-9]*"
+			L="90%"
 		/>
 		<div class="slider-field">
 			<label class="slider-field-label" for="slider-input">
@@ -82,6 +96,7 @@
 		background: white;
 		border-radius: 1rem;
 		padding: 1.25rem;
+		padding-bottom: 50px;
 		border: 1px solid rgba(0, 0, 0, 0.06);
 		transition: all 0.2s ease;
 	}
@@ -108,9 +123,9 @@
 	}
 
 	.card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-		gap: 0.75rem;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 	}
 
 	.slider-field {
@@ -121,26 +136,26 @@
 
 	.slider-field-label {
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
 		font-size: var(--small-text-size);
 		font-weight: 500;
 		color: var(--gray-text);
 		text-transform: uppercase;
 		letter-spacing: 0.5px;
+		gap: 10px;
 	}
 
 	.slider-field-value {
-		background: var(--back-yellow);
-		color: var(--primary-color);
+		background: var(--back-dark);
+		color: var(--dark-text);
 		padding: 0.15rem 0.5rem;
-		border-radius: 0.5rem;
+		border-radius: 5px;
 		font-size: 0.75rem;
 		font-weight: 600;
 	}
 
 	.mini-slider {
-		width: 100%;
+		width: 95%;
 		height: 6px;
 		-webkit-appearance: none;
 		appearance: none;

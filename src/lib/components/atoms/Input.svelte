@@ -12,6 +12,18 @@
 	export let maxValue: string | undefined = undefined;
 	export let icon: string = '';
 	export let L: string | undefined = undefined;
+	export let inputMode:
+		| 'text'
+		| 'search'
+		| 'none'
+		| 'tel'
+		| 'url'
+		| 'email'
+		| 'numeric'
+		| 'decimal'
+		| null
+		| undefined = undefined;
+	export let writingPattern: string | undefined = undefined;
 
 	if (type !== 'number') {
 		minValue = undefined;
@@ -40,7 +52,9 @@
 			max={maxValue}
 			required={isRequired}
 			class="artisan-input"
-			style={`${L? `width: ${L}`: undefined}`}
+			style={`${L ? `width: ${L}` : undefined}`}
+			inputmode={inputMode}
+			pattern={writingPattern}
 		/>
 	</div>
 </div>
@@ -63,7 +77,6 @@
 		font-size: var(--small-text-size);
 		font-weight: 500;
 		color: var(--gray-text);
-		text-transform: uppercase;
 		letter-spacing: 0.5px;
 	}
 
@@ -83,9 +96,8 @@
 	.artisan-input {
 		width: 100%;
 		padding: 0.85rem 1rem;
-		border: 1.5px solid var(--back-dark);
-		border-radius: 0.875rem;
-		background: white;
+		border-radius: 5px;
+		background: var(--back-dark);
 		font-size: var(--text-size);
 		color: var(--dark-text);
 		transition: all 0.2s ease;
@@ -107,13 +119,16 @@
 	}
 
 	/* Number input spinner styling */
-	.artisan-input::-webkit-outer-spin-button,
-	.artisan-input::-webkit-inner-spin-button {
+	/* Chrome, Safari, Edge, Opera */
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		appearance: none;
 		-webkit-appearance: none;
 		margin: 0;
 	}
 
-	.artisan-input[type='number'] {
+	/* Firefox (the GOAT) */
+	input[type='number'] {
 		-moz-appearance: textfield;
 		appearance: textfield;
 	}

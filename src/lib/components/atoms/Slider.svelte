@@ -1,11 +1,9 @@
 <script lang="ts">
 	export let min: number = 0;
 	export let max: number = 100;
-	export let step: number = 1;
+	export let step: number = 0.01;
 	export let value: number = min;
 	export let name: string;
-
-	let sliderRef: HTMLInputElement;
 
 	function handleInput(e: Event) {
 		value = parseFloat((e.target as HTMLInputElement).value);
@@ -16,58 +14,59 @@
 
 <div class="slider-container">
 	<input
-		id={`slider-${name}`}
-		name="name"
 		type="range"
-		bind:this={sliderRef}
-		{min}
-		{max}
-		{step}
-		{value}
-		on:input={handleInput}
+		min="0"
+		max="1"
+		step={step}
+		bind:value
 		class="slider-input"
-		style="--progress: {percentage}%"
+		{name}
+		id={`slider-${name}`}
 	/>
-	<div class="slider-track">
-		<div class="slider-fill" style="width: {percentage}%"></div>
-	</div>
 </div>
 
 <style>
-	.slider-container {
-		position: relative;
-		width: 100%;
-		height: 24px;
-		display: flex;
-		align-items: center;
-	}
+
 
 	.slider-input {
-		position: absolute;
 		width: 100%;
 		height: 100%;
-		opacity: 0;
 		cursor: pointer;
-		z-index: 2;
-		margin: 0;
+		-webkit-appearance: none;
+		appearance: none;
+		outline: none;
 	}
 
-	.slider-track {
-		position: relative;
-		width: 100%;
-		height: 6px;
-		background: var(--back-dark);
-		border-radius: 3px;
-		overflow: visible;
+	.slider-input::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		appearance: none;
+		width: 18px;
+		height: 18px;
+		background: white;
+		border: 2.5px solid var(--primary-color);
+		border-radius: 50%;
+		cursor: pointer;
+		box-shadow: 0 2px 6px rgba(153, 79, 8, 0.2);
+		transition: transform 0.2s ease;
 	}
 
-	.slider-fill {
-		position: absolute;
-		height: 100%;
-		background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-		border-radius: 3px;
-		transition: width 0.1s ease;
+	.slider-input::-webkit-slider-thumb:hover {
+		transform: scale(1.2);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/* Thumb via pseudo-élément sur le container */
 	.slider-container::after {

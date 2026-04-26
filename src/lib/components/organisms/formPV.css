@@ -74,7 +74,7 @@
 	flex-direction: column;
 	font-size: var(--text-size);
 	color: var(--gray-text);
-	max-width: 500px;
+	width: 100%;
 	line-height: 1.6;
 }
 
@@ -451,6 +451,7 @@
 	}
 
 	.artisan-title {
+		flex-direction: column;
 		font-size: 2rem;
 	}
 
