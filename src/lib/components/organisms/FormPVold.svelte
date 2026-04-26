@@ -6,7 +6,7 @@
 	import Input from '$components/atoms/Input.svelte';
 	import Button from '$components/atoms/Button.svelte';
 	import MapSelector from '$components/molecules/MapSelector.svelte';
-	import EquipementCard from '$components/atoms/EquipementCard.svelte';
+	import EquipementCard from '$components/molecules/EquipementCard.svelte';
 	import Slider from '$components/atoms/Slider.svelte';
 	import Select from '$components/atoms/Select.svelte';
 

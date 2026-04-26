@@ -96,6 +96,7 @@
 	.artisan-input {
 		width: 100%;
 		padding: 0.85rem 1rem;
+		border: 2px solid var(--back-yellow-gray);
 		border-radius: 5px;
 		background: var(--back-dark);
 		font-size: var(--text-size);

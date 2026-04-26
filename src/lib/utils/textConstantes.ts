@@ -4,6 +4,8 @@ export const MAIN_NAME: string = "The Crafted Calculator";
 
 export const DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL: number = 0.8;
 
+export const DEFAULT_FACTEUR_SIMULTANEITE: number = 0.7;
+
 export const PLACEHOLDER_EQUIPEMENT: PlaceholderEquipementType[] = [
   {
     nom: "Fer à repasser",

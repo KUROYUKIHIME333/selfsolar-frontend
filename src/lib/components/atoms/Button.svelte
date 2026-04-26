@@ -14,8 +14,8 @@
 	export let disabled: boolean = false;
 	export let loading: boolean = false;
 	export let label: string;
-	export let L: string = 'auto';
-	export let l: string = 'fit-containt';
+	export let L: string = 'fit-content';
+	export let l: string = 'fit-content';
 	export let borderRadius: string = '9999px';
 	export let clickAction: (() => void) | undefined = undefined;
 
@@ -167,5 +167,9 @@
 	.btn-label {
 		position: relative;
 		z-index: 1;
+	}
+
+	@media (max-width: 768px){
+
 	}
 </style>

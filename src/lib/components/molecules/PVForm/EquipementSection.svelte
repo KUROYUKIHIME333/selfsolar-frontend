@@ -1,51 +1,56 @@
 <script lang="ts">
-	import { slide, fade } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
-	import EquipementCard from '$components/atoms/EquipementCard.svelte';
+	import EquipementCard from '$components/molecules/EquipementCard.svelte';
 	import Button from '$components/atoms/Button.svelte';
 	import Slider from '$components/atoms/Slider.svelte';
 	import type { Equipement } from '$lib/types/pv.types';
-
-	export let facteurFoisonnementGlobal: number;
+	import {
+		DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
+		DEFAULT_FACTEUR_SIMULTANEITE
+	} from '$lib/utils/textConstantes';
 
 	// Gestion équipements
 	const addEquipement = (): void => {
-		equipements = [...equipements, { P: 0, h: 0, ks: 0.5 }];
+		allEquipements = [...allEquipements, { P: 0, h: 0, ks: DEFAULT_FACTEUR_SIMULTANEITE }];
 	};
 
 	const removeEquipement = (index: number): void => {
-		if (equipements.length > 1) {
-			equipements = equipements.filter((_, i) => i !== index);
+		if (allEquipements.length > 1) {
+			allEquipements = allEquipements.filter((_, i) => i !== index);
 		}
 	};
 
-	// Calcul réactif de la puissance totale
-	$: puissanceTotale =
-		equipements.reduce((acc, eq) => acc + eq.P * eq.h * eq.ks, 0) * facteurFoisonnementGlobal;
+	// const goUpOfallEquipements = () => {};
 
-	let equipements: Equipement[] = [{ P: 0, h: 0, ks: 0.5 }];
+	// const goDownOfallEquipements = () => {};
+
+	let {
+		allEquipements = [{ nom: '', P: NaN, h: NaN, ks: 0.5 }],
+		facteurFoisonnementGlobal = DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
+		visibility = true,
+	}: {
+		allEquipements: Equipement[];
+		facteurFoisonnementGlobal: number;
+		visibility?: boolean;
+	} = $props();
 </script>
 
-<fieldset class="form-section">
+<fieldset class={`form-section ${visibility ? '' : 'is-hidden-now'}`}>
 	<legend class="section-legend">
-		<span class="legend-icon">⚡</span>
 		<span>Inventaire des équipements électriques</span>
 	</legend>
 
 	<div class="section-content" transition:slide={{ duration: 300, easing: quintOut }}>
-		{#each equipements as equipement, index (index)}
+		{#each allEquipements as equipement, index (index)}
 			<EquipementCard
-				identifier={String(index)}
+				identifier={index}
 				nom={equipement.nom}
-				puissance={equipement.P}
-				duree={equipement.h}
-				simultaneite={equipement.ks}
-				showRemove={equipements.length > 1}
-				on:update={(e) => {
-					const { field, value } = e.detail;
-					equipements = equipements.map((eq, i) => (i === index ? { ...eq, [field]: value } : eq));
-				}}
-				on:remove={() => removeEquipement(index)}
+				P={equipement.P}
+				h={equipement.h}
+				ks={equipement.ks}
+				showRemove={allEquipements.length > 1}
+				remove={() => removeEquipement(index)}
 			/>
 		{/each}
 
@@ -70,15 +75,9 @@
 			/>
 		</div>
 
-		<div class="power-summary">
-			<span class="summary-label">Puissance journalière estimée</span>
-			<span class="summary-value"
-				>{(
-					(equipements.reduce((acc, eq) => acc + eq.P * eq.h * eq.ks, 0) *
-						facteurFoisonnementGlobal) /
-					1000
-				).toFixed(2)} kWh/j</span
-			>
-		</div>
+		
 	</div>
 </fieldset>
+
+<style>
+</style>

@@ -1,16 +1,27 @@
 <script lang="ts">
-	import Input from './Input.svelte';
-	import Button from './Button.svelte';
+	import Input from '$components/atoms/Input.svelte';
+	import Button from '$components/atoms/Button.svelte';
 	import { PLACEHOLDER_EQUIPEMENT } from '$lib/utils/textConstantes';
 	import type { PlaceholderEquipementType } from '$lib/types/general.types';
-	import { createEventDispatcher } from 'svelte';
+	import { DEFAULT_FACTEUR_SIMULTANEITE } from '$lib/utils/textConstantes';
 
-	export let identifier: string = '0';
-	export let nom: string = '';
-	export let puissance: number | undefined | string = '';
-	export let duree: number | undefined | string = '';
-	export let simultaneite: number = 0.5;
-	export let showRemove: boolean = true;
+	let {
+		identifier = 0,
+		nom = '',
+		P = undefined,
+		h = undefined,
+		ks = DEFAULT_FACTEUR_SIMULTANEITE,
+		showRemove = true,
+		remove
+	}: {
+		identifier?: number;
+		nom?: string;
+		P: number | undefined | string;
+		h: number | undefined | string;
+		ks: number;
+		showRemove: boolean;
+		remove: ()=>void
+	} = $props();
 
 	const getRandomPlaceholder = (): PlaceholderEquipementType => {
 		const placeholderNbr = PLACEHOLDER_EQUIPEMENT.length;
@@ -20,17 +31,16 @@
 	};
 
 	let placeholderGet = getRandomPlaceholder();
-	const dispatch = createEventDispatcher();
 </script>
 
 <div class="equipement-card">
 	<div class="card-header">
-		<span class="card-number">Equipement {parseInt(identifier) + 1}</span>
+		<span class="card-number">Equipement {identifier + 1}</span>
 		{#if showRemove}
 			<Button
 				variant="clear"
 				label="x"
-				clickAction={() => dispatch('remove')}
+				clickAction={remove}
 				L="32px"
 				l="32px"
 				borderRadius="50%"
@@ -52,7 +62,7 @@
 			name={'puissance-equipement-' + identifier}
 			label="Puissance nominale (en Watts)"
 			defaultName="ex. {placeholderGet.puissance} Watts"
-			bindValue={puissance}
+			bindValue={P}
 			isRequired={true}
 			minValue="0"
 			inputMode="numeric"
@@ -64,7 +74,7 @@
 			name={'duree-utilisation-equipement-' + identifier}
 			label="Durée d'utilisation journalière (en h/j)"
 			defaultName="ex. {placeholderGet.puissance} h/j"
-			bindValue={duree}
+			bindValue={h}
 			isRequired={true}
 			minValue="0"
 			maxValue="24"
@@ -73,19 +83,19 @@
 			L="90%"
 		/>
 		<div class="slider-field">
-			<label class="slider-field-label" for="slider-input">
-				Simultanéité
-				<span class="slider-field-value">{simultaneite}</span>
+			<label class="slider-field-label" for={'ks-equipement-' + identifier}>
+				Facteur de Simultanéité
+				<span class="slider-field-value">{ks}</span>
 			</label>
 			<input
 				type="range"
 				min="0"
 				max="1"
 				step="0.05"
-				bind:value={simultaneite}
+				bind:value={ks}
 				class="mini-slider"
-				name="slider-input"
-				id="slider-input"
+				name={'ks-equipement-' + identifier}
+				id={'ks-equipement-' + identifier}
 			/>
 		</div>
 	</div>
@@ -140,7 +150,6 @@
 		font-size: var(--small-text-size);
 		font-weight: 500;
 		color: var(--gray-text);
-		text-transform: uppercase;
 		letter-spacing: 0.5px;
 		gap: 10px;
 	}

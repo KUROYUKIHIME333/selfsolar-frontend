@@ -1,6 +1,6 @@
 <script>
 	import '../../lib/components/organisms/formPV.css';
-	import FormPV from '$components/organisms/FormPV.svelte';
+	import PVForm from '$components/organisms/PVForm.svelte';
 </script>
 
 <svelte:head>
@@ -33,7 +33,7 @@
 	<section>
 		<div>
 			<div></div>
-			<FormPV />
+			<PVForm />
 		</div>
 		<div>
 			<div></div>

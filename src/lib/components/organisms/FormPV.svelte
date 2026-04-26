@@ -8,7 +8,7 @@
 	import Input from '$components/atoms/Input.svelte';
 	import Button from '$components/atoms/Button.svelte';
 	// import MapSelector from '$components/molecules/MapSelector.svelte';
-	import EquipementCard from '$components/atoms/EquipementCard.svelte';
+	import EquipementCard from '$components/molecules/EquipementCard.svelte';
 	import EquipementSection from '$components/molecules/PVForm/EquipementSection.svelte';
 	import Slider from '$components/atoms/Slider.svelte';
 	import Select from '$components/atoms/Select.svelte';
@@ -31,7 +31,7 @@
 
 	// État réactif
 	let localisation: Localisation = { lat: 0, long: 0 };
-	let equipements: Equipement[] = [{ P: 0, h: 0, ks: 0.5 }];
+	let equipements: Equipement[] = $state([{ P: 0, h: 0, ks: 0.5 }]);
 	let facteurFoisonnementGlobal: number = DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL;
 	let typeInstallation: string = 'STANDARD';
 	let typeSysteme: string = 'off-grid';
@@ -95,20 +95,6 @@
 		return activeSections.has(id);
 	}
 
-	// Gestion équipements
-	function addEquipement(): void {
-		equipements = [...equipements, { P: 0, h: 0, ks: 0.5 }];
-	}
-
-	function removeEquipement(index: number): void {
-		if (equipements.length > 1) {
-			equipements = equipements.filter((_, i) => i !== index);
-		}
-	}
-
-	// Calcul réactif de la puissance totale
-	$: puissanceTotale =
-		equipements.reduce((acc, eq) => acc + eq.P * eq.h * eq.ks, 0) * facteurFoisonnementGlobal;
 
 	// État du submit
 	let isSubmitting: boolean = false;
@@ -122,12 +108,7 @@
 
 		const payload = {
 			localisation,
-			equipements: equipements.map((eq) => ({
-				...(eq.nom && { nom: eq.nom }),
-				P: eq.P,
-				h: eq.h,
-				ks: eq.ks
-			})),
+			equipements: equipements,
 			facteurFoisonnementGlobal,
 			typeInstallation,
 			typeSysteme,
@@ -242,7 +223,7 @@
 				{/if}
 			</fieldset> -->
 
-			<EquipementSection {facteurFoisonnementGlobal} />
+			<EquipementSection equipements={equipements} facteurFoisonnementGlobal={facteurFoisonnementGlobal}/>
 
 			<!-- Section 2: Localisation -->
 			<!-- <fieldset class="form-section" class:active={isActive(1)}>
