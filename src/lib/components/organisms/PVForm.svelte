@@ -4,6 +4,7 @@
 	import Button from '$components/atoms/Button.svelte';
 	import EquipementSection from '$components/molecules/PVForm/EquipementSection.svelte';
 	import TypeInstallationSection from '$components/molecules/PVForm/TypeInstallationSection.svelte';
+	import CaracteristicsPannelsSection from '$components/molecules/PVForm/CaracteristicsPannelsSection.svelte';
 	import PostIt from '$components/atoms/PostIt.svelte';
 	// Constantes
 	import { DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL } from '$lib/utils/textConstantes';
@@ -12,7 +13,7 @@
 	import type {
 		// Localisation,
 		Equipement,
-		// ParametresPanneau,
+		ParametresPanneau,
 		// TemperaturesAttendue,
 		// ContraintesOnduleur,
 		// Cablage,
@@ -29,11 +30,22 @@
 		facteurFoisonnementGlobal: number;
 		typeInstallation: TypeInstallationType;
 		typeSysteme: TypeSystemType;
+		parametresPanneau: ParametresPanneau;
 	} = $state({
 		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }],
 		facteurFoisonnementGlobal: DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
 		typeInstallation: 'STANDARD',
-		typeSysteme: "off-grid",
+		typeSysteme: 'off-grid',
+		parametresPanneau: {
+			puissanceCreteModule: NaN,
+			tensionVoc: NaN,
+			courantCourtCircuit: NaN,
+			tensionMPP: NaN,
+			courantMPP: NaN,
+			coeffTempTension: NaN,
+			coeffTempPuissance: NaN,
+			noct: NaN
+		}
 	});
 
 	const nextStep = () => {
@@ -71,6 +83,16 @@
 			/>
 
 			<!-- 4. cells datas -->
+			<CaracteristicsPannelsSection
+				puissanceCreteModule={formData.parametresPanneau.puissanceCreteModule}
+				tensionMPP={formData.parametresPanneau.tensionMPP}
+				tensionVoc={formData.parametresPanneau.tensionVoc}
+				courantCourtCircuit={formData.parametresPanneau.courantCourtCircuit}
+				courantMPP={formData.parametresPanneau.courantMPP}
+				coeffTempPuissance={formData.parametresPanneau.coeffTempPuissance}
+				coeffTempTension={formData.parametresPanneau.coeffTempTension}
+				visibility={step === 4 ? true : false}
+			/>
 
 			<!-- 5.  -->
 
