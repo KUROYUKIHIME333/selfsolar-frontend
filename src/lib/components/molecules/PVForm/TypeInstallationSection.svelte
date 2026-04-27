@@ -16,11 +16,11 @@
 
 <fieldset class={`form-section ${visibility ? '' : 'is-hidden-now'}`}>
 	<legend class="section-legend">
-		<span>Type d'installation et de système</span>
+		<h2>Type d'installation et de système</h2>
 	</legend>
 
 	<div class="section-content">
-		<div class="type-datas-part">
+		<div class="section-datas-style">
 			<span
 				>Il faut maintenant avoir une idée sur la Qualité attendue et les Conditions de
 				l'installation (son milieu).</span
@@ -34,7 +34,7 @@
 			/>
 		</div>
 
-		<div class="type-datas-part">
+		<div class="section-datas-style">
 			<span>Il faut aussi savoir de quelle architecture on parle. </span>
 			<Select
 				name="typeSysteme"
@@ -48,9 +48,4 @@
 </fieldset>
 
 <style>
-	.type-datas-part {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
 </style>
