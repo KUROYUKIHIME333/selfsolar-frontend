@@ -90,3 +90,22 @@ export const TYPE_SYSTEME_OPTIONS = [
 ];
 
 export type TypeSystemType = "on-grid" | "off-grid" | "hybride";
+
+export type MateriauConducteur = "cuivre" | "aluminium";
+
+export type MethodePose =
+  | "conduit_encastre" // B2 - Référence NFC 15-100
+  | "conduit_surface" // B1
+  | "air_libre" // E/F
+  | "enterre" // D
+  | "gaine_technique"; // C
+
+export type ConditionEnvironnement =
+  | "standard" // 30°C ambiant
+  | "chaud" // 40°C ambiant
+  | "tres_chaud" // 50°C ambiant
+  | "extreme" // 60°C ambiant (désert)
+  | "humide" // Impact isolation
+  | "corrosif"; // Impact matériau
+
+export type TypeCableSolaire = "PV1-F" | "H1Z2Z2-K";
