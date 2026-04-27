@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import Select from '$components/atoms/Select.svelte';
 	import Input from '$components/atoms/Input.svelte';
+	import type { ParametresPanneau } from '$lib/types/pv.types';
+
 	let pannelsDatas = $props();
 	let {
 		visibility = true,
@@ -15,7 +17,7 @@
 		noct
 	}: {
 		visibility?: boolean;
-		puissanceCreteModule: Tnumber;
+		puissanceCreteModule: number;
 		tensionVoc: number;
 		courantCourtCircuit: number;
 		tensionMPP: number;
@@ -34,6 +36,17 @@
 		temperatureMax: number;
 		irradianceMax: number;
 	} = $props();
+
+	let choosedPanel: ParametresPanneau = $state({
+		puissanceCreteModule: NaN,
+		tensionVoc: NaN,
+		courantCourtCircuit: NaN,
+		tensionMPP: NaN,
+		courantMPP: NaN,
+		coeffTempTension: NaN,
+		coeffTempPuissance: NaN,
+		noct: NaN
+	});
 </script>
 
 <fieldset class={`form-section ${visibility ? '' : 'is-hidden-now'}`}>
@@ -61,8 +74,8 @@
 			<Select
 				name="typeInstallation"
 				label="A quoi s'attendre ? Qu'est ce qui décrit le mieux l'installation et son milieu ?"
-				value={installation}
-				options={TYPE_INSTALATTION_OPTIONS}
+				value={choosedPanel}
+				options={[]}
 				isRequired={true}
 			/>
 		</div>

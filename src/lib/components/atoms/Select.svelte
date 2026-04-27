@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { ParametresPanneau } from '$lib/types/pv.types';
+
 	type OptionSelect = { value: string | number; label: string };
 	let {
 		name,
@@ -9,7 +11,7 @@
 	}: {
 		name: string;
 		label: string;
-		value: string | number | undefined;
+		value: ParametresPanneau | string | number | undefined;
 		options: OptionSelect[];
 		isRequired: boolean;
 	} = $props();

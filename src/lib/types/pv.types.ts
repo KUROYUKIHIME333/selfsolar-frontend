@@ -109,3 +109,35 @@ export type ConditionEnvironnement =
   | "corrosif"; // Impact matériau
 
 export type TypeCableSolaire = "PV1-F" | "H1Z2Z2-K";
+
+// Interface représentant les caractéristiques techniques individuelles d'un modèle de panneau solaire.
+export interface ModelePanneau {
+  nom: string;
+  puissance_max: number;
+  tension_mpp: number;
+  tension_vide: number;
+  courant_mpp: number;
+  courant_cc: number;
+  coeff_v: number;
+  coeff_p: number;
+  coeff_i: number;
+  noct: number;
+}
+
+// Interface pour une marque spécifique dans le catalogue.
+export interface MarqueCatalogue {
+  nom_afic: string;
+  modeles: ModelePanneau[];
+}
+
+// les clés définies dans la liste des marques.
+export type CataloguePV = {
+  [key: string]: MarqueCatalogue;
+};
+
+//Type principal correspondant à l'objet global LISTE_PANNEAUX.
+
+export interface ListePanneauxData {
+  liste_marques: string[];
+  catalogue_pv: CataloguePV;
+}
