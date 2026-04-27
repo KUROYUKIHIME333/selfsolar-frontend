@@ -20,10 +20,10 @@
 	</legend>
 
 	<div class="section-content">
-		<div>
+		<div class="type-datas-part">
 			<span
 				>Il faut maintenant avoir une idée sur la Qualité attendue et les Conditions de
-				l'installation (son milieu)</span
+				l'installation (son milieu).</span
 			>
 			<Select
 				name="typeInstallation"
@@ -34,8 +34,8 @@
 			/>
 		</div>
 
-		<div>
-			<span>Il faut aussi savoir de quelle architecture on parle : </span>
+		<div class="type-datas-part">
+			<span>Il faut aussi savoir de quelle architecture on parle. </span>
 			<Select
 				name="typeSysteme"
 				label="A quoi s'attendre ? Qu'est ce qui décrit le mieux l'installation et son milieu ?"
@@ -47,4 +47,10 @@
 	</div>
 </fieldset>
 
-<style></style>
+<style>
+	.type-datas-part {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+</style>
