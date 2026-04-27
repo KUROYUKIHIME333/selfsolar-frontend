@@ -224,12 +224,26 @@
 	margin-bottom: 0.75rem;
 }
 
+.section-description {
+	display: flex;
+	flex-direction: column;
+	font-size: var(--text-size);
+	font-weight: var(--text-weight);
+	color: var(--marron-text);
+}
+
 .factor-value {
 	background: white;
 	padding: 0.25rem 0.75rem;
 	border-radius: 1rem;
 	font-size: var(--title-size);
 	color: var(--primary-color);
+}
+
+.section-datas-style {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
 /* ===== POWER SUMMARY ===== */
