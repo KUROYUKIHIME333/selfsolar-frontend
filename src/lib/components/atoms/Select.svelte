@@ -25,7 +25,6 @@
 				<option value={option.value}>{option.label}</option>
 			{/each}
 		</select>
-		<span class="select-arrow">▼</span>
 	</div>
 </div>
 
@@ -49,15 +48,14 @@
 
 	.select-input {
 		width: 100%;
-		padding: 0.85rem 2.5rem 0.85rem 1rem;
-		border: 1.5px solid var(--back-dark);
-		border-radius: 0.875rem;
-		background: white;
+		padding: 0.85rem 1rem;
+		border: 2px solid var(--back-yellow-gray);
+		border-radius: 5px;
+		background: var(--back-dark);
 		font-size: var(--text-size);
 		color: var(--dark-text);
-		cursor: pointer;
-		appearance: none;
 		transition: all 0.2s ease;
+		cursor: pointer;
 	}
 
 	.select-input:hover {
