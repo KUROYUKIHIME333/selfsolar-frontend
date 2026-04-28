@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { ParametresPanneau } from '$lib/types/pv.types';
+	import type { ParametresPanneau, ModelePanneau } from '$lib/types/pv.types';
 
-	type OptionSelect = { value: string | number; label: string };
+	type OptionSelect = { value: string | number | [index: number, array: ModelePanneau[]]; label: string };
 	let {
 		name,
 		label = '',

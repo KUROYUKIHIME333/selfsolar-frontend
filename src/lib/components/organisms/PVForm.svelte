@@ -84,13 +84,6 @@
 
 			<!-- 4. cells datas -->
 			<CaracteristicsPannelsSection
-				puissanceCreteModule={formData.parametresPanneau.puissanceCreteModule}
-				tensionMPP={formData.parametresPanneau.tensionMPP}
-				tensionVoc={formData.parametresPanneau.tensionVoc}
-				courantCourtCircuit={formData.parametresPanneau.courantCourtCircuit}
-				courantMPP={formData.parametresPanneau.courantMPP}
-				coeffTempPuissance={formData.parametresPanneau.coeffTempPuissance}
-				coeffTempTension={formData.parametresPanneau.coeffTempTension}
 				visibility={step === 4 ? true : false}
 			/>
 

@@ -1,52 +1,60 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	// import { getContext } from 'svelte';
 	import Select from '$components/atoms/Select.svelte';
-	import Input from '$components/atoms/Input.svelte';
-	import type { ParametresPanneau } from '$lib/types/pv.types';
+	// import Input from '$components/atoms/Input.svelte';
+	import Button from '$components/atoms/Button.svelte';
+	// import type { ParametresPanneau, ListePanneauxData, ModelePanneau } from '$lib/types/pv.types';
 
-	let pannelsDatas = $props();
+	// let pannelsDatas = $props();
+
 	let {
-		visibility = true,
-		puissanceCreteModule,
-		tensionVoc,
-		courantCourtCircuit,
-		tensionMPP,
-		courantMPP,
-		coeffTempTension,
-		coeffTempPuissance,
-		noct
+		visibility = true
+
 	}: {
 		visibility?: boolean;
-		puissanceCreteModule: number;
-		tensionVoc: number;
-		courantCourtCircuit: number;
-		tensionMPP: number;
-		courantMPP?: number;
-		coeffTempTension: number;
-		coeffTempPuissance: number;
-		noct?: number;
+
 	} = $props();
 
-	let {
-		temperatureMin,
-		temperatureMax,
-		irradianceMax
-	}: {
-		temperatureMin: number;
-		temperatureMax: number;
-		irradianceMax: number;
-	} = $props();
 
-	let choosedPanel: ParametresPanneau = $state({
-		puissanceCreteModule: NaN,
-		tensionVoc: NaN,
-		courantCourtCircuit: NaN,
-		tensionMPP: NaN,
-		courantMPP: NaN,
-		coeffTempTension: NaN,
-		coeffTempPuissance: NaN,
-		noct: NaN
-	});
+	// let choosedPanel: ParametresPanneau = $state({
+	// 	puissanceCreteModule: NaN,
+	// 	tensionVoc: NaN,
+	// 	courantCourtCircuit: NaN,
+	// 	tensionMPP: NaN,
+	// 	courantMPP: NaN,
+	// 	coeffTempTension: NaN,
+	// 	coeffTempPuissance: NaN,
+	// 	noct: NaN
+	// });
+
+	let listedPannel: boolean = $state(false);
+	let customPannel: boolean = $state(false);
+
+	const listedPannelChoosed = () => {
+		listedPannel = true;
+		customPannel = false;
+		console.log(listedPannel, customPannel);
+	};
+
+	const customPannelChoosed = () => {
+		listedPannel = false;
+		customPannel = true;
+		console.log(listedPannel, customPannel);
+	};
+
+	const goBackPannelChoosed = () => {
+		listedPannel = false;
+		customPannel = false;
+		console.log(listedPannel, customPannel);
+	};
+
+	let changeOfChoice = $derived(
+		listedPannel
+			? 'Je pense utiliser mes propres valeurs tout compte fait'
+			: customPannel
+				? 'Je pense utiliser le catalogue finalement'
+				: ''
+	);
 </script>
 
 <fieldset class={`form-section ${visibility ? '' : 'is-hidden-now'}`}>
@@ -56,29 +64,54 @@
 
 	<div class="section-content">
 		<p class="section-description">
-			<span
-				>Avoir les caractéristique du modèle de panneaux permettra de faire une installation propre
-				et efficace, adapté à vos besoins.</span
-			>
-			<span
-				>Le fonctionnement de ces derniers, et donc de votre installation, sera aussi affecté par la
-				météo, en particuliers la température ambiante.</span
-			>
+			{#if !listedPannel && !customPannel}
+				<span
+					>Avoir les caractéristique du modèle de panneaux permettra de faire une installation
+					propre et efficace, adapté à vos besoins.</span
+				>
+				<span
+					>Le fonctionnement de ces derniers, et donc de votre installation, sera aussi affecté par
+					la météo, en particuliers la température ambiante.</span
+				>
+			{/if}
+			{#if listedPannel || customPannel}
+				<Button
+					type="button"
+					variant="tertiary"
+					label={changeOfChoice}
+					clickAction={goBackPannelChoosed}
+				/>
+			{/if}
 		</p>
 
-		<div class="section-datas-style">
-			<p>
-				Choisir un panneau dans la liste proposés. Ou bien, renseigner les infos soi-même avec
-				l'option <span>custom</span>
-			</p>
-			<Select
-				name="typeInstallation"
-				label="A quoi s'attendre ? Qu'est ce qui décrit le mieux l'installation et son milieu ?"
-				value={choosedPanel}
-				options={[]}
-				isRequired={true}
-			/>
-		</div>
+		{#if !listedPannel && !customPannel}
+			<div class="section-description">
+				<Button
+					type="button"
+					variant="secondary"
+					label="Alors, choisir un modèle dans notre liste de fabricants connus ?"
+					clickAction={listedPannelChoosed}
+				/>
+				<Button
+					type="button"
+					variant="secondary"
+					label="Ou bien utiliser vos propres panneaux (vos valeurs)?"
+					clickAction={customPannelChoosed}
+				/>
+			</div>
+		{/if}
+
+		{#if listedPannel || customPannel}
+			<div class="section-datas-style">
+				<Select
+					name="typeInstallation"
+					label="Modele de panneau qui sera utilisé pour l'installation"
+					value=""
+					options={}
+					isRequired={true}
+				/>
+			</div>
+		{/if}
 	</div>
 </fieldset>
 

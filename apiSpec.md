@@ -693,13 +693,13 @@ curl -X POST http://localhost:3000/api/v1/pv/dimensionner \
 
 ## 7. Codes d'Erreur
 
-| Code HTTP | Description | Cause Possible | Solution |
-|-----------|-------------|----------------|----------|
-| 400 | Données invalides | Paramètres manquants ou incorrects | Vérifier le schéma de requête |
-| 400 | Dimensionnement impossible | Contraintes incompatibles (ex: Ns_min > Ns_max) | Ajuster plage MPPT ou tension module |
-| 400 | Section insuffisante | Chute tension > 3% | Augmenter section ou réduire longueur |
-| 500 | Erreur interne | Bug logiciel | Contacter support |
-| 503 | PVGIS indisponible | API externe down | Réessayer plus tard (fallback utilisé) |
+| Code HTTP |        Description         |               Cause Possible                    |                Solution                |
+|-----------|----------------------------|-------------------------------------------------|----------------------------------------|
+| 400       | Données invalides          | Paramètres manquants ou incorrects              | Vérifier le schéma de requête          |
+| 400       | Dimensionnement impossible | Contraintes incompatibles (ex: Ns_min > Ns_max) | Ajuster plage MPPT ou tension module   |
+| 400       | Section insuffisante       | Chute tension > 3%                              | Augmenter section ou réduire longueur  |
+| 500       | Erreur interne             | Bug logiciel                                    | Contacter support                      |
+| 503       | PVGIS indisponible         | API externe down                                | Réessayer plus tard (fallback utilisé) |
 
 ---
 
