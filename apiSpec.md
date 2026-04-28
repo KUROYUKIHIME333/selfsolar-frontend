@@ -114,44 +114,47 @@ Retourne un catalogue structuré par technologies avec options de capacité.
 
 ```json
 {
-  "plomb_acide_flooded": {
-    "label": "Plomb-acide (Ouverte/Flooded)",
-    "options": [
-      { "v": 12, "ah": 100, "desc": "Solaire classique" },
-      { "v": 12, "ah": 150, "desc": "Standard Solaire RDC" },
-      ...
-    ]
-  },
-  "agm_gel": {
-    "label": "AGM / Gel (VRLA)",
-    "options": [
-      { "v": 12, "ah": 100, "desc": "Solaire Premium (DOD 50%)" },
-      { "v": 12, "ah": 200, "desc": "Standard Gel (Solaire/Backup)" },
-      ...
-    ]
-  },
-  "lithium_lfp": {
-    "label": "Lithium LiFePO4",
-    "options": [
-      { "v": 12, "ah": 100, "desc": "Solaire haute performance" },
-      { "v": 12, "ah": 200, "desc": "Backup longue durée" },
-      ...
-    ]
-  },
-  "lithium_nmc": {
-    "label": "Lithium NMC/NCA",
-    "options": [
-      { "v": 12, "ah": 100, "desc": "Électromobilité" },
-      { "v": 48, "ah": 100, "desc": "Système 48V haute capacité" },
-      ...
-    ]
-  },
-  "nicd": {
-    "label": "Nickel-Cadmium (NiCd)",
-    "options": [
-      { "v": 1.2, "ah": 100, "desc": "Cellule industrielle" },
-      ...
-    ]
+  "liste_techno": [ "plomb_acide_flooded", "agm_gel", "agm_gel", "lifepo4", "lithium_nmc_nca", "nicd" ],
+  "catalogue_batt": {
+    "plomb_acide_flooded": {
+      "label": "Plomb-acide (Ouverte/Flooded)",
+      "options": [
+        { "v": 12, "ah": 100, "desc": "Solaire classique" },
+        { "v": 12, "ah": 150, "desc": "Standard Solaire RDC" },
+        ...
+      ]
+    },
+    "agm_gel": {
+      "label": "AGM / Gel (VRLA)",
+      "options": [
+        { "v": 12, "ah": 100, "desc": "Solaire Premium (DOD 50%)" },
+        { "v": 12, "ah": 200, "desc": "Standard Gel (Solaire/Backup)" },
+        ...
+      ]
+    },
+    "lithium_lfp": {
+      "label": "Lithium LiFePO4",
+      "options": [
+        { "v": 12, "ah": 100, "desc": "Solaire haute performance" },
+        { "v": 12, "ah": 200, "desc": "Backup longue durée" },
+        ...
+      ]
+    },
+    "lithium_nmc": {
+      "label": "Lithium NMC/NCA",
+      "options": [
+        { "v": 12, "ah": 100, "desc": "Électromobilité" },
+        { "v": 48, "ah": 100, "desc": "Système 48V haute capacité" },
+        ...
+      ]
+    },
+    "nicd": {
+      "label": "Nickel-Cadmium (NiCd)",
+      "options": [
+        { "v": 1.2, "ah": 100, "desc": "Cellule industrielle" },
+        ...
+      ]
+    }
   }
 }
 ```
