@@ -5,3 +5,20 @@ export type PlaceholderEquipementType = {
   puissance: number;
   duree: number;
 };
+
+export type StatusBackend =
+  | "opérationnel"
+  | "arrêt temporaire"
+  | "en maintenance"
+  | "fonctionnement restreint"
+  | "arrêt définitif";
+
+export type BackendHealthType = {
+  api: "SelfSolar API";
+  version: string;
+  status: StatusBackend;
+  endpoints: {
+    pv: string;
+    documentation: string;
+  };
+};

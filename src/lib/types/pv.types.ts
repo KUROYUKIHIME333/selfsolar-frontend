@@ -141,3 +141,5 @@ export interface ListePanneauxData {
   liste_marques: string[];
   catalogue_pv: CataloguePV;
 }
+
+
