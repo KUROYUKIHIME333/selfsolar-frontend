@@ -284,7 +284,7 @@
 
 	.tab.active {
 		background: #333;
-		color: var(--primary-color);
+		color: var(--back-yellow-gray);
 	}
 	/* 4. Grille de modèles (Le cœur du catalogue) */
 	.model-grid {

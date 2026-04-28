@@ -98,10 +98,10 @@
 					/>
 				{:else}
 					<Button
-						label="Soumettre le projet"
+						label="Calculer"
 						variant="primary"
 						type="submit"
-						L="100%"
+						L="20%"
 						clickAction={() => {
 							console.log(formData);
 						}}

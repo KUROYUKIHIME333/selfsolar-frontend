@@ -61,7 +61,6 @@
 	margin-bottom: 0.75rem;
 	color: var(--dark-text);
 	letter-spacing: -0.02em;
-	border: 2px solid red;
 	gap: 1rem;
 }
 
@@ -95,7 +94,7 @@
 
 /* ===== GRID ===== */
 .artisan-grid {
-	max-width: 1400px;
+	max-width: 100%;
 	margin: 0 auto;
 	display: grid;
 	grid-template-columns: 1fr 380px;
@@ -111,6 +110,10 @@
 
 /* ===== WORKSPACE CARD ===== */
 .workspace-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 70vh;
 	background: white;
 	border-radius: 1.5rem;
 	padding: 2rem;
