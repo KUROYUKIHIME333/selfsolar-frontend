@@ -1,34 +1,42 @@
 <script lang="ts">
-	export let type: string = 'number';
-	export let defaultName: string = '...';
-	export let name: string;
-	export let label: string = '';
-	export let bindValue: string | number | undefined = undefined;
-	export let keydownAction: (e: KeyboardEvent) => false | Promise<void> | void = () => {};
-	export let isLabeled: boolean = true;
-	export let isHidden: boolean = false;
-	export let isRequired: boolean = false;
-	export let minValue: string | undefined = undefined;
-	export let maxValue: string | undefined = undefined;
-	export let icon: string = '';
-	export let L: string | undefined = undefined;
-	export let inputMode:
-		| 'text'
-		| 'search'
-		| 'none'
-		| 'tel'
-		| 'url'
-		| 'email'
-		| 'numeric'
-		| 'decimal'
-		| null
-		| undefined = undefined;
-	export let writingPattern: string | undefined = undefined;
+	// On utilise la rune $props() et on marque bindValue comme $bindable()
+	let {
+		type = 'number',
+		defaultName = '...',
+		name,
+		label = '',
+		bindValue = $bindable(undefined), // CRUCIAL pour la remontée de données
+		keydownAction = () => {},
+		isLabeled = true,
+		isHidden = false,
+		isRequired = false,
+		minValue = undefined,
+		maxValue = undefined,
+		icon = '',
+		L = undefined,
+		inputMode = undefined,
+		writingPattern = undefined
+	}: {
+		type?: string;
+		defaultName?: string;
+		name: string;
+		label?: string;
+		bindValue?: string | number | undefined;
+		keydownAction?: (e: KeyboardEvent) => false | Promise<void> | void;
+		isLabeled?: boolean;
+		isHidden?: boolean;
+		isRequired?: boolean;
+		minValue?: string | number | undefined;
+		maxValue?: string | number | undefined;
+		icon?: string;
+		L?: string | undefined;
+		inputMode?: 'text' | 'search' | 'none' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | null;
+		writingPattern?: string | undefined;
+	} = $props();
 
-	if (type !== 'number') {
-		minValue = undefined;
-		maxValue = undefined;
-	}
+	// Logique de validation dérivée
+	const actualMin = $derived(type === 'number' ? minValue : undefined);
+	const actualMax = $derived(type === 'number' ? maxValue : undefined);
 </script>
 
 <div class="input-wrapper" class:hidden={isHidden}>
@@ -46,13 +54,14 @@
 			{name}
 			{type}
 			placeholder={defaultName}
+			/* Le lien magique Svelte 5 */
 			bind:value={bindValue}
-			on:keydown={keydownAction}
-			min={minValue}
-			max={maxValue}
+			onkeydown={keydownAction}
+			min={actualMin}
+			max={actualMax}
 			required={isRequired}
 			class="artisan-input"
-			style={`${L ? `width: ${L}` : undefined}`}
+			style={L ? `width: ${L}` : undefined}
 			inputmode={inputMode}
 			pattern={writingPattern}
 		/>

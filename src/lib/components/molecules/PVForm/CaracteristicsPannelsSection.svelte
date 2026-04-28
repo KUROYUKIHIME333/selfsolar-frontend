@@ -4,28 +4,35 @@
 	import { initialDatasStore } from '$stores/initialDatas';
 	import Button from '$components/atoms/Button.svelte';
 	import Input from '$components/atoms/Input.svelte';
+	import type { ModelePanneau, ParametresPanneau } from '$lib/types/pv.types';
 
+	// Props avec Svelte 5 runes
 	let {
 		visibility = true,
-		// On passe formData.parametresPanneau en prop pour le lier au parent
-		params = $bindable()
+		params = $bindable() as ParametresPanneau
+	}: {
+		visibility?: boolean;
+		params: ParametresPanneau;
 	} = $props();
 
-	// État interne pour la navigation du catalogue
-	let viewMode = $state('selection');
-	let activeBrand = $state('');
-	let selectedModelName = $state('');
+	// États locaux typés
+	let viewMode = $state<'selection' | 'catalogue' | 'custom'>('selection');
+	let activeBrand = $state<string>('');
+	let selectedModelName = $state<string>('');
 
+	// Dérivations typées
 	const catalogue = $derived($initialDatasStore.liste_panneaux?.catalogue_pv || {});
 	const brands = $derived($initialDatasStore.liste_panneaux?.liste_marques || []);
 
-	const filteredModels = $derived.by(() => {
+	const filteredModels = $derived.by((): ModelePanneau[] => {
 		if (!activeBrand) return [];
 		return catalogue[activeBrand]?.modeles || [];
 	});
 
-	// Action de sélection : On mappe les clés du catalogue vers votre objet de données PV
-	const handleSelectModel = (mod) => {
+	/**
+	 * Met à jour les paramètres globaux à partir d'un modèle du catalogue
+	 */
+	const handleSelectModel = (mod: ModelePanneau): void => {
 		selectedModelName = mod.nom;
 		params = {
 			puissanceCreteModule: mod.puissance_max,
@@ -72,7 +79,7 @@
 						clickAction={() => (viewMode = 'selection')}
 					/>
 					<div class="brand-tabs">
-						{#each brands as bKey (brands.indexOf(bKey))}
+						{#each brands as bKey (bKey)}
 							<button
 								type="button"
 								class="tab"
@@ -121,39 +128,39 @@
 						name="pannel-puissance"
 						label="Puissance Crête (Wp)"
 						type="number"
-						bindValue={params.puissanceCreteModule}
+						bind:bindValue={params.puissanceCreteModule}
 					/>
 					<Input
 						name="pannel-uoc"
 						label="Tension Voc (V)"
 						type="number"
-						bindValue={params.tensionVoc}
+						bind:bindValue={params.tensionVoc}
 					/>
 					<Input
 						name="pannel-isc"
 						label="Courant Icc (A)"
 						type="number"
-						bindValue={params.courantCourtCircuit}
+						bind:bindValue={params.courantCourtCircuit}
 					/>
 					<Input
 						name="pannel-umpp"
 						label="Tension MPP (V)"
 						type="number"
-						bindValue={params.tensionMPP}
+						bind:bindValue={params.tensionMPP}
 					/>
 					<Input
 						name="pannel-impp"
 						label="Courant MPP (A)"
 						type="number"
-						bindValue={params.courantMPP}
+						bind:bindValue={params.courantMPP}
 					/>
 					<Input
 						name="pannel-coeff-v"
 						label="Coeff. Temp Tension"
 						type="number"
-						bindValue={params.coeffTempTension}
+						bind:bindValue={params.coeffTempTension}
 					/>
-					<Input name="pannel-noct" label="NOCT (°C)" type="number" bindValue={params.noct} />
+					<Input name="pannel-noct" label="NOCT (°C)" type="number" bind:bindValue={params.noct} />
 				</div>
 			</div>
 		{/if}
@@ -277,9 +284,8 @@
 
 	.tab.active {
 		background: #333;
-		color: white;
+		color: var(--primary-color);
 	}
-
 	/* 4. Grille de modèles (Le cœur du catalogue) */
 	.model-grid {
 		display: grid;
@@ -309,7 +315,7 @@
 		background: #f0f7ff;
 	}
 
-	.model-card:hover{
+	.model-card:hover {
 		border-color: var(--tertiary-color);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 		background: var(--back-yellow-gray);
@@ -327,7 +333,7 @@
 	.power-badge:hover {
 		background: var(--secondary-color);
 		color: var(--back-yellow-gray);
-		font-weight:var(--text-weight);
+		font-weight: var(--text-weight);
 	}
 
 	.card-details {

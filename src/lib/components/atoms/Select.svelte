@@ -5,7 +5,7 @@
 	let {
 		name,
 		label = '',
-		value,
+		value = $bindable(),
 		options = [],
 		isRequired = false
 	}: {

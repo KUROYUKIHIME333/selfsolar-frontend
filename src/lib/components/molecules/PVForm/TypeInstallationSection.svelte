@@ -5,8 +5,9 @@
 
 	let {
 		visibility = true,
-		installation,
-		systeme
+		// On rend ces deux propriétés "bindable"
+		installation = $bindable(),
+		systeme = $bindable()
 	}: {
 		visibility?: boolean;
 		installation: TypeInstallationType;
@@ -14,7 +15,7 @@
 	} = $props();
 </script>
 
-<fieldset class={`form-section ${visibility ? '' : 'is-hidden-now'}`}>
+<fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
 	<legend class="section-legend">
 		<h2>Type d'installation et de système</h2>
 	</legend>
@@ -27,25 +28,22 @@
 			>
 			<Select
 				name="typeInstallation"
-				label="A quoi s'attendre ? Qu'est ce qui décrit le mieux l'installation et son milieu ?"
-				value={installation}
+				label="Qualité et milieu de l'installation"
+				bind:value={installation}
 				options={TYPE_INSTALATTION_OPTIONS}
 				isRequired={true}
 			/>
 		</div>
 
 		<div class="section-datas-style">
-			<span>Il faut aussi savoir de quelle architecture on parle. </span>
+			<span>Il faut aussi savoir de quelle architecture on parle.</span>
 			<Select
 				name="typeSysteme"
-				label="A quoi s'attendre ? Qu'est ce qui décrit le mieux l'installation et son milieu ?"
-				value={systeme}
+				label="Architecture du système"
+				bind:value={systeme}
 				options={TYPE_SYSTEME_OPTIONS}
 				isRequired={true}
 			/>
 		</div>
 	</div>
 </fieldset>
-
-<style>
-</style>

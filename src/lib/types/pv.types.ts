@@ -1,7 +1,7 @@
 export type Localisation = {
   lat: number;
   long: number;
-  altitude?: number;
+  altitude?: number | null;
 };
 
 export type Equipement = {

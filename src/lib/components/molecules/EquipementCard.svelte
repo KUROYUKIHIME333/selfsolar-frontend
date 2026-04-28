@@ -5,12 +5,13 @@
 	import type { PlaceholderEquipementType } from '$lib/types/general.types';
 	import { DEFAULT_FACTEUR_SIMULTANEITE } from '$lib/utils/textConstantes';
 
+	// On utilise $bindable() pour que les changements remontent au parent
 	let {
 		identifier = 0,
-		nom = '',
-		P = undefined,
-		h = undefined,
-		ks = DEFAULT_FACTEUR_SIMULTANEITE,
+		nom = $bindable(''),
+		P = $bindable(undefined),
+		h = $bindable(undefined),
+		ks = $bindable(DEFAULT_FACTEUR_SIMULTANEITE),
 		showRemove = true,
 		remove
 	}: {
@@ -20,16 +21,16 @@
 		h: number | undefined | string;
 		ks: number;
 		showRemove: boolean;
-		remove: ()=>void
+		remove: () => void;
 	} = $props();
 
 	const getRandomPlaceholder = (): PlaceholderEquipementType => {
 		const placeholderNbr = PLACEHOLDER_EQUIPEMENT.length;
 		const index = Math.floor(Math.random() * placeholderNbr);
-
 		return PLACEHOLDER_EQUIPEMENT[index];
 	};
 
+	// On garde le placeholder constant pour la durée de vie de cette carte spécifique
 	let placeholderGet = getRandomPlaceholder();
 </script>
 
@@ -37,14 +38,7 @@
 	<div class="card-header">
 		<span class="card-number">Equipement {identifier + 1}</span>
 		{#if showRemove}
-			<Button
-				variant="clear"
-				label="x"
-				clickAction={remove}
-				L="32px"
-				l="32px"
-				borderRadius="50%"
-			/>
+			<Button variant="clear" label="x" clickAction={remove} L="32px" l="32px" borderRadius="50%" />
 		{/if}
 	</div>
 
@@ -53,35 +47,34 @@
 			type="text"
 			name={'nom-equipement-' + identifier}
 			label="Nom de l'équipement"
-			defaultName="ex. {placeholderGet.nom} jj"
-			bindValue={nom}
+			defaultName="ex. {placeholderGet.nom}"
+			bind:bindValue={nom}
 			L="90%"
 		/>
 		<Input
 			type="number"
 			name={'puissance-equipement-' + identifier}
-			label="Puissance nominale (en Watts)"
-			defaultName="ex. {placeholderGet.puissance} Watts"
-			bindValue={P}
+			label="Puissance nominale (Watts)"
+			defaultName="ex. {placeholderGet.puissance} W"
+			bind:bindValue={P}
 			isRequired={true}
 			minValue="0"
 			inputMode="numeric"
-			writingPattern="[0-9]*"
 			L="90%"
 		/>
 		<Input
 			type="number"
 			name={'duree-utilisation-equipement-' + identifier}
-			label="Durée d'utilisation journalière (en h/j)"
-			defaultName="ex. {placeholderGet.puissance} h/j"
-			bindValue={h}
+			label="Utilisation journalière (h/j)"
+			defaultName="ex. 4 h/j"
+			bind:bindValue={h}
 			isRequired={true}
 			minValue="0"
 			maxValue="24"
 			inputMode="numeric"
-			writingPattern="[0-9]*"
 			L="90%"
 		/>
+
 		<div class="slider-field">
 			<label class="slider-field-label" for={'ks-equipement-' + identifier}>
 				Facteur de Simultanéité
@@ -190,3 +183,4 @@
 		transform: scale(1.2);
 	}
 </style>
+

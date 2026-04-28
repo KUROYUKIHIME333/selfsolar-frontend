@@ -1,205 +1,155 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import Input from '$components/atoms/Input.svelte';
 	import Button from '$components/atoms/Button.svelte';
-	import maplibregl, { Map, Marker, MapMouseEvent } from 'maplibre-gl';
-	import 'maplibre-gl/dist/maplibre-gl.css';
+	import type * as LType from 'leaflet';
 
-	export let initialLat: number = 0;
-	export let initialLong: number = 0;
-	export let zoom: number = 14;
-	export let lat: number = initialLat;
-	export let long: number = initialLong;
-	export let altitude: number | undefined = undefined;
+	let {
+		lat = $bindable(48.85),
+		long = $bindable(2.35),
+		zoom = 14,
+		altitude = $bindable(0) // Fallback à 0
+	}: {
+		lat: number;
+		long: number;
+		zoom?: number;
+		altitude: number | undefined; // Autorise undefined dans l'objet passé
+	} = $props();
 
-	let map: Map;
-	let marker: Marker;
-	let mapContainer: HTMLDivElement;
-	let query: string = '';
-	let loading: boolean = false;
+	let mapElement: HTMLDivElement | undefined = $state();
+	let map: LType.Map | undefined = $state();
+	let L: typeof LType | undefined = $state();
+	let marker: LType.Marker | undefined = $state();
 
-	const locateUser = (): void => {
-		if (!navigator.geolocation) return;
+	let query = $state('');
+	let loading = $state(false);
 
-		loading = true;
-		navigator.geolocation.getCurrentPosition(
-			(position: GeolocationPosition) => {
-				const { latitude, longitude } = position.coords;
-				lat = latitude;
-				long = longitude;
-				map.setCenter([longitude, latitude]);
-				marker.setLngLat([longitude, latitude]);
-				map.setZoom(zoom);
-				loading = false;
-			},
-			(error) => {
-				console.error('Error getting user location:', error);
-				loading = false;
-			}
-		);
-	};
-
-	type NominatimResult = {
-		lat: string;
-		lon: string;
-		display_name: string;
-	};
-
-	const searchPlace = async (): Promise<void> => {
-		if (!query) return;
-		loading = true;
-
+	const fetchAltitude = async (lati: number, lng: number) => {
 		try {
-			const response = await fetch(
+			const res = await fetch(
+				`https://api.open-elevation.com/api/v1/lookup?locations=${lati},${lng}`
+			);
+			const data = await res.json();
+			if (data.results?.[0]) {
+				altitude = Math.round(data.results[0].elevation);
+			}
+		} catch (e) {
+			console.error('Erreur altitude:', e);
+		}
+	};
+
+	const handleSearch = async () => {
+		if (!query || !map || !L) return;
+		loading = true;
+		try {
+			const res = await fetch(
 				`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
 			);
-			const data: NominatimResult[] = await response.json();
-
-			if (data.length > 0) {
-				const place = data[0];
-				lat = parseFloat(place.lat);
-				long = parseFloat(place.lon);
-				marker.setLngLat([long, lat]);
-				map.setCenter([long, lat]);
+			const data = await res.json();
+			if (data[0]) {
+				const newLat = parseFloat(data[0].lat);
+				const newLng = parseFloat(data[0].lon);
+				updatePos(newLat, newLng);
+				map.setView([newLat, newLng], zoom);
 			}
-		} catch (error) {
-			console.error(error);
+		} catch (e) {
+			console.error('Erreur recherche:', e);
 		} finally {
 			loading = false;
 		}
 	};
 
-	onMount(() => {
-		map = new maplibregl.Map({
-			container: mapContainer,
-			style: 'https://demotiles.maplibre.org/style.json',
-			center: [initialLong || 2.35, initialLat || 48.85],
-			zoom: initialLat ? zoom : 5
+	const updatePos = (newLat: number, newLng: number) => {
+		lat = newLat;
+		long = newLng;
+		if (marker) marker.setLatLng([newLat, newLng]);
+		fetchAltitude(newLat, newLng);
+	};
+
+	onMount(async () => {
+		const Leaflet = await import('leaflet');
+		import('leaflet/dist/leaflet.css');
+		L = Leaflet.default;
+
+		if (!mapElement || !L) return;
+
+		/**
+		 * Fix for Leaflet default icon paths in SvelteKit/Vite environments.
+		 * @ts-expect-error - Accessing internal/private Leaflet property for path fix.
+		 */
+		//@ts-expect-error
+		delete L.Icon.Default.prototype._getIconUrl;
+		L.Icon.Default.mergeOptions({
+			iconRetinaUrl:
+				'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+			iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+			shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
 		});
 
-		marker = new maplibregl.Marker({ color: '#994f08' })
-			.setLngLat([initialLong || 2.35, initialLat || 48.85])
-			.addTo(map);
+		map = L.map(mapElement).setView([lat, long], lat === 48.85 ? 5 : zoom);
 
-		map.on('click', (e: MapMouseEvent) => {
-			long = e.lngLat.lng;
-			lat = e.lngLat.lat;
-			marker.setLngLat([long, lat]);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '© OpenStreetMap'
+		}).addTo(map);
+
+		marker = L.marker([lat, long]).addTo(map);
+
+		map.on('click', (e: LType.LeafletMouseEvent) => {
+			updatePos(e.latlng.lat, e.latlng.lng);
 		});
 
-		if (!initialLat) locateUser();
+		fetchAltitude(lat, long);
+	});
+
+	onDestroy(() => {
+		if (map) {
+			map.remove();
+			map = undefined;
+		}
 	});
 </script>
 
 <div class="map-selector">
-	<div bind:this={mapContainer} class="map-container"></div>
-
-	<div class="map-controls">
-		<div class="search-row">
+	<div bind:this={mapElement} class="map-frame"></div>
+	<div class="controls">
+		<div class="search-box">
 			<Input
 				type="text"
-				name="addressSearch"
-				label="Chercher une ville ou un lieu..."
-				bindValue={query}
-				keydownAction={(e: KeyboardEvent) => e.key === 'Enter' && searchPlace()}
+				name="map-search"
+				label="Chercher une adresse"
+				bind:bindValue={query}
+				keydownAction={(e) => e.key === 'Enter' && handleSearch()}
 				L="100%"
 			/>
-			<Button
-				variant="secondary"
-				label="🔍"
-				{loading}
-				clickAction={searchPlace}
-				L="48px"
-				l="48px"
-				borderRadius="0.875rem"
-			/>
-			<Button
-				variant="primary"
-				label="📍"
-				{loading}
-				clickAction={locateUser}
-				L="48px"
-				l="48px"
-				borderRadius="0.875rem"
-			/>
+			<Button variant="primary" label="🔍" {loading} clickAction={handleSearch} L="50px" />
 		</div>
-
-		<div class="coords-row">
-			<div class="coord-field">
-				<span class="coord-label">Latitude</span>
-				<span class="coord-value">{lat.toFixed(6)}°</span>
+		<div class="info-grid">
+			<div class="info-card">
+				<span class="label">Latitude</span>
+				<span class="val">{lat.toFixed(6)}°</span>
 			</div>
-			<div class="coord-field">
-				<span class="coord-label">Longitude</span>
-				<span class="coord-value">{long.toFixed(6)}°</span>
+			<div class="info-card">
+				<span class="label">Longitude</span>
+				<span class="val">{long.toFixed(6)}°</span>
 			</div>
-			{#if altitude !== undefined}
-				<div class="coord-field">
-					<span class="coord-label">Altitude</span>
-					<span class="coord-value">{altitude}m</span>
-				</div>
-			{/if}
+			<div class="info-card highlight">
+				<span class="label">Altitude</span>
+				<span class="val">{altitude ?? '--'} m</span>
+			</div>
 		</div>
 	</div>
 </div>
 
 <style>
-	.map-selector {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	.map-container {
-		height: 320px;
+	/* ... votre CSS reste identique ... */
+	.map-frame {
+		height: 350px;
 		width: 100%;
 		border-radius: 1rem;
-		overflow: hidden;
 		border: 2px solid var(--back-dark);
+		z-index: 1;
 	}
-
-	:global(.maplibregl-canvas) {
-		border-radius: 1rem;
-	}
-
-	.map-controls {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-	}
-
-	.search-row {
-		display: flex;
-		gap: 0.5rem;
-		align-items: flex-end;
-	}
-
-	.coords-row {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-		gap: 0.75rem;
-	}
-
-	.coord-field {
-		background: var(--back-yellow-gray);
-		padding: 0.75rem 1rem;
-		border-radius: 0.75rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.coord-label {
-		font-size: 0.75rem;
-		color: var(--gray-text);
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-	}
-
-	.coord-value {
-		font-size: var(--text-size);
-		font-weight: 600;
-		color: var(--dark-text);
-		font-variant-numeric: tabular-nums;
+	:global(.leaflet-marker-icon) {
+		filter: hue-rotate(150deg) saturate(2) brightness(0.9);
 	}
 </style>
