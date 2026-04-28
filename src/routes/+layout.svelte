@@ -1,13 +1,16 @@
 <script lang="ts">
 	import '../app.css';
 	import './layout.css';
-	
-	
+	import { initialDatasStore } from '$stores/initialDatas';
+
 	import Header from '$components/molecules/Header.svelte';
 	import Footer from '$components/molecules/Footer.svelte';
 
-	let { children } = $props();
-	
+	let { data, children } = $props();
+
+	$effect(() => {
+		initialDatasStore.set(data);
+	});
 </script>
 
 <div class="app">

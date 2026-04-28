@@ -4,17 +4,15 @@
 	// import Input from '$components/atoms/Input.svelte';
 	import Button from '$components/atoms/Button.svelte';
 	// import type { ParametresPanneau, ListePanneauxData, ModelePanneau } from '$lib/types/pv.types';
+	import { initialDatasStore } from '$stores/initialDatas';
 
 	// let pannelsDatas = $props();
 
 	let {
 		visibility = true
-
 	}: {
 		visibility?: boolean;
-
 	} = $props();
-
 
 	// let choosedPanel: ParametresPanneau = $state({
 	// 	puissanceCreteModule: NaN,
@@ -55,6 +53,16 @@
 				? 'Je pense utiliser le catalogue finalement'
 				: ''
 	);
+
+	$effect(() => {
+		console.log(JSON.stringify($initialDatasStore));
+		console.log('-------------------');
+		console.log('-------------------');
+		console.log('Le backend est comment ? : ', JSON.stringify($initialDatasStore.backend));
+		console.log('La liste des panneaux: ', JSON.stringify($initialDatasStore.liste_panneaux));
+		console.log('La liste des batteries: ', JSON.stringify($initialDatasStore.listes_batteries));
+		console.log('Toutes les normes ici: ', JSON.stringify($initialDatasStore.normes_pv));
+	});
 </script>
 
 <fieldset class={`form-section ${visibility ? '' : 'is-hidden-now'}`}>
@@ -107,7 +115,10 @@
 					name="typeInstallation"
 					label="Modele de panneau qui sera utilisé pour l'installation"
 					value=""
-					options={}
+					options={[
+						{ value: '1', label: 'prems' },
+						{ value: '1', label: 'prems' }
+					]}
 					isRequired={true}
 				/>
 			</div>
