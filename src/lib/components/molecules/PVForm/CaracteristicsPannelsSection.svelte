@@ -1,129 +1,386 @@
 <script lang="ts">
-	// import { getContext } from 'svelte';
-	import Select from '$components/atoms/Select.svelte';
-	// import Input from '$components/atoms/Input.svelte';
-	import Button from '$components/atoms/Button.svelte';
-	// import type { ParametresPanneau, ListePanneauxData, ModelePanneau } from '$lib/types/pv.types';
+	import { fade, slide, fly, scale } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 	import { initialDatasStore } from '$stores/initialDatas';
-
-	// let pannelsDatas = $props();
+	import Button from '$components/atoms/Button.svelte';
+	import Input from '$components/atoms/Input.svelte';
 
 	let {
-		visibility = true
-	}: {
-		visibility?: boolean;
+		visibility = true,
+		// On passe formData.parametresPanneau en prop pour le lier au parent
+		params = $bindable()
 	} = $props();
 
-	// let choosedPanel: ParametresPanneau = $state({
-	// 	puissanceCreteModule: NaN,
-	// 	tensionVoc: NaN,
-	// 	courantCourtCircuit: NaN,
-	// 	tensionMPP: NaN,
-	// 	courantMPP: NaN,
-	// 	coeffTempTension: NaN,
-	// 	coeffTempPuissance: NaN,
-	// 	noct: NaN
-	// });
+	// État interne pour la navigation du catalogue
+	let viewMode = $state('selection');
+	let activeBrand = $state('');
+	let selectedModelName = $state('');
 
-	let listedPannel: boolean = $state(false);
-	let customPannel: boolean = $state(false);
+	const catalogue = $derived($initialDatasStore.liste_panneaux?.catalogue_pv || {});
+	const brands = $derived($initialDatasStore.liste_panneaux?.liste_marques || []);
 
-	const listedPannelChoosed = () => {
-		listedPannel = true;
-		customPannel = false;
-		console.log(listedPannel, customPannel);
-	};
-
-	const customPannelChoosed = () => {
-		listedPannel = false;
-		customPannel = true;
-		console.log(listedPannel, customPannel);
-	};
-
-	const goBackPannelChoosed = () => {
-		listedPannel = false;
-		customPannel = false;
-		console.log(listedPannel, customPannel);
-	};
-
-	let changeOfChoice = $derived(
-		listedPannel
-			? 'Je pense utiliser mes propres valeurs tout compte fait'
-			: customPannel
-				? 'Je pense utiliser le catalogue finalement'
-				: ''
-	);
-
-	$effect(() => {
-		console.log(JSON.stringify($initialDatasStore));
-		console.log('-------------------');
-		console.log('-------------------');
-		console.log('Le backend est comment ? : ', JSON.stringify($initialDatasStore.backend));
-		console.log('La liste des panneaux: ', JSON.stringify($initialDatasStore.liste_panneaux));
-		console.log('La liste des batteries: ', JSON.stringify($initialDatasStore.listes_batteries));
-		console.log('Toutes les normes ici: ', JSON.stringify($initialDatasStore.normes_pv));
+	const filteredModels = $derived.by(() => {
+		if (!activeBrand) return [];
+		return catalogue[activeBrand]?.modeles || [];
 	});
+
+	// Action de sélection : On mappe les clés du catalogue vers votre objet de données PV
+	const handleSelectModel = (mod) => {
+		selectedModelName = mod.nom;
+		params = {
+			puissanceCreteModule: mod.puissance_max,
+			tensionVoc: mod.tension_vide,
+			courantCourtCircuit: mod.courant_cc,
+			tensionMPP: mod.tension_mpp,
+			courantMPP: mod.courant_mpp,
+			coeffTempTension: mod.coeff_v,
+			coeffTempPuissance: mod.coeff_p,
+			noct: mod.noct
+		};
+	};
 </script>
 
-<fieldset class={`form-section ${visibility ? '' : 'is-hidden-now'}`}>
+<fieldset class="panel-explorer {visibility ? '' : 'is-hidden-now'}">
 	<legend class="section-legend">
-		<h2>Caractéristique des panneaux</h2>
+		<h2>Caractéristiques des panneaux</h2>
 	</legend>
 
-	<div class="section-content">
-		<p class="section-description">
-			{#if !listedPannel && !customPannel}
-				<span
-					>Avoir les caractéristique du modèle de panneaux permettra de faire une installation
-					propre et efficace, adapté à vos besoins.</span
-				>
-				<span
-					>Le fonctionnement de ces derniers, et donc de votre installation, sera aussi affecté par
-					la météo, en particuliers la température ambiante.</span
-				>
-			{/if}
-			{#if listedPannel || customPannel}
-				<Button
-					type="button"
-					variant="tertiary"
-					label={changeOfChoice}
-					clickAction={goBackPannelChoosed}
-				/>
-			{/if}
-		</p>
-
-		{#if !listedPannel && !customPannel}
-			<div class="section-description">
-				<Button
-					type="button"
-					variant="secondary"
-					label="Alors, choisir un modèle dans notre liste de fabricants connus ?"
-					clickAction={listedPannelChoosed}
-				/>
-				<Button
-					type="button"
-					variant="secondary"
-					label="Ou bien utiliser vos propres panneaux (vos valeurs)?"
-					clickAction={customPannelChoosed}
-				/>
+	<div class="content-body">
+		{#if viewMode === 'selection'}
+			<div in:fade={{ duration: 200 }} class="hero-selection">
+				<button type="button" class="choice-card" onclick={() => (viewMode = 'catalogue')}>
+					<span class="icon">🔍</span>
+					<div class="text">
+						<h3>Catalogue constructeurs</h3>
+						<p>Jinko, Trina, Longi, JA Solar...</p>
+					</div>
+				</button>
+				<button type="button" class="choice-card" onclick={() => (viewMode = 'custom')}>
+					<span class="icon">✏️</span>
+					<div class="text">
+						<h3>Saisie manuelle</h3>
+						<p>Utiliser les valeurs d'une fiche technique</p>
+					</div>
+				</button>
 			</div>
-		{/if}
+		{:else if viewMode === 'catalogue'}
+			<div in:fly={{ y: 10, duration: 300 }} class="catalogue-container">
+				<div class="nav-row">
+					<Button
+						variant="tertiary"
+						label="← Changer de mode"
+						clickAction={() => (viewMode = 'selection')}
+					/>
+					<div class="brand-tabs">
+						{#each brands as bKey (brands.indexOf(bKey))}
+							<button
+								type="button"
+								class="tab"
+								class:active={activeBrand === bKey}
+								onclick={() => (activeBrand = bKey)}
+							>
+								{catalogue[bKey].nom_afic}
+							</button>
+						{/each}
+					</div>
+				</div>
 
-		{#if listedPannel || customPannel}
-			<div class="section-datas-style">
-				<Select
-					name="typeInstallation"
-					label="Modele de panneau qui sera utilisé pour l'installation"
-					value=""
-					options={[
-						{ value: '1', label: 'prems' },
-						{ value: '1', label: 'prems' }
-					]}
-					isRequired={true}
-				/>
+				{#if activeBrand}
+					<div class="model-grid" transition:slide>
+						{#each filteredModels as mod (mod.nom)}
+							<button
+								type="button"
+								class="model-card"
+								class:is-active={selectedModelName === mod.nom}
+								onclick={() => handleSelectModel(mod)}
+								animate:flip={{ duration: 200 }}
+							>
+								<div class="card-top">
+									<span class="power-badge">{mod.puissance_max} Wp</span>
+									<h4>{mod.nom}</h4>
+								</div>
+								<div class="card-details">
+									<span>Voc <b>{mod.tension_vide}V</b></span>
+									<span>Icc <b>{mod.courant_cc}A</b></span>
+								</div>
+								{#if selectedModelName === mod.nom}
+									<div class="check" in:scale>✔</div>
+								{/if}
+							</button>
+						{/each}
+					</div>
+				{:else}
+					<div class="empty-state">Sélectionnez une marque pour voir les modèles</div>
+				{/if}
+			</div>
+		{:else if viewMode === 'custom'}
+			<div in:fly={{ y: 10, duration: 300 }} class="custom-editor">
+				<Button variant="tertiary" label="← Retour" clickAction={() => (viewMode = 'selection')} />
+				<div class="inputs-grid">
+					<Input
+						name="pannel-puissance"
+						label="Puissance Crête (Wp)"
+						type="number"
+						bindValue={params.puissanceCreteModule}
+					/>
+					<Input
+						name="pannel-uoc"
+						label="Tension Voc (V)"
+						type="number"
+						bindValue={params.tensionVoc}
+					/>
+					<Input
+						name="pannel-isc"
+						label="Courant Icc (A)"
+						type="number"
+						bindValue={params.courantCourtCircuit}
+					/>
+					<Input
+						name="pannel-umpp"
+						label="Tension MPP (V)"
+						type="number"
+						bindValue={params.tensionMPP}
+					/>
+					<Input
+						name="pannel-impp"
+						label="Courant MPP (A)"
+						type="number"
+						bindValue={params.courantMPP}
+					/>
+					<Input
+						name="pannel-coeff-v"
+						label="Coeff. Temp Tension"
+						type="number"
+						bindValue={params.coeffTempTension}
+					/>
+					<Input name="pannel-noct" label="NOCT (°C)" type="number" bindValue={params.noct} />
+				</div>
 			</div>
 		{/if}
 	</div>
 </fieldset>
 
-<style></style>
+<style>
+	/* 1. Conteneur principal : Contrainte stricte de largeur */
+	.panel-explorer {
+		border: none;
+		padding: 0;
+		margin-top: 1rem;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden; /* Empêche tout débordement accidentel */
+	}
+
+	.content-body {
+		width: 100%;
+	}
+
+	/* 2. Sélection initiale (Cartes) */
+	.hero-selection {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+		gap: 1rem;
+	}
+
+	.choice-card {
+		background: var(--bg-secondary, #f9fafb);
+		border: 1.5px solid #e5e7eb;
+		border-radius: 12px;
+		padding: 1.5rem;
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+		cursor: pointer;
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		text-align: left;
+	}
+
+	.choice-card:hover {
+		border-color: var(--color-primary, #3b82f6);
+		background: white;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	}
+
+	.choice-card .icon {
+		font-size: 2rem;
+	}
+	.choice-card h3 {
+		margin: 0;
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+	.choice-card p {
+		margin: 0;
+		font-size: 0.85rem;
+		color: #6b7280;
+	}
+
+	/* 3. Catalogue et Navigation */
+	.catalogue-container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	.nav-row {
+		margin-bottom: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		width: 100%;
+	}
+
+	/* Système d'onglets avec scroll horizontal interne */
+	.brand-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		overflow-x: auto;
+		padding: 0.75rem 0;
+		max-width: 100%;
+		/* Cache la scrollbar mais garde la fonction */
+		scrollbar-width: none;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.brand-tabs::-webkit-scrollbar {
+		display: none;
+	}
+
+	.tab {
+		padding: 0.4rem 1rem;
+		background: #eee;
+		border-radius: 20px;
+		border: none;
+		white-space: nowrap;
+		cursor: pointer;
+		font-size: 0.9rem;
+		font-weight: 500;
+		transition:
+			background 0.2s,
+			color 0.2s;
+	}
+
+	.tab:hover {
+		background: linear-gradient(
+			90deg,
+			var(--primary-color) 0%,
+			var(--secondary-color) 51%,
+			var(--tertiary-color) 100%
+		);
+		background-clip: text;
+		color: transparent;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		animation: gradientMove 2s ease infinite;
+	}
+
+	.tab.active {
+		background: #333;
+		color: white;
+	}
+
+	/* 4. Grille de modèles (Le cœur du catalogue) */
+	.model-grid {
+		display: grid;
+		/* Empêche la grille de dépasser 100% de son parent */
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+		gap: 1rem;
+		width: 100%;
+	}
+
+	.model-card {
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 10px;
+		padding: 1rem;
+		text-align: left;
+		cursor: pointer;
+		position: relative;
+		width: 100%;
+		min-width: 0; /* Crucial pour le rendu correct en Grid */
+		transition:
+			border-color 0.2s,
+			background-color 0.2s;
+	}
+
+	.model-card.is-active {
+		border-color: #3b82f6;
+		background: #f0f7ff;
+	}
+
+	.model-card:hover{
+		border-color: var(--tertiary-color);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+		background: var(--back-yellow-gray);
+	}
+
+	.power-badge {
+		font-size: var(--title-size);
+		background: var(--back-yellow-gray);
+		color: var(--primary-color);
+		padding: 5px 10px;
+		border-radius: 9999px;
+		font-weight: bold;
+	}
+
+	.power-badge:hover {
+		background: var(--secondary-color);
+		color: var(--back-yellow-gray);
+		font-weight:var(--text-weight);
+	}
+
+	.card-details {
+		display: flex;
+		justify-content: space-between;
+		font-size: 0.75rem;
+		margin-top: 0.75rem;
+		color: #6b7280;
+	}
+
+	.check {
+		position: absolute;
+		top: -8px;
+		right: -8px;
+		background: #3b82f6;
+		color: white;
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		display: grid;
+		place-items: center;
+		font-size: 0.75rem;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	/* 5. Saisie Manuelle (Grille d'Inputs) */
+	.inputs-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	/* 6. États divers */
+	.empty-state {
+		text-align: center;
+		color: #9ca3af;
+		padding: 3rem 1rem;
+		border: 2px dashed #f3f4f6;
+		border-radius: 12px;
+	}
+
+	.is-hidden-now {
+		display: none;
+	}
+
+	/* Ajustement pour les petits écrans */
+	@media (max-width: 480px) {
+		.choice-card {
+			padding: 1rem;
+		}
+		.choice-card .icon {
+			font-size: 1.5rem;
+		}
+	}
+</style>

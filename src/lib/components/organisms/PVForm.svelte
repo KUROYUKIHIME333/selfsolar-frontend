@@ -84,7 +84,8 @@
 
 			<!-- 4. cells datas -->
 			<CaracteristicsPannelsSection
-				visibility={step === 4 ? true : false}
+				bind:params={formData.parametresPanneau}
+				visibility={step === 4}
 			/>
 
 			<!-- 5.  -->
