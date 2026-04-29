@@ -142,4 +142,31 @@ export interface ListePanneauxData {
   catalogue_pv: CataloguePV;
 }
 
+export interface ParametresOnduleur {
+  // Puissances
+  puissanceACNominale: number; // W - Puissance sortie AC nominale
+  puissanceDCMax?: number; // W - Puissance entrée DC max
+  puissanceSurcharge?: number; // W - Pic soutenable (démarrage moteurs)
+  rendementMPPT?: number; // %/100 - Rendement MPPT (0.96-0.99)
 
+  // Tensions DC (critiques pour sécurité)
+  tensionDCMax: number; // V - Limite ABSOLUE (sécurité)
+  tensionMPPTMin: number; // V - Minimum pour fonctionnement MPPT
+  tensionMPPTMax: number; // V - Maximum plage MPPT
+
+  // Courants
+  courantDCMax: number; // A - Courant entrée DC max par MPPT
+
+  // Off-grid/hybride uniquement
+  tensionBatterieMin?: number; // V
+  tensionBatterieMax?: number; // V
+  puissanceChargeBatterieMax?: number; // W
+}
+
+// Interface étendue pour le service modulesPV
+export interface ContraintesOnduleurModules {
+  tensionMPPTMin: number;
+  tensionMPPTMax: number;
+  tensionDCMax: number;
+  rendementMPPT?: number;
+}
