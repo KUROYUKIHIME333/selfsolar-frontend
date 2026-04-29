@@ -3,54 +3,91 @@ import { PUBLIC_BACKEND_URL } from "$env/static/public";
 import type { BackendHealthType } from "$lib/types/general.types";
 
 export const load = async ({ fetch }) => {
-  // Routes formatting to use it after all
-  const pvUrlRoute = BACKEND_ENDPOINTS.pv.route;
-  const allListesRoute =
-    BACKEND_ENDPOINTS.pv.sub_routes.liste_panneaux_batteries;
-  const santeRoute = BACKEND_ENDPOINTS.pv.sub_routes.sante;
-  const normesRoute = BACKEND_ENDPOINTS.pv.sub_routes.normes;
-  const pvRequestsRoute = `${PUBLIC_BACKEND_URL}${pvUrlRoute}`;
+    const pvUrlRoute = BACKEND_ENDPOINTS.pv.route;
+    const allListesRoute = BACKEND_ENDPOINTS.pv.sub_routes.liste_panneaux_batteries;
+    const santeRoute = BACKEND_ENDPOINTS.pv.sub_routes.sante;
+    const normesRoute = BACKEND_ENDPOINTS.pv.sub_routes.normes;
+    const pvRequestsRoute = `${PUBLIC_BACKEND_URL}${pvUrlRoute}`;
 
-  // Is the backend ok ?
-  const backEndStatusRes = await fetch(`${PUBLIC_BACKEND_URL}/`);
-  const backEndStatus: BackendHealthType = await backEndStatusRes.json();
+    console.log(`[Load] 🔍 Tentative de connexion au backend: ${PUBLIC_BACKEND_URL}`);
 
-  // "Backend is ok" Conditions
-  const backEndOk: boolean =
-    backEndStatusRes &&
-    backEndStatus.api === "SelfSolar API" &&
-    (backEndStatus.status === "opérationnel" ||
-      backEndStatus.status === "fonctionnement restreint") &&
-    backEndStatus.endpoints.pv === pvUrlRoute;
+    try {
+        // 1. Test du statut global du Backend
+        const backEndStatusRes = await fetch(`${PUBLIC_BACKEND_URL}/`);
+        
+        if (!backEndStatusRes.ok) {
+            console.error(`[Load] ❌ Erreur HTTP racine: ${backEndStatusRes.status}`);
+            return { backend: false };
+        }
 
-  if (backEndOk) {
-    const pvStatusRes = await fetch(`${pvRequestsRoute}${santeRoute}`);
-    const pvStatus = await pvStatusRes.json();
+        const backEndStatus: BackendHealthType = await backEndStatusRes.json();
+        console.log("[Load] ✅ Statut Backend reçu:", backEndStatus.status);
 
-    // "The pv functionnality is ok" Conditions
-    const pvFunctionsOk: boolean =
-      pvStatus.status === "opérationnel" ||
-      pvStatus.status === "fonctionnement restreint";
+        // Conditions de validation
+        const backEndOk = 
+            backEndStatus.api === "SelfSolar API" &&
+            ["opérationnel", "fonctionnement restreint"].includes(backEndStatus.status) &&
+            backEndStatus.endpoints.pv === pvUrlRoute;
 
-    if (pvFunctionsOk) {
-      const [listes, normesPV] = await Promise.all([
-        fetch(`${pvRequestsRoute}${allListesRoute}`).then((res) => res.json()),
-        fetch(`${pvRequestsRoute}${normesRoute}`).then((res) => res.json()),
-      ]);
+        if (!backEndOk) {
+            console.warn("[Load] ⚠️ Validation Backend échouée (API name ou Endpoints mismatch).");
+            return { backend: false };
+        }
 
-      return {
-        backend: true,
-        liste_panneaux: listes.listesPanneaux,
-        listes_batteries: listes.listeBatteries,
-        normes_pv: normesPV,
-      };
+        // 2. Test spécifique de la fonctionnalité PV
+        const pvStatusRes = await fetch(`${pvRequestsRoute}${santeRoute}`);
+        
+        if (!pvStatusRes.ok) {
+            console.error(`[Load] ❌ Erreur HTTP Santé PV: ${pvStatusRes.status}`);
+            return { backend: false };
+        }
+
+        const pvStatus = await pvStatusRes.json();
+        const pvFunctionsOk = ["opérationnel", "fonctionnement restreint"].includes(pvStatus.status);
+
+        if (pvFunctionsOk) {
+            console.log("[Load] ⚡ PV OK. Récupération des données...");
+            
+            const [listesRes, normesRes] = await Promise.all([
+                fetch(`${pvRequestsRoute}${allListesRoute}`),
+                fetch(`${pvRequestsRoute}${normesRoute}`)
+            ]);
+
+            if (!listesRes.ok || !normesRes.ok) {
+                console.error("[Load] ❌ Échec final", { listes: listesRes.status, normes: normesRes.status });
+                return { backend: false };
+            }
+
+            const [listes, normesPV] = await Promise.all([
+                listesRes.json(),
+                normesRes.json()
+            ]);
+
+            return {
+                backend: true,
+                liste_panneaux: listes.listesPanneaux,
+                listes_batteries: listes.listeBatteries,
+                normes_pv: normesPV,
+            };
+        }
+
+        return { backend: false };
+
+    } catch (e: unknown) {
+        // --- LA CORRECTION EST ICI ---
+        console.error("--- 🚨 ERREUR CRITIQUE FETCH ---");
+        console.error("Message d'erreur:", (e as Error).message);
+        
+        if ((e as Error).cause) {
+            console.error("Cause technique profonde:", (e as Error).cause);
+            // Si tu vois ECONNREFUSED ici, c'est un problème d'adresse (localhost vs 127.0.0.1)
+        } else {
+            console.error("Pas de cause spécifique (vérifiez l'URL ou le réseau).");
+        }
+        
+        return {
+            backend: false,
+            error_details: (e as Error).message
+        };
     }
-
-    return {
-      backend: false,
-      liste_panneaux: undefined,
-      listes_batteries: undefined,
-      normes_pv: undefined,
-    };
-  }
 };

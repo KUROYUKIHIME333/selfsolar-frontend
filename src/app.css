@@ -1,4 +1,6 @@
 :root {
+	--font-main: 'Inter', sans-serif;
+	--font-title: 'Playfair Display', serif;
 	--primary-color: #994f08;
 	--secondary-color: #c88239;
 	--tertiary-color: #f5a570;
@@ -35,6 +37,20 @@
 	--post-it-min-width: 10vw;
 	--test-border: 2px solid red;
 	--test-border-2: 2px solid blue;
+}
+
+body {
+	font-family: var(--font-main);
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+.title-font {
+	font-family: var(--font-title);
+	color: var(--dark-text);
+	/* Une petite touche de sympa, je pense, l'italique sur certains mots donne cet aspect fait main je trouve. */
+	/* On verra plus tard */
 }
 
 .full-screen-width {

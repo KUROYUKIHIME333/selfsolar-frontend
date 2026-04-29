@@ -4,7 +4,10 @@
 	import { initialDatasStore } from '$stores/initialDatas';
 
 	import Header from '$components/molecules/Header.svelte';
+	import HeaderKimi from '$components/molecules/HeaderKimi.svelte';
 	import Footer from '$components/molecules/Footer.svelte';
+	import FooterKimi from '$components/molecules/FooterKimi.svelte';
+	import { HEADER_MENU, FOOTER_MENU } from '$lib/utils/fonctionnalities.js';
 
 	let { data, children } = $props();
 
@@ -14,13 +17,13 @@
 </script>
 
 <div class="app">
-	<Header />
+	<HeaderKimi menu={HEADER_MENU} />
 
 	<main>
 		{@render children()}
 	</main>
 
-	<Footer />
+	<FooterKimi />
 </div>
 
 <style>

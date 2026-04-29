@@ -74,3 +74,97 @@ export const FOOTER_LINKS: FooterLinkType[] = [
     link: "/privatepolicy",
   },
 ];
+
+export const HEADER_MENU = [
+  {
+    label: "Énergie & Autonomie",
+    description: "Solutions de production et de stockage d'énergie.",
+    link: "#",
+    sub_menu: [
+      {
+        label: "Photovoltaïque",
+        description: "Dimensionnement d'installations solaires complètes.",
+        link: "/pv",
+        sub_menu: [],
+      },
+      {
+        label: "Stockage & Batteries",
+        description:
+          "Systèmes de batteries chargés par le réseau ou le solaire.",
+        link: "/batteries",
+        sub_menu: [],
+      },
+      {
+        label: "Groupe Électrogène",
+        description: "Choix et dimensionnement de secours électrique.",
+        link: "/ge",
+        sub_menu: [],
+      },
+    ],
+  },
+  {
+    label: "Ingénierie Électrique",
+    description: "Conception, protection et infrastructures modernes.",
+    link: "#",
+    sub_menu: [
+      {
+        label: "Basse Tension",
+        description:
+          "Dimensionnement électrique complet pour installations BT.",
+        link: "/bt",
+        sub_menu: [],
+      },
+      {
+        label: "Foudre et Surtensions",
+        description: "Études de protection contre les risques atmosphériques.",
+        link: "/foudres",
+        sub_menu: [],
+      },
+      {
+        label: "Véhicules électriques",
+        description: "Infrastructure de recharge (IRVE) et bornes.",
+        link: "/irve",
+        sub_menu: [],
+      },
+    ],
+  },
+  {
+    label: "À propos",
+    description: "Documentation et normes de l'industrie.",
+    link: "/documentation",
+    sub_menu: [],
+  },
+];
+
+export const FOOTER_MENU= [
+	{
+		label: "Ressources Techniques",
+		sub_menu: [
+			{
+				label: "Normes & Standards",
+				description: "Référentiels techniques et explications des calculs.",
+				link: "/normes"
+			},
+			{
+				label: "Documentation",
+				description: "Guide complet d'utilisation du système.",
+				link: "/doc"
+			}
+		]
+	},
+	{
+		label: "Légal",
+		sub_menu: [
+			{
+				label: "Conditions d'utilisation",
+				description: "Cadre contractuel de la plateforme.",
+				link: "/use"
+			},
+			{
+				label: "Confidentialité",
+				description: "Politique de protection des données.",
+				link: "/privatepolicy"
+			}
+		]
+	}
+];
