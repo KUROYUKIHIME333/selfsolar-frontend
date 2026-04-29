@@ -448,7 +448,7 @@
 	.nav-link:hover,
 	.nav-link.active {
 		color: var(--primary-color);
-		background: var(--back-yellow);
+		scale: 1.05;
 	}
 
 	.chevron {
