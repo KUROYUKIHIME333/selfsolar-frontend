@@ -3,11 +3,9 @@
 	import './layout.css';
 	import { initialDatasStore } from '$stores/initialDatas';
 
-	import Header from '$components/molecules/Header.svelte';
 	import HeaderKimi from '$components/molecules/HeaderKimi.svelte';
-	import Footer from '$components/molecules/Footer.svelte';
 	import FooterKimi from '$components/molecules/FooterKimi.svelte';
-	import { HEADER_MENU, FOOTER_MENU } from '$lib/utils/fonctionnalities.js';
+	import { HEADER_MENU } from '$lib/utils/fonctionnalities.js';
 
 	let { data, children } = $props();
 
@@ -28,6 +26,7 @@
 
 <style>
 	.app {
+		min-height: 100vh;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

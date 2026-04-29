@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { FooterNavItem, FooterProps } from '$lib/types/general.types';
-    import { MAIN_NAME } from '$lib/utils/textConstantes';
+	import { MAIN_NAME } from '$lib/utils/textConstantes';
 
 	let {
 		brandName = MAIN_NAME,
@@ -16,19 +16,20 @@
 		showBackToTop = true
 	}: FooterProps = $props();
 
-	function scrollToTop(): void {
+	const scrollToTop = (): void => {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
+	};
 
 	// Génère un ID unique pour chaque item de navigation
-	function getNavId(item: FooterNavItem, index: number, parentId: string = ''): string {
+	const getNavId = (item: FooterNavItem, index: number, parentId: string = ''): string => {
 		return `${parentId}-${index}-${item.label}`.replace(/\s+/g, '-').toLowerCase();
-	}
+	};
 
 	// Détermine si un item possède des sous-menus
-	function hasSubMenu(item: FooterNavItem): boolean {
+	const hasSubMenu = (item: FooterNavItem): boolean => {
 		return Array.isArray(item.sub_menu) && item.sub_menu.length > 0;
-	}
+	};
+
 </script>
 
 <footer class="site-footer">
@@ -176,8 +177,8 @@
 
 <style>
 	.site-footer {
-        width: var(--full-width);
-		background: var(--back-yellow-gray);
+		width: var(--full-width);
+		background: white;
 		border-top: 1px solid var(--back-dark);
 		padding: 3rem 0 1.5rem;
 		margin-top: auto;
@@ -215,18 +216,18 @@
 		align-items: center;
 		gap: 0.5rem;
 		text-decoration: none;
-		color: var(--marron-text);
+		color: var(--gray-text);
 		font-weight: var(--big-title-weight);
 		font-size: var(--title-size);
 		transition: transform 0.2s ease;
 	}
 
 	.footer-logo:hover {
-		transform: translateX(3px);
+		transform: translateX(0.5px);
 	}
 
 	.footer-logo-icon {
-		color: var(--primary-color);
+		color: var(--gray-text);
 		font-size: 1.1rem;
 		transition: transform 0.3s ease;
 	}
@@ -489,14 +490,19 @@
 	}
 
 	.divider-icon {
-		position: relative;
-		display: inline-block;
-		padding: 0 1rem;
-		background: var(--back-yellow-gray);
-		color: var(--tertiary-color);
-		font-size: 0.8rem;
-		animation: gentle-spin 4s linear infinite;
-	}
+    position: relative;
+    display: inline-flex; /* Utilisation de flex pour centrer l'icône/le texte */
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    background: white;
+    color: var(--tertiary-color);
+    font-size: 0.8rem;
+    padding: 0; 
+    animation: gentle-spin 4s linear infinite;
+}
 
 	@keyframes gentle-spin {
 		from {
