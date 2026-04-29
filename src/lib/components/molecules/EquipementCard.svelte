@@ -77,7 +77,7 @@
 
 		<div class="slider-field">
 			<label class="slider-field-label" for={'ks-equipement-' + identifier}>
-				Facteur de Simultanéité
+				Facteur d'utilisation
 				<span class="slider-field-value">{ks}</span>
 			</label>
 			<input
