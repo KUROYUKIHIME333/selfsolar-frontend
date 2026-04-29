@@ -16,7 +16,8 @@
 		ParametresPanneau,
 		TypeInstallationType,
 		TypeSystemType,
-		Localisation
+		Localisation,
+		TemperaturesAttendue
 	} from '$lib/types/pv.types';
 
 	let step = $state(1);
@@ -40,7 +41,12 @@
 			coeffTempTension: NaN,
 			coeffTempPuissance: NaN,
 			noct: NaN
-		} as ParametresPanneau
+		} as ParametresPanneau,
+		temperaturesAttendue: {
+			temperatureMin: 20,
+			temperatureMax: 40
+		} as TemperaturesAttendue,
+		irradianceMax: 1000 as number
 	});
 
 	// Dérivations
@@ -64,6 +70,16 @@
 				bind:facteurFoisonnementGlobal={formData.facteurFoisonnementGlobal}
 				visibility={step === 1}
 			/>
+
+			<!-- IDEA: I'll get :
+				temperaturesAttendue{
+					temperatureMin: number, in °C, with default at 10°C (for winter, to get Voc max)
+					temperatureMax: number, in °C, with default at 40°C (for summer, to get Vmpp min)
+				}
+				and
+				irradianceMax: number, in W/m², with default 1000W/m² (max local irradiance, I think 1000 - 1200 W/m² ?) 
+				with the location datas, by calling apis (If I get time, i'll do this API)
+			-->
 
 			<LocalisationSection
 				visibility={step === 2}
