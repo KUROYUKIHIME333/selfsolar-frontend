@@ -40,7 +40,9 @@
 			<span class="spinner-dot"></span>
 		</span>
 	{:else}
-		<span class="btn-label">{label}</span>
+		{#if label}
+			<span class="btn-label">{label}</span>
+		{/if}
 		<slot />
 	{/if}
 </button>
