@@ -6,6 +6,7 @@
 	import CaracteristicsPannelsSection from '$components/molecules/PVForm/CaracteristicsPannelsSection.svelte';
 	import LocalisationSection from '$components/molecules/PVForm/LocalisationSection.svelte';
 	import PostIt from '$components/atoms/PostIt.svelte';
+	import { DEFAULT_COORDINATES } from '$lib/utils/textConstantes';
 
 	// Constantes
 	import { DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL } from '$lib/utils/textConstantes';
@@ -25,9 +26,9 @@
 	let formData = $state({
 		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }] as Equipement[],
 		localisation: {
-			lat: 0,
-			long: 0,
-			altitude: 0
+			lat: DEFAULT_COORDINATES.lat,
+			long: DEFAULT_COORDINATES.long,
+			altitude: DEFAULT_COORDINATES.altitude
 		} as Localisation,
 		facteurFoisonnementGlobal: DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
 		typeInstallation: 'STANDARD' as TypeInstallationType,
@@ -64,6 +65,15 @@
 
 <div class="artisan-grid">
 	<div class="workspace-card">
+		<!-- 
+			Required fiels to send:
+				- localisation
+				- equipements
+				- typeInstallation
+				- typeSysteme
+				- parametresPanneau
+				- temperaturesAttendue 
+		-->
 		<form method="POST" use:enhance novalidate>
 			<EquipementSection
 				bind:allEquipements={formData.equipements}

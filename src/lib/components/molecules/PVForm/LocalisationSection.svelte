@@ -11,9 +11,11 @@
 </script>
 
 <fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
-	<legend>Localisation du projet</legend>
+	<legend class="section-legend">
+		<h2>Localisation du projet</h2>
+	</legend>
 
-	<div class="grid">
+	<div class="section-content">
 		<MapSelector bind:lat={latid} bind:long={longit} bind:altitude={alti} />
 	</div>
 </fieldset>

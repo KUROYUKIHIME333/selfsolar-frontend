@@ -1,4 +1,5 @@
 import type { PlaceholderEquipementType } from "$lib/types/general.types";
+import type { Localisation } from "$lib/types/pv.types";
 
 export const MAIN_NAME: string = "The Crafted Calculator";
 
@@ -38,3 +39,10 @@ export const PLACEHOLDER_EQUIPEMENT: PlaceholderEquipementType[] = [
     duree: 6.5,
   },
 ];
+
+// Kimwenza
+export const DEFAULT_COORDINATES: Localisation = {
+  lat: -4.453207,
+  long: 15.290299,
+  altitude: 0,
+};
