@@ -29,9 +29,8 @@
 		return catalogue[activeBrand]?.modeles || [];
 	});
 
-	/**
-	 * Met à jour les paramètres globaux à partir d'un modèle du catalogue
-	 */
+	// Met à jour les paramètres globaux à partir d'un modèle du catalogue
+
 	const handleSelectModel = (mod: ModelePanneau): void => {
 		selectedModelName = mod.nom;
 		params = {
@@ -168,21 +167,19 @@
 </fieldset>
 
 <style>
-	/* 1. Conteneur principal : Contrainte stricte de largeur */
 	.panel-explorer {
 		border: none;
 		padding: 0;
 		margin-top: 1rem;
 		width: 100%;
 		max-width: 100%;
-		overflow: hidden; /* Empêche tout débordement accidentel */
+		overflow: hidden;
 	}
 
 	.content-body {
 		width: 100%;
 	}
 
-	/* 2. Sélection initiale (Cartes) */
 	.hero-selection {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
@@ -222,7 +219,6 @@
 		color: #6b7280;
 	}
 
-	/* 3. Catalogue et Navigation */
 	.catalogue-container {
 		display: flex;
 		flex-direction: column;
@@ -237,7 +233,6 @@
 		width: 100%;
 	}
 
-	/* Système d'onglets avec scroll horizontal interne */
 	.brand-tabs {
 		display: flex;
 		flex-wrap: wrap;
@@ -245,7 +240,6 @@
 		overflow-x: auto;
 		padding: 0.75rem 0;
 		max-width: 100%;
-		/* Cache la scrollbar mais garde la fonction */
 		scrollbar-width: none;
 		-webkit-overflow-scrolling: touch;
 	}
@@ -286,10 +280,9 @@
 		background: #333;
 		color: var(--back-yellow-gray);
 	}
-	/* 4. Grille de modèles (Le cœur du catalogue) */
+
 	.model-grid {
 		display: grid;
-		/* Empêche la grille de dépasser 100% de son parent */
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
 		gap: 1rem;
 		width: 100%;
@@ -304,7 +297,7 @@
 		cursor: pointer;
 		position: relative;
 		width: 100%;
-		min-width: 0; /* Crucial pour le rendu correct en Grid */
+		min-width: 0;
 		transition:
 			border-color 0.2s,
 			background-color 0.2s;
@@ -359,7 +352,6 @@
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
-	/* 5. Saisie Manuelle (Grille d'Inputs) */
 	.inputs-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
@@ -367,7 +359,6 @@
 		margin-top: 1rem;
 	}
 
-	/* 6. États divers */
 	.empty-state {
 		text-align: center;
 		color: #9ca3af;
@@ -380,7 +371,6 @@
 		display: none;
 	}
 
-	/* Ajustement pour les petits écrans */
 	@media (max-width: 480px) {
 		.choice-card {
 			padding: 1rem;
