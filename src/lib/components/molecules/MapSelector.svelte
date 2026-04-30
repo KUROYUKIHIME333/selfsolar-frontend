@@ -13,7 +13,7 @@
 		lat: number;
 		long: number;
 		zoom?: number;
-		altitude: number | undefined; // Autorise undefined dans l'objet passé
+		altitude: number | undefined;
 	} = $props();
 
 	let mapElement: HTMLDivElement | undefined = $state();
@@ -73,11 +73,8 @@
 
 		if (!mapElement || !L) return;
 
-		/**
-		 * Fix for Leaflet default icon paths in SvelteKit/Vite environments.
-		 * @ts-expect-error - Accessing internal/private Leaflet property for path fix.
-		 */
-		//@ts-expect-error
+		//Fix for Leaflet default icon paths in SvelteKit/Vite environments.
+		//@ts-expect-error - Accessing internal/private Leaflet property for path fix.
 		delete L.Icon.Default.prototype._getIconUrl;
 		L.Icon.Default.mergeOptions({
 			iconRetinaUrl:
