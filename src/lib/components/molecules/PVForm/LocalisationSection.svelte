@@ -1,6 +1,5 @@
 <script lang="ts">
 	import MapSelector from '../MapSelector.svelte';
-	// import Input from '$components/atoms/Input.svelte';
 
 	let {
 		visibility = true,
