@@ -19,6 +19,7 @@
 	let viewMode = $state<'selection' | 'catalogue' | 'custom'>('selection');
 	let activeBrand = $state<string>('');
 	let selectedModelName = $state<string>('');
+	let inputWidth = $state('90%');
 
 	// Dérivations typées
 	const catalogue = $derived($initialDatasStore.liste_panneaux?.catalogue_pv || {});
@@ -128,38 +129,50 @@
 						label="Puissance Crête (Wp)"
 						type="number"
 						bind:bindValue={params.puissanceCreteModule}
+						L={inputWidth}
 					/>
 					<Input
 						name="pannel-uoc"
 						label="Tension Voc (V)"
 						type="number"
 						bind:bindValue={params.tensionVoc}
+						L={inputWidth}
 					/>
 					<Input
 						name="pannel-isc"
 						label="Courant Icc (A)"
 						type="number"
 						bind:bindValue={params.courantCourtCircuit}
+						L={inputWidth}
 					/>
 					<Input
 						name="pannel-umpp"
 						label="Tension MPP (V)"
 						type="number"
 						bind:bindValue={params.tensionMPP}
+						L={inputWidth}
 					/>
 					<Input
 						name="pannel-impp"
 						label="Courant MPP (A)"
 						type="number"
 						bind:bindValue={params.courantMPP}
+						L={inputWidth}
 					/>
 					<Input
 						name="pannel-coeff-v"
 						label="Coeff. Temp Tension"
 						type="number"
 						bind:bindValue={params.coeffTempTension}
+						L={inputWidth}
 					/>
-					<Input name="pannel-noct" label="NOCT (°C)" type="number" bind:bindValue={params.noct} />
+					<Input
+						name="pannel-noct"
+						label="NOCT (°C)"
+						type="number"
+						bind:bindValue={params.noct}
+						L={inputWidth}
+					/>
 				</div>
 			</div>
 		{/if}
@@ -170,7 +183,7 @@
 	.panel-explorer {
 		border: none;
 		padding: 0;
-		margin-top: 1rem;
+		margin-top: 2rem;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -354,9 +367,9 @@
 
 	.inputs-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
-		gap: 1rem;
-		margin-top: 1rem;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+		margin-top: 2rem;
 	}
 
 	.empty-state {
@@ -369,6 +382,12 @@
 
 	.is-hidden-now {
 		display: none;
+	}
+
+	@media (max-width: 768px) {
+		.inputs-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	@media (max-width: 480px) {
