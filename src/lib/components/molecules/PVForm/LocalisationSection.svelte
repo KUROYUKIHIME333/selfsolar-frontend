@@ -10,7 +10,7 @@
 	} = $props();
 </script>
 
-<fieldset class:is-hidden-now={!visibility}>
+<fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
 	<legend>Localisation du projet</legend>
 
 	<div class="grid">

@@ -10,7 +10,8 @@
 		| 'icon-custom'
 		| 'danger'
 		| 'good'
-		| 'clear' = 'primary';
+		| 'clear'
+		| 'transparent-back' = 'primary';
 	export let disabled: boolean = false;
 	export let loading: boolean = false;
 	export let label: string;
@@ -18,6 +19,7 @@
 	export let l: string = 'fit-content';
 	export let borderRadius: string = '9999px';
 	export let clickAction: (() => void) | undefined = undefined;
+	export let customClass: string = '';
 
 	if (loading) {
 		disabled = true;
@@ -28,7 +30,7 @@
 
 <button
 	{type}
-	class="{buttonClass} {variant}"
+	class="{buttonClass} {variant} {customClass}"
 	style="width: {L}; height: {l}; border-radius: {borderRadius}; padding: 10px"
 	{disabled}
 	on:click={clickAction}
@@ -112,6 +114,15 @@
 	.secondary:hover:not(:disabled) {
 		border-color: var(--secondary-color);
 		background: var(--back-yellow-gray);
+	}
+
+	.transparent-back {
+		background: transparent;
+		border: none;
+	}
+
+	.transparent-back:hover:not(:disabled)  {
+		box-shadow: none;
 	}
 
 	/* Danger */

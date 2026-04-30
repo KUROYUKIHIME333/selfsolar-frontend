@@ -4,6 +4,8 @@
 	import Button from '$components/atoms/Button.svelte';
 	import type * as LType from 'leaflet';
 
+	import { toCardinalDirections } from '$lib/utils/conversions';
+
 	let {
 		lat = $bindable(48.85),
 		long = $bindable(2.35),
@@ -111,42 +113,66 @@
 	<div class="controls">
 		<div class="search-box">
 			<Input
+				customClass="search-box-child"
 				type="text"
 				name="map-search"
 				label="Chercher une adresse"
 				bind:bindValue={query}
 				keydownAction={(e) => e.key === 'Enter' && handleSearch()}
-				L="100%"
+				L="93%"
 			/>
-			<Button variant="primary" label="🔍" {loading} clickAction={handleSearch} L="50px" />
+			<Button
+				customClass="search-box-child justify-self-end"
+				variant="transparent-back"
+				label="🔍"
+				{loading}
+				clickAction={handleSearch}
+				L="50px"
+			/>
 		</div>
+
 		<div class="info-grid">
-			<div class="info-card">
-				<span class="label">Latitude</span>
-				<span class="val">{lat.toFixed(6)}°</span>
-			</div>
-			<div class="info-card">
-				<span class="label">Longitude</span>
-				<span class="val">{long.toFixed(6)}°</span>
-			</div>
-			<div class="info-card highlight">
-				<span class="label">Altitude</span>
-				<span class="val">{altitude ?? '--'} m</span>
-			</div>
+			<p class="info-grid-fields">
+				<span>Coordonnées : </span><span
+					>{toCardinalDirections(parseFloat(lat.toFixed(6)), 'latitude')}; {toCardinalDirections(
+						parseFloat(long.toFixed(6)),
+						'longitude'
+					)}</span
+				>
+			</p>
+
+			{#if altitude}
+				<p class="info-grid-fields">
+					<span>Altitude : </span><span>{` ${altitude} m`}</span>
+				</p>
+			{/if}
 		</div>
 	</div>
 </div>
 
 <style>
-	/* ... votre CSS reste identique ... */
 	.map-frame {
 		height: 350px;
 		width: 100%;
 		border-radius: 1rem;
-		border: 2px solid var(--back-dark);
+		border: none;
 		z-index: 1;
 	}
+
+	.map-selector {
+		display: flex;
+		flex-direction: column;
+		gap: 10vh;
+	}
+
 	:global(.leaflet-marker-icon) {
 		filter: hue-rotate(150deg) saturate(2) brightness(0.9);
+	}
+
+	@media (max-width: 768px) {
+		.info-grid-fields {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 </style>

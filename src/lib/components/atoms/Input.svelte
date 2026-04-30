@@ -1,6 +1,7 @@
 <script lang="ts">
 	// On utilise la rune $props() et on marque bindValue comme $bindable()
 	let {
+		customClass = '',
 		type = 'number',
 		defaultName = '...',
 		name,
@@ -17,6 +18,7 @@
 		inputMode = undefined,
 		writingPattern = undefined
 	}: {
+		customClass?: string;
 		type?: string;
 		defaultName?: string;
 		name: string;
@@ -39,7 +41,7 @@
 	const actualMax = $derived(type === 'number' ? maxValue : undefined);
 </script>
 
-<div class="input-wrapper" class:hidden={isHidden}>
+<div class="input-wrapper {customClass}" class:hidden={isHidden}>
 	{#if isLabeled && label}
 		<label for={name} class="input-label">
 			{#if icon}<span class="input-icon">{icon}</span>{/if}

@@ -14,6 +14,19 @@
 		sans-serif;
 }
 
+.search-box {
+	display: grid;
+}
+
+.search-box-child {
+	align-self: last baseline;
+	grid-area: 1/1;
+}
+
+.justify-self-end {
+	justify-self: end;
+}
+
 /* ===== ERROR BANNER ===== */
 .error-banner {
 	display: flex;
