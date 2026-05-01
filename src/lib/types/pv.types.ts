@@ -33,27 +33,27 @@ export type TemperaturesAttendue = {
 };
 
 export type ContraintesOnduleur = {
-  puissanceACNominale?: number;
-  tensionDCMax?: number;
-  tensionMPPTMin?: number;
-  tensionMPPTMax?: number;
-  courantDCMax?: number;
-  puissanceDCMax?: number;
-  puissanceSurcharge?: number;
-  rendementMPPT?: number;
-  tensionBatterieMin?: number;
-  tensionBatterieMax?: number;
-  puissanceChargeBatterieMax?: number;
+  puissanceACNominale?: number | undefined;
+  tensionDCMax?: number | undefined;
+  tensionMPPTMin?: number | undefined;
+  tensionMPPTMax?: number | undefined;
+  courantDCMax?: number | undefined;
+  puissanceDCMax?: number | undefined;
+  puissanceSurcharge?: number | undefined;
+  rendementMPPT?: number | undefined;
+  tensionBatterieMin?: number | undefined;
+  tensionBatterieMax?: number | undefined;
+  puissanceChargeBatterieMax?: number | undefined;
 };
 
 export type Cablage = {
-  materiau?: string;
-  longueurString?: number;
-  longueurPrincipalDC?: number;
-  longueurAC?: number;
-  methodePoseDC?: string;
-  methodePoseAC?: string;
-  conditionEnvironnement?: string;
+  materiau?: MateriauConducteur | undefined;
+  longueurString?: number | undefined;
+  longueurPrincipalDC?: number | undefined;
+  longueurAC?: number | undefined;
+  methodePoseDC?: string | undefined;
+  methodePoseAC?: MethodePose | undefined;
+  conditionEnvironnement?: ConditionEnvironnement | undefined;
 };
 
 export type PompageCaracteristiques = {
@@ -209,3 +209,65 @@ export interface ListePanneauxData {
   catalogue_batt: CataloguePV;
 }
 
+// CÂBLAGE ET PROTECTIONS
+export interface CableDCDimensionnement {
+  // Caractéristiques
+  section: number; // mm² (normalisée IEC 60228)
+  materiau: MateriauConducteur;
+  typeCable: TypeCableSolaire;
+
+  // Électriques
+  courantAdmissible: number; // A (corrigé conditions réelles)
+  courantDimensionnement: number; // A (Isc × 1.25)
+  resistanceLineique: number; // Ω/km
+
+  // Chute tension
+  chuteTensionV: number; // V absolu
+  chuteTensionPourcent: number; // %
+  chuteTensionMax: number; // % (1% ou 3% selon câble)
+
+  // Géométrie
+  longueur: number; // m
+  nombreConducteurs: number; // 2 (aller-retour)
+
+  // Conditions
+  temperatureAmbiante: number; // °C
+  temperatureConducteur: number; // °C (calculée)
+  methodePose: MethodePose;
+
+  // Correction appliquées
+  facteursCorrection: {
+    kT: number; // Température
+    kG: number; // Groupement
+    kP: number; // Pose
+    kM: number; // Matériau (Al vs Cu)
+    total: number;
+  };
+}
+
+export interface ProtectionDC {
+  type: "fusible" | "sectionneur" | "parafoudre" | "disjoncteur";
+  calibre?: number; // A (pour fusible/disjoncteur)
+  tensionAssignee: number; // V
+  pouvoirCoupure?: number; // kA
+  norme: string;
+  emplacement: string;
+  caracteristiques?: string; // gPV, etc.
+}
+
+export interface DimensionnementAC {
+  section: number; // mm²
+  materiau: MateriauConducteur;
+  courantEmploi: number; // A (IB)
+  courantAdmissible: number; // A (IZ)
+  protection: number; // A (In disjoncteur)
+  chuteTension: number; // %
+  chuteTensionMax: number; // %
+  ddr: {
+    type: "A" | "B" | "F" | "AC";
+    sensibilite: number; // mA
+    norme: string;
+  };
+  methodePose: MethodePose;
+  facteursCorrection: Record<string, number>;
+}
