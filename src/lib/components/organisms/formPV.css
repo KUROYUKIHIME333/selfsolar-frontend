@@ -173,9 +173,9 @@
 	border-radius: 1rem;
 }
 
-.section-legend:hover {
+/* .section-legend:hover {
 	background: rgba(153, 79, 8, 0.05);
-}
+} */
 
 .legend-icon {
 	font-size: 1.2rem;
