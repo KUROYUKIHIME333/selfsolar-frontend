@@ -240,6 +240,23 @@
 	margin-bottom: 0.75rem;
 }
 
+.normal-factor {
+	background: var(--back-dark);
+	border-radius: 1rem;
+	padding: 1.25rem;
+	margin-top: 0.5rem;
+}
+
+.normal-factor-label {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: var(--text-size);
+	font-weight: var(--title-weight);
+	color: var(--super-gray-text);
+	margin-bottom: 0.75rem;
+}
+
 .section-description {
 	display: flex;
 	flex-direction: column;
@@ -255,6 +272,14 @@
 	border-radius: 1rem;
 	font-size: var(--title-size);
 	color: var(--primary-color);
+}
+
+.normal-factor-value {
+	background: white;
+	padding: 0.25rem 0.75rem;
+	border-radius: 1rem;
+	font-size: var(--title-size);
+	color: var(--super-gray-text);
 }
 
 .section-datas-style {
@@ -481,7 +506,7 @@
 	color: var(--dark-text);
 }
 
-.factor-help{
+.factor-help {
 	display: flex;
 	flex-direction: column;
 }

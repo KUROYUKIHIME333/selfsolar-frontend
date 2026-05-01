@@ -6,6 +6,7 @@
 	import CaracteristicsPannelsSection from '$components/molecules/PVForm/CaracteristicsPannelsSection.svelte';
 	import LocalisationSection from '$components/molecules/PVForm/LocalisationSection.svelte';
 	import CaracteristicsBatteriesSection from '$components/molecules/PVForm/CaracteristicsBatteriesSection.svelte';
+	import ContraintesOnduleurSection from '$components/molecules/PVForm/ContraintesOnduleurSection.svelte';
 	import PostIt from '$components/atoms/PostIt.svelte';
 	import { DEFAULT_COORDINATES } from '$lib/utils/textConstantes';
 
@@ -21,7 +22,8 @@
 		Localisation,
 		TemperaturesAttendue,
 		ModeleBatterie,
-		TechnologieBatterie
+		TechnologieBatterie,
+		ParametresOnduleur
 	} from '$lib/types/pv.types';
 
 	let step = $state(1);
@@ -59,12 +61,25 @@
 		irradianceMax: 1000 as number,
 		autonomieBatterie: undefined as number | undefined,
 		technologieBatterie: undefined as TechnologieBatterie | undefined,
-		tensionSystemeBatterie: undefined as number | undefined
+		tensionSystemeBatterie: undefined as number | undefined,
+		contraintesOnduleur: {
+			puissanceACNominale: undefined as number | undefined,
+			tensionDCMax: undefined as number | undefined,
+			tensionMPPTMin: undefined as number | undefined,
+			tensionMPPTMax: undefined as number | undefined,
+			courantDCMax: undefined as number | undefined,
+			puissanceDCMax: undefined as number | undefined,
+			puissanceSurcharge: undefined as number | undefined,
+			rendementMPPT: undefined as number | undefined,
+			tensionBatterieMin: undefined as number | undefined,
+			tensionBatterieMax: undefined as number | undefined,
+			puissanceChargeBatterieMax: undefined as number | undefined
+		} as ParametresOnduleur
 	});
 
 	// Dérivations
 	const isFirstStep = $derived(step <= 1);
-	const isLastStep = $derived(step === 5); // Ajustez selon le nombre total de steps
+	const isLastStep = $derived(step === 6); // Ajustez selon le nombre total de steps
 
 	// Actions
 	const nextStep = () => step++;
@@ -128,6 +143,11 @@
 				bind:params={formData.modeleBatterie}
 				noSettingToDo={nextStep}
 				visibility={step === 5}
+			/>
+
+			<ContraintesOnduleurSection
+				bind:params={formData.contraintesOnduleur}
+				visibility={step === 6}
 			/>
 
 			<div class="form-actions">

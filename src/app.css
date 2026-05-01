@@ -6,8 +6,10 @@
 	--tertiary-color: #f5a570;
 	--back-dark: rgb(225, 227, 222);
 	--back-yellow-gray: rgb(250, 249, 244);
+	--super-gray-text: rgb(65, 66, 68);
 	--gray-text: rgb(114, 115, 120);
 	--less-gray-text: rgb(164, 165, 172);
+	--min-gray-text: rgb(193, 194, 202);
 	--color-text: rgba(0, 0, 0, 0.7);
 	--dark-text: rgb(24, 24, 22);
 	--marron-text: rgb(147, 72, 4);
