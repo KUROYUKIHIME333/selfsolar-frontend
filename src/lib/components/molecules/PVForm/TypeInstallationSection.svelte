@@ -21,29 +21,28 @@
 	</legend>
 
 	<div class="section-content">
-		<div class="section-datas-style">
+		<p class="section-datas-style">
 			<span
 				>Il faut maintenant avoir une idée sur la Qualité attendue et les Conditions de
 				l'installation (son milieu).</span
 			>
-			<Select
-				name="typeInstallation"
-				label="Qualité et milieu de l'installation"
-				bind:value={installation}
-				options={TYPE_INSTALATTION_OPTIONS}
-				isRequired={true}
-			/>
-		</div>
+			<span>Mais aussi, de quelle architecture on parle.</span>
+		</p>
 
-		<div class="section-datas-style">
-			<span>Il faut aussi savoir de quelle architecture on parle.</span>
-			<Select
-				name="typeSysteme"
-				label="Architecture du système"
-				bind:value={systeme}
-				options={TYPE_SYSTEME_OPTIONS}
-				isRequired={true}
-			/>
-		</div>
+		<Select
+			name="typeInstallation"
+			label="Qualité et milieu de l'installation"
+			bind:value={installation}
+			options={TYPE_INSTALATTION_OPTIONS}
+			isRequired={true}
+		/>
+
+		<Select
+			name="typeSysteme"
+			label="Architecture du système"
+			bind:value={systeme}
+			options={TYPE_SYSTEME_OPTIONS}
+			isRequired={true}
+		/>
 	</div>
 </fieldset>

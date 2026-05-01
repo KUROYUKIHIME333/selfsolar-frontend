@@ -481,6 +481,11 @@
 	color: var(--dark-text);
 }
 
+.factor-help{
+	display: flex;
+	flex-direction: column;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
 	.artisan-container {

@@ -40,10 +40,10 @@
 	</legend>
 
 	<div class="section-content">
-		<div class="section-description">
-			<p>Avant tout, il faut un bilan de tous les appareils et équipements qui seront alimentés.</p>
-			<p>Cela permettra de se faire une idée sur la consommation énergétique journalière.</p>
-		</div>
+		<p class="section-datas-style">
+			<span>Avant tout, il faut un bilan de tous les appareils et équipements qui seront alimentés.</span>
+			<span>Cela permettra de se faire une idée sur la consommation énergétique journalière.</span>
+		</p>
 
 		<div class="equipement-list">
 			{#each allEquipements as equipement, index (index)}
@@ -80,10 +80,10 @@
 				bind:value={facteurFoisonnementGlobal}
 			/>
 
-			<div class="factor-help">
-				<p>Prend en compte la non-simultanéité entre les usages.</p>
-				<p>Résidentiel : entre 0.5 et 0.7. Standard : 0.8.</p>
-			</div>
+			<p class="factor-help">
+				<span>Prend en compte la non-simultanéité entre les usages.</span>
+				<span>Résidentiel : entre 0.5 et 0.7. Standard : 0.8.</span>
+			</p>
 		</div>
 	</div>
 </fieldset>

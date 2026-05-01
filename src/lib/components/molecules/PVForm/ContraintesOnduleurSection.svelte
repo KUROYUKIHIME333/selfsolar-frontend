@@ -38,4 +38,27 @@
       description: W - Pour hybride 
 -->
 
-<script></script>
+<script lang="ts">
+	let {
+		visibility = true
+	}: {
+		visibility?: boolean;
+	} = $props();
+</script>
+
+<fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
+	<legend class="section-legend">
+		<h2>Caractéristiques onduleur candidat</h2>
+	</legend>
+
+	<div class="section-content">
+		<div class="section-datas-style">
+			<span
+				>Si vous avez déjà une idée sur l'onduleur à utiliser, ou un candidat, ou juste un sous la main.</span
+			>
+      <span
+				>C'est juste pour vérifier qu'il fera bien l'affaire.</span
+			>
+		</div>
+	</div>
+</fieldset>
