@@ -53,7 +53,7 @@
 		<h2>Caractéristiques des panneaux</h2>
 	</legend>
 
-	<div class="content-body">
+	<div class="section-content">
 		{#if viewMode === 'selection'}
 			<div in:fade={{ duration: 200 }} class="hero-selection">
 				<button type="button" class="choice-card" onclick={() => (viewMode = 'catalogue')}>

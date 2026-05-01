@@ -7,6 +7,7 @@
 	import LocalisationSection from '$components/molecules/PVForm/LocalisationSection.svelte';
 	import CaracteristicsBatteriesSection from '$components/molecules/PVForm/CaracteristicsBatteriesSection.svelte';
 	import ContraintesOnduleurSection from '$components/molecules/PVForm/ContraintesOnduleurSection.svelte';
+	import CablesSection from '$components/molecules/PVForm/CablesSection.svelte';
 	import PostIt from '$components/atoms/PostIt.svelte';
 	import { DEFAULT_COORDINATES } from '$lib/utils/textConstantes';
 
@@ -28,6 +29,9 @@
 	} from '$lib/types/pv.types';
 
 	let step = $state(1);
+
+	let lastStep = $state(7);
+	let firstStep = $state(1);
 
 	let formData = $state({
 		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }] as Equipement[],
@@ -88,11 +92,13 @@
 	});
 
 	// Dérivations
-	const isFirstStep = $derived(step <= 1);
-	const isLastStep = $derived(step === 6); // Ajustez selon le nombre total de steps
+	const isFirstStep = $derived(step === firstStep);
+	const isLastStep = $derived(step === lastStep);
 
 	// Actions
-	const nextStep = () => step++;
+	const nextStep = () => {
+		if (!isLastStep) step++;
+	};
 	const prevStep = () => {
 		if (!isFirstStep) step--;
 	};
@@ -160,6 +166,8 @@
 				bind:params={formData.contraintesOnduleur}
 				visibility={step === 6}
 			/>
+
+			<CablesSection bind:params={formData.cablage} visibility={step === 7} />
 
 			<div class="form-actions">
 				{#if !isFirstStep}

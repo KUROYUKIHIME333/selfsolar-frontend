@@ -1,28 +1,42 @@
 <script lang="ts">
 	import type { ParametresPanneau, ModelePanneau } from '$lib/types/pv.types';
+	import './inputs.css';
 
-	type OptionSelect = { value: string | number | [index: number, array: ModelePanneau[]]; label: string };
+	type OptionSelect = {
+		value: string | number | [index: number, array: ModelePanneau[]];
+		label: string;
+	};
 	let {
 		name,
 		label = '',
 		value = $bindable(),
 		options = [],
-		isRequired = false
+		isRequired = false,
+		L
 	}: {
 		name: string;
 		label: string;
 		value: ParametresPanneau | string | number | undefined;
 		options: OptionSelect[];
 		isRequired?: boolean;
+		L?: string | undefined;
 	} = $props();
 </script>
 
 <div class="select-wrapper">
 	{#if label}
 		<label for={name} class="select-label">{label}</label>
+		{#if isRequired}<span class="required">*</span>{/if}
 	{/if}
 	<div class="select-container">
-		<select id={name} {name} bind:value required={isRequired} class="select-input">
+		<select
+			id={name}
+			{name}
+			bind:value
+			required={isRequired}
+			class="select-input"
+			style={L ? `width: ${L}` : undefined}
+		>
 			{#each options as option (option.label)}
 				<option value={option.value}>{option.label}</option>
 			{/each}
@@ -38,6 +52,9 @@
 	}
 
 	.select-label {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
 		font-size: var(--small-text-size);
 		font-weight: 500;
 		color: var(--gray-text);
@@ -45,7 +62,7 @@
 	}
 
 	.select-container {
-		position: relative;
+		width: 100%;
 	}
 
 	.select-input {
@@ -57,7 +74,6 @@
 		font-size: var(--text-size);
 		color: var(--dark-text);
 		transition: all 0.2s ease;
-		cursor: pointer;
 	}
 
 	.select-input:hover {
@@ -68,15 +84,5 @@
 		outline: none;
 		border-color: var(--primary-color);
 		box-shadow: 0 0 0 3px rgba(153, 79, 8, 0.1);
-	}
-
-	.select-arrow {
-		position: absolute;
-		right: 1rem;
-		top: 50%;
-		transform: translateY(-50%);
-		color: var(--gray-text);
-		font-size: 0.7rem;
-		pointer-events: none;
 	}
 </style>
