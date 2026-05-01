@@ -5,6 +5,8 @@
 	import TypeInstallationSection from '$components/molecules/PVForm/TypeInstallationSection.svelte';
 	import CaracteristicsPannelsSection from '$components/molecules/PVForm/CaracteristicsPannelsSection.svelte';
 	import LocalisationSection from '$components/molecules/PVForm/LocalisationSection.svelte';
+	// import BatteriesSection from '$components/molecules/PVForm/BatteriesSection.svelte';
+	import CaracteristicsBatteriesSection from '$components/molecules/PVForm/CaracteristicsBatteriesSection.svelte';
 	import PostIt from '$components/atoms/PostIt.svelte';
 	import { DEFAULT_COORDINATES } from '$lib/utils/textConstantes';
 
@@ -18,7 +20,9 @@
 		TypeInstallationType,
 		TypeSystemType,
 		Localisation,
-		TemperaturesAttendue
+		TemperaturesAttendue,
+		ModeleBatterie,
+		TechnologieBatterie
 	} from '$lib/types/pv.types';
 
 	let step = $state(1);
@@ -43,16 +47,25 @@
 			coeffTempPuissance: NaN,
 			noct: NaN
 		} as ParametresPanneau,
+		modeleBatterie: {
+			nom: '',
+			v: NaN,
+			ah: NaN,
+			desc: ''
+		} as ModeleBatterie,
 		temperaturesAttendue: {
 			temperatureMin: 20,
 			temperatureMax: 40
 		} as TemperaturesAttendue,
-		irradianceMax: 1000 as number
+		irradianceMax: 1000 as number,
+		autonomieBatterie: undefined as number | undefined,
+		technologieBatterie: undefined as TechnologieBatterie | undefined,
+		tensionSystemeBatterie: undefined as number | undefined
 	});
 
 	// Dérivations
 	const isFirstStep = $derived(step <= 1);
-	const isLastStep = $derived(step === 4); // Ajustez selon le nombre total de steps
+	const isLastStep = $derived(step === 5); // Ajustez selon le nombre total de steps
 
 	// Actions
 	const nextStep = () => step++;
@@ -107,6 +120,24 @@
 			<CaracteristicsPannelsSection
 				bind:params={formData.parametresPanneau}
 				visibility={step === 4}
+			/>
+
+			<!-- <BatteriesSection
+				bind:autonomieBatterie={formData.autonomieBatterie}
+				bind:technologieBatterie={formData.technologieBatterie}
+				bind:tensionSystemeBatterie={formData.tensionSystemeBatterie}
+				bind:params={formData.modeleBatterie}
+				noSettingToDo={nextStep}
+				visibility={step === 5}
+			/> -->
+
+			<CaracteristicsBatteriesSection
+				bind:autonomieBatterie={formData.autonomieBatterie}
+				bind:technologieBatterie={formData.technologieBatterie}
+				bind:tensionSystemeBatterie={formData.tensionSystemeBatterie}
+				bind:params={formData.modeleBatterie}
+				noSettingToDo={nextStep}
+				visibility={step === 5}
 			/>
 
 			<div class="form-actions">

@@ -14,10 +14,12 @@
 	--back-more-dark: #e0e1db;
 	--bg-dark: #1a1a1a;
 	--back-dark-blue: rgb(52, 92, 145);
+	--back-blue: rgb(80, 147, 234);
 	--back-light-blue: rgb(212, 227, 255);
 	--back-yellow: rgb(250, 235, 216);
 	--danger: rgb(235, 19, 19);
 	--good: rgb(3, 174, 35);
+	--dark-good: rgb(2, 108, 22);
 	--big-title-size: 1.5rem;
 	--little-big-title-size: 1.2rem;
 	--title-size: 1rem;

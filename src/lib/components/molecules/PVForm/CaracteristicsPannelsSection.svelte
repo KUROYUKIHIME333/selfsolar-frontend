@@ -67,7 +67,7 @@
 					<span class="icon">✏️</span>
 					<div class="text">
 						<h3>Saisie manuelle</h3>
-						<p>Utiliser les valeurs d'une fiche technique</p>
+						<p>Renseigner une fiche technique spécifique</p>
 					</div>
 				</button>
 			</div>
