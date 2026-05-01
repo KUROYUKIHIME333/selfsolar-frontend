@@ -23,7 +23,8 @@
 		TemperaturesAttendue,
 		ModeleBatterie,
 		TechnologieBatterie,
-		ParametresOnduleur
+		ParametresOnduleur,
+		Cablage
 	} from '$lib/types/pv.types';
 
 	let step = $state(1);
@@ -63,18 +64,27 @@
 		technologieBatterie: undefined as TechnologieBatterie | undefined,
 		tensionSystemeBatterie: undefined as number | undefined,
 		contraintesOnduleur: {
-			puissanceACNominale: undefined as number | undefined,
-			tensionDCMax: undefined as number | undefined,
-			tensionMPPTMin: undefined as number | undefined,
-			tensionMPPTMax: undefined as number | undefined,
-			courantDCMax: undefined as number | undefined,
-			puissanceDCMax: undefined as number | undefined,
-			puissanceSurcharge: undefined as number | undefined,
-			rendementMPPT: undefined as number | undefined,
-			tensionBatterieMin: undefined as number | undefined,
-			tensionBatterieMax: undefined as number | undefined,
-			puissanceChargeBatterieMax: undefined as number | undefined
-		} as ParametresOnduleur
+			puissanceACNominale: undefined,
+			tensionDCMax: undefined,
+			tensionMPPTMin: undefined,
+			tensionMPPTMax: undefined,
+			courantDCMax: undefined,
+			puissanceDCMax: undefined,
+			puissanceSurcharge: undefined,
+			rendementMPPT: undefined,
+			tensionBatterieMin: undefined,
+			tensionBatterieMax: undefined,
+			puissanceChargeBatterieMax: undefined
+		} as ParametresOnduleur,
+		cablage: {
+			materiau: undefined,
+			longueurString: undefined,
+			longueurPrincipalDC: undefined,
+			longueurAC: undefined,
+			methodePoseDC: undefined,
+			methodePoseAC: undefined,
+			conditionEnvironnement: undefined
+		} as Cablage
 	});
 
 	// Dérivations
@@ -119,7 +129,7 @@
 			-->
 
 			<LocalisationSection
-				visibility={step === 2}
+				visibility={step === 1}
 				bind:latid={formData.localisation.lat}
 				bind:longit={formData.localisation.long}
 				bind:alti={formData.localisation.altitude}
@@ -128,12 +138,12 @@
 			<TypeInstallationSection
 				bind:installation={formData.typeInstallation}
 				bind:systeme={formData.typeSysteme}
-				visibility={step === 3}
+				visibility={step === 1}
 			/>
 
 			<CaracteristicsPannelsSection
 				bind:params={formData.parametresPanneau}
-				visibility={step === 4}
+				visibility={step === 1}
 			/>
 
 			<CaracteristicsBatteriesSection
@@ -142,12 +152,12 @@
 				bind:tensionSystemeBatterie={formData.tensionSystemeBatterie}
 				bind:params={formData.modeleBatterie}
 				noSettingToDo={nextStep}
-				visibility={step === 5}
+				visibility={step === 1}
 			/>
 
 			<ContraintesOnduleurSection
 				bind:params={formData.contraintesOnduleur}
-				visibility={step === 6}
+				visibility={step === 1}
 			/>
 
 			<div class="form-actions">
