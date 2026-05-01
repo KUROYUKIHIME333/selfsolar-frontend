@@ -25,7 +25,8 @@
 		ModeleBatterie,
 		TechnologieBatterie,
 		ParametresOnduleur,
-		Cablage
+		Cablage,
+		PompageCaracteristiques
 	} from '$lib/types/pv.types';
 
 	let step = $state(1);
@@ -88,7 +89,16 @@
 			methodePoseDC: undefined,
 			methodePoseAC: undefined,
 			conditionEnvironnement: undefined
-		} as Cablage
+		} as Cablage,
+		pompageSolaire: undefined as boolean | undefined,
+		pompageCaracteristiques: {
+			batteries: undefined,
+			masseVolumique: undefined,
+			accelerationPesanteur: undefined,
+			debit: undefined,
+			hauteurMano: undefined,
+			rendementPompe: undefined
+		} as PompageCaracteristiques
 	});
 
 	// Dérivations

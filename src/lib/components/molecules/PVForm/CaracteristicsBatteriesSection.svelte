@@ -17,7 +17,7 @@
 		autonomieBatterie = $bindable(undefined),
 		technologieBatterie = $bindable(undefined),
 		tensionSystemeBatterie = $bindable(undefined),
-		params = $bindable({ v: NaN, ah: NaN }),
+		params = $bindable() as ParametresBatterie,
 		noSettingToDo = $bindable(undefined)
 	}: {
 		visibility?: boolean;

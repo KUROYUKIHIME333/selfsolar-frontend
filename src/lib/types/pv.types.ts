@@ -23,8 +23,8 @@ export type ParametresPanneau = {
 };
 
 export type ParametresBatterie = {
-  v: number;
-  ah: number;
+  v: number | undefined;
+  ah: number | undefined;
 };
 
 export type TemperaturesAttendue = {
@@ -57,12 +57,12 @@ export type Cablage = {
 };
 
 export type PompageCaracteristiques = {
-  batteries: boolean;
-  masseVolumique?: number;
-  accelerationPesanteur?: number;
-  debit: number;
-  hauteurMano: number;
-  rendementPompe: number;
+  batteries: boolean | undefined;
+  masseVolumique?: number | undefined;
+  accelerationPesanteur?: number | undefined;
+  debit: number | undefined;
+  hauteurMano: number | undefined;
+  rendementPompe: number | undefined;
 };
 
 export const TYPE_INSTALATTION_OPTIONS = [
@@ -185,10 +185,10 @@ export type TechnologieBatterie =
 
 // Interface représentant les caractéristiques techniques individuelles d'un modèle de batterie.
 export interface ModeleBatterie {
-  nom?: string;
-  v: number;
-  ah: number;
-  desc: string;
+  nom?: string | undefined;
+  v: number | undefined;
+  ah: number | undefined;
+  desc: string | undefined;
 }
 
 // Interface pour une marque spécifique dans le catalogue.
