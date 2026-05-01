@@ -103,7 +103,7 @@
 <div class="artisan-grid">
 	<div class="workspace-card">
 		<!-- 
-			Required fiels to send:
+			Required fiels to send are :
 				- localisation
 				- equipements
 				- typeInstallation
