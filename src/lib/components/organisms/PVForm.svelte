@@ -110,6 +110,7 @@
 				- typeSysteme
 				- parametresPanneau
 				- temperaturesAttendue 
+			All the other can be empty or not sent
 		-->
 		<form method="POST" use:enhance novalidate>
 			<EquipementSection
