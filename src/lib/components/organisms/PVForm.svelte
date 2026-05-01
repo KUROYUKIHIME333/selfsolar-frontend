@@ -130,7 +130,7 @@
 			-->
 
 			<LocalisationSection
-				visibility={step === 1}
+				visibility={step === 2}
 				bind:latid={formData.localisation.lat}
 				bind:longit={formData.localisation.long}
 				bind:alti={formData.localisation.altitude}
@@ -139,12 +139,12 @@
 			<TypeInstallationSection
 				bind:installation={formData.typeInstallation}
 				bind:systeme={formData.typeSysteme}
-				visibility={step === 1}
+				visibility={step === 3}
 			/>
 
 			<CaracteristicsPannelsSection
 				bind:params={formData.parametresPanneau}
-				visibility={step === 1}
+				visibility={step === 4}
 			/>
 
 			<CaracteristicsBatteriesSection
@@ -153,12 +153,12 @@
 				bind:tensionSystemeBatterie={formData.tensionSystemeBatterie}
 				bind:params={formData.modeleBatterie}
 				noSettingToDo={nextStep}
-				visibility={step === 1}
+				visibility={step === 5}
 			/>
 
 			<ContraintesOnduleurSection
 				bind:params={formData.contraintesOnduleur}
-				visibility={step === 1}
+				visibility={step === 6}
 			/>
 
 			<div class="form-actions">
