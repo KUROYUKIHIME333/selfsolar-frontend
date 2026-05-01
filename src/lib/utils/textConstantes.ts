@@ -84,4 +84,29 @@ export const METHODE_POSE_OPTIONS = [
   },
 ];
 
-export const 
+export const CONDITION_ENVIRONNEMENT_OPTIONS = [
+  {
+    value: "standard",
+    label: "Environ 30°C (ambiant)",
+  },
+
+  {
+    value: "tres_chaud",
+    label: "Environ 40°C",
+  },
+
+  {
+    value: "extreme",
+    label: "Environ 60°C",
+  },
+
+  {
+    value: "humide",
+    label: "Environnement humide ou à forte humidité",
+  },
+
+  {
+    value: "corrosif",
+    label: "Environnement corrosif ou présence de substances corrosives",
+  },
+];
