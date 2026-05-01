@@ -29,7 +29,7 @@ pompageCaracteristiques:
             description: η pompe (0.4-0.7)
 
 
-            
+
         required:
         - batteries
         - debit
@@ -37,3 +37,37 @@ pompageCaracteristiques:
         - rendementPompe 
       
 -->
+
+<script lang="ts">
+	import Input from '$components/atoms/Input.svelte';
+
+	let {
+		visibility = true
+		// pompageSolaire,
+	}: {
+		visibility?: boolean;
+		// pompageSolaire: boolean
+	} = $props();
+</script>
+
+<fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
+	<legend class="section-legend">
+		<h2>Pompage solaire</h2>
+	</legend>
+
+	<div class="section-content">
+		<p class="section-datas-style">
+			<span>.</span>
+			<span></span>
+		</p>
+		<input type="radio" name="" id="" />
+		<input type="checkbox" name="" id="" />
+
+		<!-- <Input
+			name="is-pompage-solaire"
+			type="checkbox"
+			isLabeled={true}
+			label="Cette installation sera utilisée principalement pour un système de pompage"
+		/> -->
+	</div>
+</fieldset>

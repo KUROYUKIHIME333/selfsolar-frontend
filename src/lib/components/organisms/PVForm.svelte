@@ -8,6 +8,7 @@
 	import CaracteristicsBatteriesSection from '$components/molecules/PVForm/CaracteristicsBatteriesSection.svelte';
 	import ContraintesOnduleurSection from '$components/molecules/PVForm/ContraintesOnduleurSection.svelte';
 	import CablesSection from '$components/molecules/PVForm/CablesSection.svelte';
+	import SolarPompingSection from '$components/molecules/PVForm/SolarPompingSection.svelte';
 	import PostIt from '$components/atoms/PostIt.svelte';
 	import { DEFAULT_COORDINATES } from '$lib/utils/textConstantes';
 
@@ -29,10 +30,10 @@
 		PompageCaracteristiques
 	} from '$lib/types/pv.types';
 
-	let step = $state(1);
+	let step = $state(0);
 
 	let lastStep = $state(7);
-	let firstStep = $state(1);
+	let firstStep = $state(0);
 
 	let formData = $state({
 		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }] as Equipement[],
@@ -129,6 +130,8 @@
 			All the other can be empty or not sent
 		-->
 		<form method="POST" use:enhance novalidate>
+			<SolarPompingSection visibility={step === 0}/>
+
 			<EquipementSection
 				bind:allEquipements={formData.equipements}
 				bind:facteurFoisonnementGlobal={formData.facteurFoisonnementGlobal}
