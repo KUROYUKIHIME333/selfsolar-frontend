@@ -12,9 +12,28 @@
 		ParametresBatterie
 	} from '$lib/types/pv.types';
 
-	// CONSTANTES & MAPPINGS
-	// ============================================================================
+	let {
+		visibility = true,
+		autonomieBatterie = $bindable(undefined),
+		technologieBatterie = $bindable(undefined),
+		tensionSystemeBatterie = $bindable(undefined),
+		params = $bindable({ v: NaN, ah: NaN }),
+		noSettingToDo = $bindable(undefined)
+	}: {
+		visibility?: boolean;
+		autonomieBatterie: number | undefined;
+		technologieBatterie: TechnologieBatterie | undefined;
+		tensionSystemeBatterie: number | undefined;
+		params: ParametresBatterie;
+		noSettingToDo: (() => void) | undefined;
+	} = $props();
 
+	let viewMode = $state<'selection' | 'catalogue' | 'custom'>('selection');
+	let activeBrandKey = $state<string>(''); // Initialisé à vide pour le typage
+	let selectedModelName = $state<string | undefined>('');
+	let inputWidth = $state('90%');
+
+	// CONSTANTES & MAPPINGS
 	const TECHNO_MAP: Record<string, TechnologieBatterie> = {
 		plomb_acide_flooded: 'Plomb-acide',
 		agm_gel: 'AGM/Gel',
@@ -44,52 +63,43 @@
 		{ value: 96, label: '96 Volts (Gros système, plus de 10 kWc)' }
 	];
 
-	let {
-		visibility = true,
-		autonomieBatterie = $bindable(undefined),
-		technologieBatterie = $bindable(undefined),
-		tensionSystemeBatterie = $bindable(undefined),
-		params = $bindable({ v: NaN, ah: NaN }),
-		noSettingToDo = $bindable(undefined)
-	}: {
-		visibility?: boolean;
-		autonomieBatterie: number | undefined;
-		technologieBatterie: TechnologieBatterie | undefined;
-		tensionSystemeBatterie: number | undefined;
-		params: ParametresBatterie;
-		noSettingToDo: (() => void) | undefined;
-	} = $props();
-
-	// États locaux typés
-	let viewMode = $state<'selection' | 'catalogue' | 'custom'>('selection');
-	let activeBrand = $state<string>(''); //IDEA: I'm really thinking of adding "| undefined"
-	let selectedModelName = $state<string | undefined>('');
-	let inputWidth = $state('90%');
-
-	// Dérivations typées
-	const catalogue = $derived($initialDatasStore.listes_batteries?.catalogue_batt || {});
-	const brands = $derived($initialDatasStore.listes_batteries?.liste_techno || []);
+	// DÉRIVATIONS
+	const catalogueData = $derived($initialDatasStore.listes_batteries?.catalogue_batt ?? {});
+	const brandsKeys = $derived($initialDatasStore.listes_batteries?.liste_techno ?? []);
 
 	const filteredModels = $derived.by((): ModeleBatterie[] => {
-		if (!activeBrand) return [];
-		return catalogue[activeBrand]?.options || [];
+		if (!activeBrandKey) return [];
+		return catalogueData[activeBrandKey]?.options ?? [];
 	});
 
-	// Met à jour les paramètres globaux à partir d'un modèle du catalogue
-
+	// HANDLERS
 	const handleSelectModel = (mod: ModeleBatterie): void => {
 		selectedModelName = mod.nom;
+		// Clone pour éviter les mutations directes
 		params = { v: mod.v, ah: mod.ah };
 
-		if (activeBrand && TECHNO_MAP[activeBrand]) {
-			technologieBatterie = TECHNO_MAP[activeBrand];
+		if (activeBrandKey && TECHNO_MAP[activeBrandKey]) {
+			technologieBatterie = TECHNO_MAP[activeBrandKey];
 		}
+	};
+
+	const handleBack = () => {
+		viewMode = 'selection';
+		activeBrandKey = '';
+		selectedModelName = '';
 	};
 </script>
 
 <fieldset class="panel-explorer {visibility ? '' : 'is-hidden-now'}">
 	<legend class="section-legend">
-		<h2>Caractéristiques des batteries</h2>
+		<h2>
+			Stockage énergie
+			{#if viewMode === 'catalogue'}
+				— Catalogue
+			{:else if viewMode === 'custom'}
+				— Manuel
+			{/if}
+		</h2>
 	</legend>
 
 	<div class="content-body">
@@ -102,13 +112,15 @@
 						<p>Passer cette étape (pas de stockage prévu)</p>
 					</div>
 				</button>
+
 				<button type="button" class="choice-card" onclick={() => (viewMode = 'catalogue')}>
 					<span class="icon">🔍</span>
 					<div class="text">
-						<h3>Catalogue de batteries referencées</h3>
-						<p>Acide/Plomb, Lithium, Gel, ...</p>
+						<h3>Catalogue</h3>
+						<p>Choisir parmi les batteries référencées</p>
 					</div>
 				</button>
+
 				<button type="button" class="choice-card" onclick={() => (viewMode = 'custom')}>
 					<span class="icon">✏️</span>
 					<div class="text">
@@ -120,26 +132,25 @@
 		{:else if viewMode === 'catalogue'}
 			<div in:fly={{ y: 10, duration: 300 }} class="catalogue-container">
 				<div class="nav-row">
-					<Button
-						variant="tertiary"
-						label="← Changer de mode"
-						clickAction={() => (viewMode = 'selection')}
-					/>
+					<Button variant="tertiary" label="← Retour" clickAction={handleBack} />
 					<div class="brand-tabs">
-						{#each brands as bKey (bKey)}
+						{#each brandsKeys as bKey (bKey)}
 							<button
 								type="button"
 								class="tab"
-								class:active={activeBrand === bKey}
-								onclick={() => (activeBrand = bKey)}
+								class:active={activeBrandKey === bKey}
+								onclick={() => {
+									activeBrandKey = bKey;
+									selectedModelName = '';
+								}}
 							>
-								{catalogue[bKey].label}
+								{TECHNO_MAP[bKey] ?? bKey}
 							</button>
 						{/each}
 					</div>
 				</div>
 
-				{#if activeBrand}
+				{#if activeBrandKey}
 					<div class="model-grid" transition:slide>
 						{#each filteredModels as mod (mod.nom)}
 							<button
@@ -151,8 +162,7 @@
 							>
 								<div class="card-top">
 									<span class="power-badge">{mod.ah} Ah</span>
-
-									<h4>{mod.desc}</h4>
+									<h4>{mod.nom}</h4>
 								</div>
 								<div class="card-details">
 									<span>Tension <b>{mod.v} V</b></span>
@@ -164,12 +174,12 @@
 						{/each}
 					</div>
 				{:else}
-					<div class="empty-state">Sélectionnez une marque pour voir les modèles</div>
+					<div class="empty-state">Veuillez sélectionner une technologie.</div>
 				{/if}
 			</div>
 		{:else if viewMode === 'custom'}
 			<div in:fly={{ y: 10, duration: 300 }} class="custom-editor">
-				<Button variant="tertiary" label="← Retour" clickAction={() => (viewMode = 'selection')} />
+				<Button variant="tertiary" label="← Retour" clickAction={handleBack} />
 				<div class="inputs-grid">
 					<Input
 						name="batt-ah"

@@ -5,7 +5,6 @@
 	import TypeInstallationSection from '$components/molecules/PVForm/TypeInstallationSection.svelte';
 	import CaracteristicsPannelsSection from '$components/molecules/PVForm/CaracteristicsPannelsSection.svelte';
 	import LocalisationSection from '$components/molecules/PVForm/LocalisationSection.svelte';
-	// import BatteriesSection from '$components/molecules/PVForm/BatteriesSection.svelte';
 	import CaracteristicsBatteriesSection from '$components/molecules/PVForm/CaracteristicsBatteriesSection.svelte';
 	import PostIt from '$components/atoms/PostIt.svelte';
 	import { DEFAULT_COORDINATES } from '$lib/utils/textConstantes';
@@ -121,15 +120,6 @@
 				bind:params={formData.parametresPanneau}
 				visibility={step === 4}
 			/>
-
-			<!-- <BatteriesSection
-				bind:autonomieBatterie={formData.autonomieBatterie}
-				bind:technologieBatterie={formData.technologieBatterie}
-				bind:tensionSystemeBatterie={formData.tensionSystemeBatterie}
-				bind:params={formData.modeleBatterie}
-				noSettingToDo={nextStep}
-				visibility={step === 5}
-			/> -->
 
 			<CaracteristicsBatteriesSection
 				bind:autonomieBatterie={formData.autonomieBatterie}

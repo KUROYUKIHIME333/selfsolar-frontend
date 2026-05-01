@@ -203,6 +203,13 @@
 	display: none;
 }
 
+.help-text {
+	font-size: 0.85rem;
+	color: #666;
+	font-style: italic;
+	margin-top: 1rem;
+}
+
 @media (max-width: 768px) {
 	.inputs-grid {
 		grid-template-columns: 1fr;
