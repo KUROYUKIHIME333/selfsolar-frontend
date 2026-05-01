@@ -91,7 +91,10 @@ export const TYPE_SYSTEME_OPTIONS = [
     value: "off-grid",
     label: "Votre installation est isolé du réseau électrique",
   },
-  { value: "hybride", label: "Hybride" },
+  { 
+    value: "hybride", 
+    label: "Hybride (Panneaux, Batteries et Réseau Backup)" 
+  },
 ];
 
 export type TypeSystemType = "on-grid" | "off-grid" | "hybride";
