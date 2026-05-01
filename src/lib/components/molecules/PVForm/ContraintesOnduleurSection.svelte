@@ -111,7 +111,7 @@
 
 		<Input
 			name="onduleur-tensionBatterieMax"
-			label="Tension maximale - batteries"
+			label="Tension maximale - Batteries"
 			type="number"
 			bind:bindValue={params.tensionBatterieMax}
 			L={inputWidth}
