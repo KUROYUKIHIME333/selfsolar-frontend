@@ -13,7 +13,7 @@
 		label: string;
 		value: ParametresPanneau | string | number | undefined;
 		options: OptionSelect[];
-		isRequired: boolean;
+		isRequired?: boolean;
 	} = $props();
 </script>
 
