@@ -126,7 +126,7 @@
 				}
 				and
 				irradianceMax: number, in W/m², with default 1000W/m² (max local irradiance, I think 1000 - 1200 W/m² ?) 
-				with the location datas, by calling apis (If I get time, i'll do this API)
+				with the location datas, by calling apis (If I get time, i'll do this API myself)
 			-->
 
 			<LocalisationSection
