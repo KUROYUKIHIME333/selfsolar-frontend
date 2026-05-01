@@ -22,6 +22,11 @@ export type ParametresPanneau = {
   noct?: number;
 };
 
+export type ParametresBatterie = {
+  v: number;
+  ah: number;
+};
+
 export type TemperaturesAttendue = {
   temperatureMin: number;
   temperatureMax: number;
@@ -169,4 +174,37 @@ export interface ContraintesOnduleurModules {
   tensionMPPTMax: number;
   tensionDCMax: number;
   rendementMPPT?: number;
+}
+
+export type TechnologieBatterie =
+  | "Plomb-acide"
+  | "AGM/Gel"
+  | "LiFePO4"
+  | "Lithium NMC/NCA"
+  | "NiCd";
+
+// Interface représentant les caractéristiques techniques individuelles d'un modèle de batterie.
+export interface ModeleBatterie {
+  nom?: string;
+  v: number;
+  ah: number;
+  desc: string;
+}
+
+// Interface pour une marque spécifique dans le catalogue.
+export interface TechnologiesCatalogue {
+  label: string;
+  options: ModeleBatterie[];
+}
+
+// les clés définies dans la liste des techno de batterie.
+export type CatalogueBaterries = {
+  [key: string]: TechnologiesCatalogue;
+};
+
+//Type principal correspondant à l'objet global LISTE_BATTERIE.
+
+export interface ListePanneauxData {
+  liste_techno: string[];
+  catalogue_batt: CataloguePV;
 }
