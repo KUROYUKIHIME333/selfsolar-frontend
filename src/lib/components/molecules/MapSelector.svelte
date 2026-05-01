@@ -3,14 +3,15 @@
 	import Input from '$components/atoms/Input.svelte';
 	import Button from '$components/atoms/Button.svelte';
 	import type * as LType from 'leaflet';
+	import { DEFAULT_COORDINATES } from '$lib/utils/textConstantes';
 
 	import { toCardinalDirections } from '$lib/utils/conversions';
 
 	let {
-		lat = $bindable(48.85),
-		long = $bindable(2.35),
+		lat = $bindable(DEFAULT_COORDINATES.lat),
+		long = $bindable(DEFAULT_COORDINATES.long),
 		zoom = 14,
-		altitude = $bindable(0) // Fallback à 0
+		altitude = $bindable(DEFAULT_COORDINATES.altitude) // Fallback à 0
 	}: {
 		lat: number;
 		long: number;
