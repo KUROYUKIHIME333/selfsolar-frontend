@@ -49,3 +49,39 @@ export const DEFAULT_COORDINATES: {
   long: 15.290299,
   altitude: 0,
 };
+
+export const MATERIAUX_OPTIONS = [
+  {
+    value: "cuivre",
+    label: "Cuivre",
+  },
+  {
+    value: "aluminium",
+    label: "Aluminium",
+  },
+];
+
+export const METHODE_POSE_OPTIONS = [
+  {
+    value: "conduit_encastre",
+    label: "Conduite encastrée (B2 - Référence NFC 15-100)",
+  },
+  {
+    value: "conduit_surface",
+    label: "Conduite en surface (B1 - Référence NFC 15-100)",
+  },
+  {
+    value: "air_libre",
+    label: "A l'air libre (E/F - Référence NFC 15-100)",
+  },
+  {
+    value: "enterre",
+    label: "Enterré (D - Référence NFC 15-100)",
+  },
+  {
+    value: "gaine_technique",
+    label: "Dans une gaine technique (C - Référence NFC 15-100)",
+  },
+];
+
+export const 
