@@ -153,7 +153,7 @@
 
 <style>
 	.map-frame {
-		height: 350px;
+		height: 90vh;
 		width: 100%;
 		border-radius: 1rem;
 		border: none;
