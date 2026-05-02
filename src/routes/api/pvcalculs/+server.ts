@@ -4,13 +4,9 @@ import { json, error } from "@sveltejs/kit";
 import { PUBLIC_BACKEND_URL } from "$env/static/public";
 import { BACKEND_ENDPOINTS } from "$lib/utils/endpoints";
 
-// Validation
-// if (!body.title?.trim()) error(400, 'Titre requis')
-// if (!body.content?.trim()) error(400, 'Contenu requis')
-
 // POST /api/posts
 export const POST: RequestHandler = async ({ request, fetch }) => {
-  try {
+    try {
     const backendRoute = `${PUBLIC_BACKEND_URL}${BACKEND_ENDPOINTS.pv.route}${BACKEND_ENDPOINTS.pv.sub_routes.calculation}`;
     const body = await request.json();
 
