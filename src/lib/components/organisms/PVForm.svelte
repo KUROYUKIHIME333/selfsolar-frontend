@@ -35,16 +35,27 @@
 	let lastStep = $state(7);
 	let firstStep = $state(0);
 
+	// required:
+	// - localisation
+    // - equipements
+    // - typeInstallation
+    // - typeSysteme
+    // - parametresPanneau
+    // - temperaturesAttendue
+
 	let formData = $state({
-		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }] as Equipement[],
+		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }] as Equipement[],//required
 		localisation: {
 			lat: DEFAULT_COORDINATES.lat,
 			long: DEFAULT_COORDINATES.long,
 			altitude: DEFAULT_COORDINATES.altitude
-		} as Localisation,
-		facteurFoisonnementGlobal: DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
-		typeInstallation: 'STANDARD' as TypeInstallationType,
-		typeSysteme: 'off-grid' as TypeSystemType,
+		} as Localisation,//required
+		typeInstallation: 'STANDARD' as TypeInstallationType,//required
+		typeSysteme: 'off-grid' as TypeSystemType,//required
+		temperaturesAttendue: {
+			temperatureMin: 20,
+			temperatureMax: 40
+		} as TemperaturesAttendue,//required
 		parametresPanneau: {
 			puissanceCreteModule: NaN,
 			tensionVoc: NaN,
@@ -54,17 +65,14 @@
 			coeffTempTension: NaN,
 			coeffTempPuissance: NaN,
 			noct: NaN
-		} as ParametresPanneau,
+		} as ParametresPanneau,//required
+		facteurFoisonnementGlobal: DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
 		modeleBatterie: {
 			nom: '',
 			v: NaN,
 			ah: NaN,
 			desc: ''
 		} as ModeleBatterie,
-		temperaturesAttendue: {
-			temperatureMin: 20,
-			temperatureMax: 40
-		} as TemperaturesAttendue,
 		irradianceMax: 1000 as number,
 		autonomieBatterie: undefined as number | undefined,
 		technologieBatterie: undefined as TechnologieBatterie | undefined,
@@ -92,14 +100,7 @@
 			conditionEnvironnement: undefined
 		} as Cablage,
 		pompageSolaire: undefined as boolean | undefined,
-		pompageCaracteristiques: {
-			batteries: undefined,
-			masseVolumique: undefined,
-			accelerationPesanteur: undefined,
-			debit: undefined,
-			hauteurMano: undefined,
-			rendementPompe: undefined
-		} as PompageCaracteristiques
+		pompageCaracteristiques: undefined as undefined | PompageCaracteristiques
 	});
 
 	// Dérivations
@@ -227,6 +228,7 @@
 
 			<ContraintesOnduleurSection
 				bind:params={formData.contraintesOnduleur}
+				actionAfter={nextStep}
 				visibility={step === 6}
 			/>
 
