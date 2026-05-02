@@ -41,8 +41,8 @@
 
 	<div class="section-content">
 		<p class="section-datas-style">
-			<span>Avant tout, il faut un bilan de tous les appareils et équipements qui seront alimentés.</span>
-			<span>Cela permettra de se faire une idée sur la consommation énergétique journalière.</span>
+			<span>Bilan de tous les appareils et équipements qui seront alimentés.</span>
+			<span>Cela permet de se faire une idée sur la consommation énergétique journalière.</span>
 		</p>
 
 		<div class="equipement-list">
@@ -81,8 +81,9 @@
 			/>
 
 			<p class="factor-help">
-				<span>Prend en compte la non-simultanéité entre les usages.</span>
-				<span>Résidentiel : entre 0.5 et 0.7. Standard : 0.8.</span>
+				<span>Prend en compte la non-simultanéité entre les usages</span>
+				<span>En milieu résidentiel il est généralement entre 0.5 et 0.7</span>
+				<span>Pour valeur standard nous prendront 0.8</span>
 			</p>
 		</div>
 	</div>
