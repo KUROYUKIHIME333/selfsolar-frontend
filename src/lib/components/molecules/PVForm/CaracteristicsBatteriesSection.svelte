@@ -1,9 +1,9 @@
 <script lang="ts">
+	import './solarPompingStyle.css';
 	import './pannelsBatteries.css';
-	import { fade, slide, fly, scale } from 'svelte/transition';
+	import { slide, scale } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { initialDatasStore } from '$stores/initialDatas';
-	import Button from '$components/atoms/Button.svelte';
 	import Input from '$components/atoms/Input.svelte';
 	import Select from '$components/atoms/Select.svelte';
 	import type {
@@ -17,21 +17,22 @@
 		autonomieBatterie = $bindable(undefined),
 		technologieBatterie = $bindable(undefined),
 		tensionSystemeBatterie = $bindable(undefined),
-		params = $bindable() as ParametresBatterie,
-		noSettingToDo = $bindable(undefined)
+		params = $bindable(),
+		noSettingToDo = $bindable()
 	}: {
 		visibility?: boolean;
 		autonomieBatterie: number | undefined;
 		technologieBatterie: TechnologieBatterie | undefined;
 		tensionSystemeBatterie: number | undefined;
-		params: ParametresBatterie;
-		noSettingToDo: (() => void) | undefined;
+		params: undefined | ParametresBatterie;
+		noSettingToDo: () => void;
 	} = $props();
 
-	let viewMode = $state<'selection' | 'catalogue' | 'custom'>('selection');
+	let viewMode = $state<undefined | 'catalogue' | 'custom'>(undefined);
 	let activeBrandKey = $state<string>(''); // Initialisé à vide pour le typage
 	let selectedModelName = $state<string | undefined>('');
 	let inputWidth = $state('90%');
+	let batteryConfig = $state();
 
 	// CONSTANTES & MAPPINGS
 	const TECHNO_MAP: Record<string, TechnologieBatterie> = {
@@ -83,152 +84,182 @@
 		}
 	};
 
-	const handleBack = () => {
-		viewMode = 'selection';
-		activeBrandKey = '';
-		selectedModelName = '';
-	};
+	$effect(() => {
+		if (batteryConfig) {
+			params = {
+				v: undefined,
+				ah: undefined
+			};
+		}
+		if (!batteryConfig) {
+			params = undefined;
+		}
+	});
 </script>
 
-<fieldset class="panel-explorer {visibility ? '' : 'is-hidden-now'}">
-	<legend class="section-legend">
-		<h2>
-			Stockage énergie
-			{#if viewMode === 'catalogue'}
-				— Catalogue
-			{:else if viewMode === 'custom'}
-				— Manuel
-			{/if}
-		</h2>
-	</legend>
-
+<fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
 	<div class="section-content">
-		{#if viewMode === 'selection'}
-			<div in:fade={{ duration: 200 }} class="hero-selection">
-				<button type="button" class="choice-card" onclick={noSettingToDo}>
-					<span class="icon">⏭️</span>
-					<div class="text">
-						<h3>Continuer</h3>
-						<p>Passer cette étape (pas de stockage prévu)</p>
+		<legend class="section-legend">
+			<h2>Objectif de l'installation</h2>
+		</legend>
+		<!-- SÉLECTEUR DE TYPE DE PROJET -->
+		<div class="project-selector">
+			<div class="card-grid">
+				<button
+					type="button"
+					class="type-card {!batteryConfig ? 'selected' : ''}"
+					onclick={() => {
+						batteryConfig = false;
+						noSettingToDo();
+					}}
+				>
+					<!-- <span class="card-icon"></span> -->
+					<div class="card-txt">
+						<strong>Continuer</strong>
+						<span>Passer cette étape (pas de stockage prévu)</span>
 					</div>
 				</button>
 
-				<button type="button" class="choice-card" onclick={() => (viewMode = 'catalogue')}>
-					<span class="icon">🔍</span>
-					<div class="text">
-						<h3>Catalogue</h3>
-						<p>Choisir parmi les batteries référencées</p>
+				<button
+					type="button"
+					class="type-card {batteryConfig && viewMode === 'catalogue' ? 'selected' : ''}"
+					onclick={() => {
+						batteryConfig = true;
+						viewMode = 'catalogue';
+					}}
+				>
+					<span class="card-icon">🔍</span>
+					<div class="card-txt">
+						<strong>Catalogue</strong>
+						<span>Choisir parmi les batteries référencées</span>
 					</div>
 				</button>
 
-				<button type="button" class="choice-card" onclick={() => (viewMode = 'custom')}>
-					<span class="icon">✏️</span>
-					<div class="text">
-						<h3>Saisie manuelle</h3>
-						<p>Renseigner une fiche technique spécifique</p>
+				<button
+					type="button"
+					class="type-card {batteryConfig && viewMode === 'custom' ? 'selected' : ''}"
+					onclick={() => {
+						batteryConfig = true;
+						viewMode = 'custom';
+					}}
+				>
+					<span class="card-icon">✏️</span>
+					<div class="card-txt">
+						<strong>Saisie manuelle</strong>
+						<span>Renseigner une fiche technique spécifique</span>
 					</div>
 				</button>
 			</div>
-		{:else if viewMode === 'catalogue'}
-			<div in:fly={{ y: 10, duration: 300 }} class="catalogue-container">
-				<div class="nav-row">
-					<Button variant="tertiary" label="← Retour" clickAction={handleBack} />
-					<div class="brand-tabs">
-						{#each brandsKeys as bKey (bKey)}
-							<button
-								type="button"
-								class="tab"
-								class:active={activeBrandKey === bKey}
-								onclick={() => {
-									activeBrandKey = bKey;
-									selectedModelName = '';
-								}}
-							>
-								{TECHNO_MAP[bKey] ?? bKey}
-							</button>
-						{/each}
+		</div>
+
+		{#if params && batteryConfig}
+			{#if viewMode === 'catalogue'}
+				<div class="catalogue-container" transition:slide>
+					<div class="nav-row">
+						<div class="brand-tabs">
+							{#each brandsKeys as bKey (bKey)}
+								<button
+									type="button"
+									class="tab"
+									class:active={activeBrandKey === bKey}
+									onclick={() => {
+										activeBrandKey = bKey;
+										selectedModelName = '';
+									}}
+								>
+									{TECHNO_MAP[bKey] ?? bKey}
+								</button>
+							{/each}
+						</div>
+					</div>
+
+					{#if activeBrandKey}
+						<div class="model-grid" transition:slide>
+							{#each filteredModels as mod (mod.nom)}
+								<button
+									type="button"
+									class="model-card"
+									class:is-active={selectedModelName === mod.nom}
+									onclick={() => handleSelectModel(mod)}
+									animate:flip={{ duration: 200 }}
+								>
+									<div class="card-top">
+										<span class="power-badge">{mod.ah} Ah</span>
+										<h4>{mod.desc}</h4>
+									</div>
+									<div class="card-details">
+										<span>Tension <b>{mod.v} V</b></span>
+									</div>
+									{#if selectedModelName === mod.nom}
+										<div class="check" in:scale>✔</div>
+									{/if}
+								</button>
+							{/each}
+						</div>
+					{:else}
+						<div class="empty-state">Veuillez sélectionner une technologie.</div>
+					{/if}
+				</div>
+			{/if}
+
+			{#if viewMode === 'custom'}
+				<div class="custom-editor" transition:slide>
+					<div class="inputs-grid">
+						<Input
+							name="batt-ah"
+							label="Capacité unitaire (Ah)"
+							defaultName="par ex. 150 ..."
+							type="number"
+							bind:bindValue={params.ah}
+							L={inputWidth}
+							isRequired={true}
+						/>
+
+						<Input
+							name="batt-v"
+							label="Tension unitaire (V)"
+							defaultName="par ex. 12 ..."
+							type="number"
+							bind:bindValue={params.v}
+							L={inputWidth}
+							isRequired={true}
+						/>
+
+						<Input
+							name="batt-autonomie"
+							label="Jours d'autonomie souhaités"
+							type="number"
+							defaultName="Au moins 0.5 et au plus 10"
+							bind:bindValue={autonomieBatterie}
+							minValue={0.5}
+							maxValue={15}
+							L={inputWidth}
+							isRequired={true}
+						/>
+
+						<Select
+							name="batt-techno"
+							label="Type de batterie"
+							bind:value={technologieBatterie}
+							options={TECHNO_OPTIONS}
+							isRequired={true}
+						/>
+
+						<div>
+							<Select
+								name="batt-tension-sys"
+								label="Forcer la tension système"
+								bind:value={tensionSystemeBatterie}
+								options={TENSION_OPTIONS}
+							/>
+							<p class="help-text">
+								Laissez la tension système sur "Automatique" pour permettre au logiciel d'optimiser
+								le câblage selon vos besoins.
+							</p>
+						</div>
 					</div>
 				</div>
-
-				{#if activeBrandKey}
-					<div class="model-grid" transition:slide>
-						{#each filteredModels as mod (mod.nom)}
-							<button
-								type="button"
-								class="model-card"
-								class:is-active={selectedModelName === mod.nom}
-								onclick={() => handleSelectModel(mod)}
-								animate:flip={{ duration: 200 }}
-							>
-								<div class="card-top">
-									<span class="power-badge">{mod.ah} Ah</span>
-									<h4>{mod.desc}</h4>
-								</div>
-								<div class="card-details">
-									<span>Tension <b>{mod.v} V</b></span>
-								</div>
-								{#if selectedModelName === mod.nom}
-									<div class="check" in:scale>✔</div>
-								{/if}
-							</button>
-						{/each}
-					</div>
-				{:else}
-					<div class="empty-state">Veuillez sélectionner une technologie.</div>
-				{/if}
-			</div>
-		{:else if viewMode === 'custom'}
-			<div in:fly={{ y: 10, duration: 300 }} class="custom-editor">
-				<Button variant="tertiary" label="← Retour" clickAction={handleBack} />
-				<div class="inputs-grid">
-					<Input
-						name="batt-ah"
-						label="Capacité unitaire (Ah)"
-						defaultName="par ex. 150 ..."
-						type="number"
-						bind:bindValue={params.ah}
-						L={inputWidth}
-					/>
-
-					<Input
-						name="batt-v"
-						label="Tension unitaire (V)"
-						defaultName="par ex. 12 ..."
-						type="number"
-						bind:bindValue={params.v}
-						L={inputWidth}
-					/>
-
-					<Input
-						name="batt-autonomie"
-						label="Jours d'autonomie souhaités"
-						type="number"
-						defaultName="Au moins 0.5 et au plus 10"
-						bind:bindValue={autonomieBatterie}
-						minValue={0.5}
-						maxValue={15}
-						L={inputWidth}
-					/>
-
-					<Select
-						name="batt-techno"
-						label="Type de batterie"
-						bind:value={technologieBatterie}
-						options={TECHNO_OPTIONS}
-					/>
-
-					<Select
-						name="batt-tension-sys"
-						label="Forcer la tension système (Optionnel)"
-						bind:value={tensionSystemeBatterie}
-						options={TENSION_OPTIONS}
-					/>
-				</div>
-				<p class="help-text">
-					Laissez la tension système sur "Automatique" pour permettre au logiciel d'optimiser le
-					câblage selon vos besoins.
-				</p>
-			</div>
+			{/if}
 		{/if}
 	</div>
 </fieldset>
