@@ -25,8 +25,9 @@
 
 <div class="select-wrapper">
 	{#if label}
-		<label for={name} class="select-label">{label}</label>
-		{#if isRequired}<span class="required">*</span>{/if}
+		<label for={name} class="select-label"
+			>{label}{#if isRequired}<span class="required">*</span>{/if}</label
+		>
 	{/if}
 	<div class="select-container">
 		<select
