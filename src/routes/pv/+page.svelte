@@ -2,7 +2,6 @@
 	// import { setContext } from 'svelte';
 	import '../../lib/components/organisms/formPV.css';
 	import PVForm from '$components/organisms/PVForm.svelte';
-
 </script>
 
 <svelte:head>
@@ -22,13 +21,13 @@
 				<span class="title-main">Dimensionnement </span>
 				<span class="title-main">Photovoltaique</span>
 			</h1>
-			<p class="artisan-subtitle">
+			<!-- <p class="artisan-subtitle">
 				<span>Concevoir (presque comme un pro) son autonomie Energétique.</span>
 				<span
 					>Calculer l'installation photovoltaique adaptée à ses besoins et son environnement avec la
 					logique des artisans</span
 				>
-			</p>
+			</p> -->
 		</div>
 	</div>
 
