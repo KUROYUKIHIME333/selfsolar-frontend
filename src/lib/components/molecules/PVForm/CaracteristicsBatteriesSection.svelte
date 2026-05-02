@@ -100,7 +100,7 @@
 <fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
 	<div class="section-content">
 		<legend class="section-legend">
-			<h2>Objectif de l'installation</h2>
+			<h2>Choix des batteries</h2>
 		</legend>
 		<!-- SÉLECTEUR DE TYPE DE PROJET -->
 		<div class="project-selector">

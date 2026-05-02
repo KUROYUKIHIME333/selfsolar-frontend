@@ -1,13 +1,12 @@
 <script lang="ts">
+	import './solarPompingStyle.css';
 	import './pannelsBatteries.css';
-	import { fade, slide, fly, scale } from 'svelte/transition';
+	import { slide, scale } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { initialDatasStore } from '$stores/initialDatas';
-	import Button from '$components/atoms/Button.svelte';
 	import Input from '$components/atoms/Input.svelte';
 	import type { ModelePanneau, ParametresPanneau } from '$lib/types/pv.types';
 
-	// Props avec Svelte 5 runes
 	let {
 		visibility = true,
 		params = $bindable() as ParametresPanneau
@@ -16,19 +15,19 @@
 		params: ParametresPanneau;
 	} = $props();
 
-	// États locaux typés
-	let viewMode = $state<'selection' | 'catalogue' | 'custom'>('selection');
-	let activeBrand = $state<string>('');
-	let selectedModelName = $state<string>('');
+	let viewMode = $state<undefined | 'catalogue' | 'custom'>(undefined);
+	let activeBrandKey = $state<string>(''); // Initialisé à vide pour le typage
+	let selectedModelName = $state<string | undefined>('');
 	let inputWidth = $state('90%');
+	let pannelsConfig = $state();
 
 	// Dérivations typées
 	const catalogue = $derived($initialDatasStore.liste_panneaux?.catalogue_pv || {});
 	const brands = $derived($initialDatasStore.liste_panneaux?.liste_marques || []);
 
 	const filteredModels = $derived.by((): ModelePanneau[] => {
-		if (!activeBrand) return [];
-		return catalogue[activeBrand]?.modeles || [];
+		if (!activeBrandKey) return [];
+		return catalogue[activeBrandKey]?.modeles || [];
 	});
 
 	// Met à jour les paramètres globaux à partir d'un modèle du catalogue
@@ -48,44 +47,56 @@
 	};
 </script>
 
-<fieldset class="panel-explorer {visibility ? '' : 'is-hidden-now'}">
-	<legend class="section-legend">
-		<h2>Caractéristiques des panneaux</h2>
-	</legend>
-
+<fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
 	<div class="section-content">
-		{#if viewMode === 'selection'}
-			<div in:fade={{ duration: 200 }} class="hero-selection">
-				<button type="button" class="choice-card" onclick={() => (viewMode = 'catalogue')}>
-					<span class="icon">🔍</span>
-					<div class="text">
-						<h3>Catalogue constructeurs</h3>
-						<p>Jinko, Trina, Longi, JA Solar...</p>
+		<legend class="section-legend">
+			<h2>Choix des panneaux</h2>
+		</legend>
+		<!-- SÉLECTEUR DE TYPE DE PROJET -->
+		<div class="project-selector">
+			<div class="card-grid">
+				<button
+					type="button"
+					class="type-card {pannelsConfig && viewMode === 'catalogue' ? 'selected' : ''}"
+					onclick={() => {
+						pannelsConfig = true;
+						viewMode = 'catalogue';
+					}}
+				>
+					<span class="card-icon">🔍</span>
+					<div class="card-txt">
+						<strong>Catalogue constructeur</strong>
+						<span>Choisir parmi les marques référencées (Jinko, Trina, Longi, JA Solar...)</span>
 					</div>
 				</button>
-				<button type="button" class="choice-card" onclick={() => (viewMode = 'custom')}>
-					<span class="icon">✏️</span>
-					<div class="text">
-						<h3>Saisie manuelle</h3>
-						<p>Renseigner une fiche technique spécifique</p>
+
+				<button
+					type="button"
+					class="type-card {pannelsConfig && viewMode === 'custom' ? 'selected' : ''}"
+					onclick={() => {
+						pannelsConfig = true;
+						viewMode = 'custom';
+					}}
+				>
+					<span class="card-icon">✏️</span>
+					<div class="card-txt">
+						<strong>Saisie manuelle</strong>
+						<span>Renseigner une fiche technique spécifique</span>
 					</div>
 				</button>
 			</div>
-		{:else if viewMode === 'catalogue'}
-			<div in:fly={{ y: 10, duration: 300 }} class="catalogue-container">
+		</div>
+
+		{#if viewMode === 'catalogue'}
+			<div class="catalogue-container" transition:slide>
 				<div class="nav-row">
-					<Button
-						variant="tertiary"
-						label="← Changer de mode"
-						clickAction={() => (viewMode = 'selection')}
-					/>
 					<div class="brand-tabs">
 						{#each brands as bKey (bKey)}
 							<button
 								type="button"
 								class="tab"
-								class:active={activeBrand === bKey}
-								onclick={() => (activeBrand = bKey)}
+								class:active={activeBrandKey === bKey}
+								onclick={() => (activeBrandKey = bKey)}
 							>
 								{catalogue[bKey].nom_afic}
 							</button>
@@ -93,7 +104,7 @@
 					</div>
 				</div>
 
-				{#if activeBrand}
+				{#if activeBrandKey}
 					<div class="model-grid" transition:slide>
 						{#each filteredModels as mod (mod.nom)}
 							<button
@@ -121,9 +132,10 @@
 					<div class="empty-state">Sélectionnez une marque pour voir les modèles</div>
 				{/if}
 			</div>
-		{:else if viewMode === 'custom'}
-			<div in:fly={{ y: 10, duration: 300 }} class="custom-editor">
-				<Button variant="tertiary" label="← Retour" clickAction={() => (viewMode = 'selection')} />
+		{/if}
+
+		{#if viewMode === 'custom'}
+			<div class="custom-editor" transition:slide>
 				<div class="inputs-grid">
 					<Input
 						name="pannel-puissance"
