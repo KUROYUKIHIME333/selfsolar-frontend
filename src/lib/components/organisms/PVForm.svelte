@@ -67,11 +67,8 @@
 			noct: NaN
 		} as ParametresPanneau, //required
 		facteurFoisonnementGlobal: DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
-		modeleBatterie: {
-			v: NaN,
-			ah: NaN,
-		} as ParametresBatterie,
-		irradianceMax: 1000 as number,
+		modeleBatterie: undefined as undefined | ParametresBatterie,
+		irradianceMax: undefined as number | undefined,
 		autonomieBatterie: undefined as number | undefined,
 		technologieBatterie: undefined as TechnologieBatterie | undefined,
 		tensionSystemeBatterie: undefined as number | undefined,
