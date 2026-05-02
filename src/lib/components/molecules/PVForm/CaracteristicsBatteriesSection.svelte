@@ -162,7 +162,7 @@
 							>
 								<div class="card-top">
 									<span class="power-badge">{mod.ah} Ah</span>
-									<h4>{mod.nom}</h4>
+									<h4>{mod.desc}</h4>
 								</div>
 								<div class="card-details">
 									<span>Tension <b>{mod.v} V</b></span>
