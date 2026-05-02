@@ -77,19 +77,7 @@
 		autonomieBatterie: undefined as number | undefined,
 		technologieBatterie: undefined as TechnologieBatterie | undefined,
 		tensionSystemeBatterie: undefined as number | undefined,
-		contraintesOnduleur: {
-			puissanceACNominale: undefined,
-			tensionDCMax: undefined,
-			tensionMPPTMin: undefined,
-			tensionMPPTMax: undefined,
-			courantDCMax: undefined,
-			puissanceDCMax: undefined,
-			puissanceSurcharge: undefined,
-			rendementMPPT: undefined,
-			tensionBatterieMin: undefined,
-			tensionBatterieMax: undefined,
-			puissanceChargeBatterieMax: undefined
-		} as ParametresOnduleur,
+		contraintesOnduleur: undefined as undefined | ParametresOnduleur,
 		cablage: {
 			materiau: undefined,
 			longueurString: undefined,

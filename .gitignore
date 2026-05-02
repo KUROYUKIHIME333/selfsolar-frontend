@@ -25,6 +25,7 @@ vite.config.ts.timestamp-*
 test-results
 
 test.ts
+test.svelte
 
 #Counter
 .VSCodeCounter
