@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './solarPompingStyle.css';
 	import type { PompageCaracteristiques } from '$lib/types/pv.types';
 	import { slide } from 'svelte/transition';
 	import Input from '$components/atoms/Input.svelte';
@@ -11,7 +12,7 @@
 		actionAfter
 	}: {
 		pompageSolaire: boolean | undefined;
-		params: PompageCaracteristiques;
+		params: undefined | PompageCaracteristiques;
 		visibility?: boolean;
 		actionAfter: () => void;
 	} = $props();
@@ -26,10 +27,24 @@
 	];
 
 	$effect(() => {
-		if (pompageSolaire === true) {
-			params.masseVolumique = params.masseVolumique ?? 1000;
-			params.accelerationPesanteur = params.accelerationPesanteur ?? 9.81;
-			if (params.batteries === undefined) params.batteries = false;
+		if (pompageSolaire) {
+			if (!params) {
+				params = {
+					batteries: undefined,
+					masseVolumique: 1000,
+					accelerationPesanteur: 9.81,
+					debit: undefined,
+					hauteurMano: undefined,
+					rendementPompe: 0.45
+				};
+			} else {
+				params.masseVolumique = params.masseVolumique ?? 1000;
+				params.accelerationPesanteur = params.accelerationPesanteur ?? 9.81;
+				if (params.batteries === undefined) params.batteries = false;
+			}
+		}
+		if (!pompageSolaire) {
+			params = undefined;
 		}
 	});
 </script>
@@ -78,7 +93,7 @@
 			</div>
 		</div>
 
-		{#if pompageSolaire === true}
+		{#if pompageSolaire === true && params}
 			<div class="pumping-fields" transition:slide>
 				<p class="group-label">Besoins hydroliques</p>
 
@@ -122,7 +137,11 @@
 						<button
 							type="button"
 							class="strategy-btn {!params.batteries ? 'active' : ''}"
-							onclick={() => (params.batteries = false)}
+							onclick={() => {
+								if (params) {
+									params.batteries = false;
+								}
+							}}
 						>
 							<strong>Stockage Hydraulique (Conseillé)</strong>
 							<p>
@@ -134,7 +153,11 @@
 						<button
 							type="button"
 							class="strategy-btn {params.batteries ? 'active' : ''}"
-							onclick={() => (params.batteries = true)}
+							onclick={() => {
+								if (params) {
+									params.batteries = true;
+								}
+							}}
 						>
 							<strong>Stockage Électrique (Batteries)</strong>
 							<p>L'énergie est stockée chimiquement pour pomper à tout moment, même sans soleil.</p>
@@ -145,99 +168,3 @@
 		{/if}
 	</div>
 </fieldset>
-
-<style>
-	.project-selector {
-		margin-bottom: 2rem;
-	}
-	.group-label {
-		display: block;
-		font-weight: bold;
-		margin-bottom: 1rem;
-		color: #444;
-	}
-
-	.card-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1rem;
-	}
-
-	.type-card {
-		display: flex;
-		padding: 1.2rem;
-		background: white;
-		border: 2px solid #ddd;
-		border-radius: 12px;
-		cursor: pointer;
-		text-align: left;
-		transition: 0.2s;
-	}
-
-	.type-card:hover {
-		scale: 1.005;
-		background: var(--back-yellow-gray);
-	}
-
-	.type-card.selected {
-		border-color: var(--tertiary-color);
-		background: var(--back-yellow-gray);
-	}
-
-	.card-icon {
-		font-size: 2rem;
-		margin-right: 1rem;
-	}
-	.card-txt strong {
-		display: block;
-	}
-	.card-txt span {
-		font-size: 0.8rem;
-		color: #777;
-	}
-
-	.inputs-row {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	.storage-strategy {
-		margin-top: 2rem;
-	}
-	.strategy-title {
-		font-weight: bold;
-		margin-bottom: 1rem;
-	}
-
-	.strategy-options {
-		display: flex;
-		flex-direction: column;
-		gap: 0.8rem;
-	}
-
-	.strategy-btn {
-		text-align: left;
-		padding: 1rem;
-		border: 1px solid #ccc;
-		border-radius: 8px;
-		background: #fafafa;
-		cursor: pointer;
-		transition: 0.3s;
-	}
-
-	.strategy-btn.active {
-		border-color: var(--tertiary-color);
-		background: var(--back-yellow-gray);
-		box-shadow: 0 2px 8px rgba(204, 146, 46, 0.2);
-	}
-
-	.strategy-btn strong {
-		color: #333;
-	}
-	.strategy-btn p {
-		font-size: 0.8rem;
-		color: #666;
-		margin: 4px 0 0 0;
-	}
-</style>
