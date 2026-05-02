@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { fade } from 'svelte/transition';
 	import Button from '$components/atoms/Button.svelte';
 	import EquipementSection from '$components/molecules/PVForm/EquipementSection.svelte';
 	import TypeInstallationSection from '$components/molecules/PVForm/TypeInstallationSection.svelte';
@@ -106,12 +106,42 @@
 	const isFirstStep = $derived(step === firstStep);
 	const isLastStep = $derived(step === lastStep);
 
+	// Requests states
+	let isSubmitting = $state(false);
+	let calculationResult = $state(null);
+	let errorMessage = $state('');
+
 	// Actions
 	const nextStep = () => {
 		if (!isLastStep) step++;
 	};
 	const prevStep = () => {
 		if (!isFirstStep) step--;
+	};
+	const handleSubmit = async () => {
+		isSubmitting = true;
+		errorMessage = '';
+
+		try {
+			const response = await fetch('/api/pvcalculs', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(formData)
+			});
+
+			console.log("RESULTAT DANS FORM APRES REQUETE :", response);
+
+			const data = await response.json();
+			if (!response.ok) {
+				throw new Error(data.error || 'Erreur lors du calcul');
+			}
+			calculationResult = data; // Données formatées selon ton schéma[cite: 3]
+			console.log('Résultat reçu :', calculationResult);
+		} catch (err: unknown) {
+			errorMessage = (err as Error).message;
+		} finally {
+			isSubmitting = false;
+		}
 	};
 </script>
 
@@ -129,7 +159,22 @@
 				- temperaturesAttendue 
 			All the other can be empty or not sent
 		-->
-		<form method="POST" use:enhance novalidate>
+		<form
+			onsubmit={(e) => {
+				e.preventDefault();
+				handleSubmit();
+			}}
+			novalidate
+		>
+			{#if errorMessage || errorMessage !== ''}
+				<p class="error-banner" in:fade>
+					<span class="error-icon"></span>
+					<span class="error-text">
+						{errorMessage}
+					</span>
+				</p>
+			{/if}
+
 			<SolarPompingSection
 				pompageSolaire={formData.pompageSolaire}
 				params={formData.pompageCaracteristiques}
@@ -209,6 +254,7 @@
 						clickAction={() => {
 							console.log(formData);
 						}}
+						disabled={isSubmitting}
 					/>
 				{/if}
 			</div>
