@@ -130,7 +130,12 @@
 			All the other can be empty or not sent
 		-->
 		<form method="POST" use:enhance novalidate>
-			<SolarPompingSection visibility={step === 0}/>
+			<SolarPompingSection
+				pompageSolaire={formData.pompageSolaire}
+				params={formData.pompageCaracteristiques}
+				actionAfter={nextStep}
+				visibility={step === 0}
+			/>
 
 			<EquipementSection
 				bind:allEquipements={formData.equipements}
@@ -191,7 +196,7 @@
 					<Button
 						variant="secondary"
 						type="button"
-						label="Continuer"
+						label="La suite"
 						L="20%"
 						clickAction={nextStep}
 					/>

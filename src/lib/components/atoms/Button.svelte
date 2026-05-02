@@ -25,12 +25,12 @@
 		disabled = true;
 	}
 
-	let buttonClass: string = disabled ? 'btn-disable' : 'btn';
+	let buttonClass: string = variant === 'custom' ? '' : disabled ? 'btn-disable' : 'btn';
 </script>
 
 <button
 	{type}
-	class="{buttonClass} {variant} {customClass}"
+	class="{buttonClass} {variant === 'custom' ? '' : variant} {customClass}"
 	style="width: {L}; height: {l}; border-radius: {borderRadius}; padding: 10px"
 	{disabled}
 	on:click={clickAction}
@@ -121,7 +121,7 @@
 		border: none;
 	}
 
-	.transparent-back:hover:not(:disabled)  {
+	.transparent-back:hover:not(:disabled) {
 		box-shadow: none;
 	}
 
