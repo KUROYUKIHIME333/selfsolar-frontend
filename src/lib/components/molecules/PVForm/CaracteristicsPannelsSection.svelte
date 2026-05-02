@@ -143,6 +143,7 @@
 						type="number"
 						bind:bindValue={params.puissanceCreteModule}
 						L={inputWidth}
+						isRequired={true}
 					/>
 					<Input
 						name="pannel-uoc"
@@ -150,6 +151,7 @@
 						type="number"
 						bind:bindValue={params.tensionVoc}
 						L={inputWidth}
+						isRequired={true}
 					/>
 					<Input
 						name="pannel-isc"
@@ -157,6 +159,7 @@
 						type="number"
 						bind:bindValue={params.courantCourtCircuit}
 						L={inputWidth}
+						isRequired={true}
 					/>
 					<Input
 						name="pannel-umpp"
@@ -164,6 +167,7 @@
 						type="number"
 						bind:bindValue={params.tensionMPP}
 						L={inputWidth}
+						isRequired={true}
 					/>
 					<Input
 						name="pannel-impp"
@@ -171,6 +175,7 @@
 						type="number"
 						bind:bindValue={params.courantMPP}
 						L={inputWidth}
+						isRequired={true}
 					/>
 					<Input
 						name="pannel-coeff-v"
@@ -178,6 +183,15 @@
 						type="number"
 						bind:bindValue={params.coeffTempTension}
 						L={inputWidth}
+						isRequired={true}
+					/>
+					<Input
+						name="pannel-coeff-p"
+						label="Coeff. Temp Puissance"
+						type="number"
+						bind:bindValue={params.coeffTempPuissance}
+						L={inputWidth}
+						isRequired={true}
 					/>
 					<Input
 						name="pannel-noct"
