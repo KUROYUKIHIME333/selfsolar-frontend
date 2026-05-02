@@ -143,6 +143,13 @@
 								<span class="normal-factor-value">{params.rendementMPPT.toFixed(2)}</span>
 							{/if}
 						</label>
+						<Slider
+							name="rendement-mppt-slider"
+							min={0.8}
+							max={0.99}
+							step={0.05}
+							bind:value={params.rendementMPPT}
+						/>
 					</div>
 
 					<p class="info-paragraphe">
@@ -174,14 +181,6 @@
 					/>
 				</div>
 			</div>
-
-			<Slider
-				name="rendement-mppt-slider"
-				min={0.8}
-				max={0.99}
-				step={0.05}
-				bind:value={params.rendementMPPT}
-			/>
 		{/if}
 	</div>
 </fieldset>
