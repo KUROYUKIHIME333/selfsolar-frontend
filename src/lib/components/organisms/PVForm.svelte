@@ -23,11 +23,11 @@
 		TypeSystemType,
 		Localisation,
 		TemperaturesAttendue,
-		ModeleBatterie,
 		TechnologieBatterie,
 		ParametresOnduleur,
 		Cablage,
-		PompageCaracteristiques
+		PompageCaracteristiques,
+		ParametresBatterie
 	} from '$lib/types/pv.types';
 
 	let step = $state(0);
@@ -37,25 +37,25 @@
 
 	// required:
 	// - localisation
-    // - equipements
-    // - typeInstallation
-    // - typeSysteme
-    // - parametresPanneau
-    // - temperaturesAttendue
+	// - equipements
+	// - typeInstallation
+	// - typeSysteme
+	// - parametresPanneau
+	// - temperaturesAttendue
 
 	let formData = $state({
-		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }] as Equipement[],//required
+		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }] as Equipement[], //required
 		localisation: {
 			lat: DEFAULT_COORDINATES.lat,
 			long: DEFAULT_COORDINATES.long,
 			altitude: DEFAULT_COORDINATES.altitude
-		} as Localisation,//required
-		typeInstallation: 'STANDARD' as TypeInstallationType,//required
-		typeSysteme: 'off-grid' as TypeSystemType,//required
+		} as Localisation, //required
+		typeInstallation: 'STANDARD' as TypeInstallationType, //required
+		typeSysteme: 'off-grid' as TypeSystemType, //required
 		temperaturesAttendue: {
 			temperatureMin: 20,
 			temperatureMax: 40
-		} as TemperaturesAttendue,//required
+		} as TemperaturesAttendue, //required
 		parametresPanneau: {
 			puissanceCreteModule: NaN,
 			tensionVoc: NaN,
@@ -65,14 +65,12 @@
 			coeffTempTension: NaN,
 			coeffTempPuissance: NaN,
 			noct: NaN
-		} as ParametresPanneau,//required
+		} as ParametresPanneau, //required
 		facteurFoisonnementGlobal: DEFAULT_FACTEUR_FOISONNEMENT_GLOBAL,
 		modeleBatterie: {
-			nom: '',
 			v: NaN,
 			ah: NaN,
-			desc: ''
-		} as ModeleBatterie,
+		} as ParametresBatterie,
 		irradianceMax: 1000 as number,
 		autonomieBatterie: undefined as number | undefined,
 		technologieBatterie: undefined as TechnologieBatterie | undefined,
@@ -118,7 +116,7 @@
 				body: JSON.stringify(formData)
 			});
 
-			console.log("RESULTAT DANS FORM APRES REQUETE :", response);
+			console.log('RESULTAT DANS FORM APRES REQUETE :', response);
 
 			const data = await response.json();
 			if (!response.ok) {
