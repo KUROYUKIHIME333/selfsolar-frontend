@@ -166,10 +166,17 @@
 				visibility={step === 0}
 			/>
 
+			<LocalisationSection
+				visibility={step === 1}
+				bind:latid={formData.localisation.lat}
+				bind:longit={formData.localisation.long}
+				bind:alti={formData.localisation.altitude}
+			/>
+
 			<EquipementSection
 				bind:allEquipements={formData.equipements}
 				bind:facteurFoisonnementGlobal={formData.facteurFoisonnementGlobal}
-				visibility={step === 1}
+				visibility={step === 2}
 			/>
 
 			<!-- IDEA: I'll get :
@@ -181,13 +188,6 @@
 				irradianceMax: number, in W/m², with default 1000W/m² (max local irradiance, I think 1000 - 1200 W/m² ?) 
 				with the location datas, by calling apis (If I get time, i'll do this API myself)
 			-->
-
-			<LocalisationSection
-				visibility={step === 2}
-				bind:latid={formData.localisation.lat}
-				bind:longit={formData.localisation.long}
-				bind:alti={formData.localisation.altitude}
-			/>
 
 			<TypeInstallationSection
 				bind:installation={formData.typeInstallation}

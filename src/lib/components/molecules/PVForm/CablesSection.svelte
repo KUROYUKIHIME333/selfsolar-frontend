@@ -16,26 +16,18 @@
 	let inputWidth = $state('90%');
 </script>
 
-<fieldset class="panel-explorer {visibility ? '' : 'is-hidden-now'}">
+<fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
 	<legend class="section-legend">
 		<h2>Câblage de l'installation</h2>
 	</legend>
 
 	<div class="section-content">
-		<p class="section-datas-style">
-			<span
-				>Il s'agit d'informations de bases servant au calculs et dimensionnement des cables et
-				conducteurs
-			</span>
-			<span>Pareil que pour l'onduleur, vous pouvez passer si vous n'avez pas ces informations</span
-			>
-		</p>
-
 		<Select
 			name="cable-materiau"
 			label="Conducteur"
 			bind:value={params.materiau}
 			options={MATERIAUX_OPTIONS}
+			isRequired={true}
 		/>
 
 		<Input
@@ -47,6 +39,7 @@
 			minValue="1"
 			inputMode="numeric"
 			L={inputWidth}
+			isRequired={true}
 		/>
 
 		<Input
@@ -58,6 +51,7 @@
 			minValue="1"
 			inputMode="numeric"
 			L={inputWidth}
+			isRequired={true}
 		/>
 
 		<Select
@@ -65,6 +59,7 @@
 			label="Méthode de pose - cable DC"
 			bind:value={params.methodePoseDC}
 			options={METHODE_POSE_OPTIONS}
+			isRequired={true}
 		/>
 
 		<Input
@@ -76,6 +71,7 @@
 			minValue="1"
 			inputMode="numeric"
 			L={inputWidth}
+			isRequired={true}
 		/>
 
 		<Select
@@ -83,6 +79,7 @@
 			label="Méthode de pose - cable AC"
 			bind:value={params.methodePoseAC}
 			options={METHODE_POSE_OPTIONS}
+			isRequired={true}
 		/>
 
 		<Select
@@ -90,6 +87,7 @@
 			label="Conditions de l'environnement des câbles (ayant un impact ou dé-rating)"
 			bind:value={params.conditionEnvironnement}
 			options={CONDITION_ENVIRONNEMENT_OPTIONS}
+			isRequired={true}
 		/>
 	</div>
 </fieldset>

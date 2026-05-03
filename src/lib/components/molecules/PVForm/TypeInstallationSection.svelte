@@ -17,18 +17,10 @@
 
 <fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
 	<legend class="section-legend">
-		<h2>Type d'installation et de système</h2>
+		<h2>Type d'installation et système</h2>
 	</legend>
 
 	<div class="section-content">
-		<p class="section-datas-style">
-			<span
-				>Il faut maintenant avoir une idée sur la Qualité attendue et les Conditions de
-				l'installation (son milieu).</span
-			>
-			<span>Mais aussi, de quelle architecture on parle.</span>
-		</p>
-
 		<Select
 			name="typeInstallation"
 			label="Qualité et milieu de l'installation"

@@ -21,13 +21,11 @@
 				<span class="title-main">Dimensionnement </span>
 				<span class="title-main">Photovoltaique</span>
 			</h1>
-			<!-- <p class="artisan-subtitle">
-				<span>Concevoir (presque comme un pro) son autonomie Energétique.</span>
+			<p class="artisan-subtitle">
 				<span
-					>Calculer l'installation photovoltaique adaptée à ses besoins et son environnement avec la
-					logique des artisans</span
+					><span class="required">*</span> : indique un champs obligatoire. Il faut le remplir ou choisir</span
 				>
-			</p> -->
+			</p>
 		</div>
 	</div>
 
@@ -43,6 +41,3 @@
 		</div>
 	</section>
 </section>
-
-<style>
-</style>

@@ -42,7 +42,6 @@
 	<div class="section-content">
 		<p class="section-datas-style">
 			<span>Bilan de tous les appareils et équipements qui seront alimentés.</span>
-			<span>Cela permet de se faire une idée sur la consommation énergétique journalière.</span>
 		</p>
 
 		<div class="equipement-list">

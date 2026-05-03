@@ -45,7 +45,7 @@
 
 	const TECHNO_LABELS: Record<TechnologieBatterie, string> = {
 		'Plomb-acide': 'Plomb-acide (Classique, économique)',
-		'AGM/Gel': 'AGM / Gel (Sans entretien)',
+		'AGM/Gel': 'AGM / Gel (Faible entretien)',
 		LiFePO4: 'Lithium LiFePO4 (Durable, sécurisé)',
 		'Lithium NMC/NCA': 'Lithium NMC/NCA (Compact, puissant)',
 		NiCd: 'Ni-Cd (Conditions extrêmes)'

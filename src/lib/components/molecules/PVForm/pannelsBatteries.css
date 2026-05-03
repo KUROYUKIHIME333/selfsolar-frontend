@@ -135,8 +135,9 @@
 }
 
 .model-card.is-active {
-	border-color: var(--dark-good);
-	background: #f0f7ff;
+	border-color: var(--tertiary-color);
+	background: var(--back-yellow-gray);
+	box-shadow: 0 2px 8px rgba(204, 146, 46, 0.2);
 }
 
 .model-card:hover {
