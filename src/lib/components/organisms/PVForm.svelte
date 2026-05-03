@@ -35,13 +35,14 @@
 	let lastStep = $state(7);
 	let firstStep = $state(0);
 
-	// required:
-	// - localisation
-	// - equipements
-	// - typeInstallation
-	// - typeSysteme
-	// - parametresPanneau
-	// - temperaturesAttendue
+	// Required fiels to send are :
+	// 	- localisation
+	// 	- equipements
+	// 	- typeInstallation
+	// 	- typeSysteme
+	// 	- parametresPanneau
+	// 	- temperaturesAttendue
+	// All the other can be empty or not sent
 
 	let formData = $state({
 		equipements: [{ nom: '', P: NaN, h: NaN, ks: 0.5 }] as Equipement[], //required
@@ -133,16 +134,6 @@
 
 <div class="artisan-grid">
 	<div class="workspace-card">
-		<!-- 
-			Required fiels to send are :
-				- localisation
-				- equipements
-				- typeInstallation
-				- typeSysteme
-				- parametresPanneau
-				- temperaturesAttendue 
-			All the other can be empty or not sent
-		-->
 		<form
 			onsubmit={(e) => {
 				e.preventDefault();
@@ -243,6 +234,9 @@
 					/>
 				{/if}
 			</div>
+			<p class="section-pagination">
+				{step + 1} / {lastStep + 1}
+			</p>
 		</form>
 	</div>
 
