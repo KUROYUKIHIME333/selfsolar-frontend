@@ -3,9 +3,10 @@
 }
 
 .artisan-container {
+	width: calc(100vw - 2rem - 2rem);
 	min-height: 100vh;
 	background: var(--back-yellow-gray);
-	padding: 2rem 1rem;
+	padding: 0.75rem 2rem 2rem;
 	font-family:
 		'Inter',
 		'Segoe UI',
@@ -68,8 +69,8 @@
 
 .artisan-title {
 	display: flex;
-	font-size: var(--big-title-size);
-	font-weight: var(--big-title-weight);
+	font-size: var(--little-big-title-size);
+	font-weight: var(--title-weight);
 	line-height: 1.1;
 	margin-bottom: 0.75rem;
 	color: var(--dark-text);
@@ -514,12 +515,13 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
 	.artisan-container {
-		padding: 1rem 0.75rem;
+		width: calc(100vw - 1rem - 1rem);
+		/* width: 100%; */
+		padding: 0.75rem 1rem;
 	}
 
 	.artisan-title {
 		flex-direction: column;
-		font-size: 2rem;
 	}
 
 	.workspace-card {

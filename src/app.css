@@ -23,10 +23,10 @@
 	--good: rgb(3, 174, 35);
 	--ligth-good: rgb(191, 255, 203);
 	--dark-good: rgb(2, 108, 22);
-	--big-title-size: 1.5rem;
-	--little-big-title-size: 1.2rem;
-	--title-size: 1rem;
-	--text-size: 0.9rem;
+	--big-title-size: 2rem;
+	--little-big-title-size: 1.5rem;
+	--title-size: 1.2rem;
+	--text-size: 1rem;
 	--small-text-size: 0.9rem;
 	--big-title-weight: 800;
 	--title-weight: 600;
@@ -58,9 +58,13 @@ h2,
 	/* On verra plus tard */
 }
 
-.full-screen-width {
-	width: var(--max-width);
+h2 {
+	font-size: var(--title-size);
 }
+
+/* .full-screen-width {
+	width: var(--max-width);
+} */
 
 .moving-gradient-text {
 	background: linear-gradient(
