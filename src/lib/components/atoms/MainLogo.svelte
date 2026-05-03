@@ -4,7 +4,7 @@
 	let { onClickAction = () => {} }: { onClickAction?: (e: MouseEvent) => void } = $props();
 </script>
 
-<span class="moving-gradient-text title-font">
+<span class="main-logo-container moving-gradient-text title-font">
 	<a href="/" onclick={onClickAction}>
 		<span>{MAIN_NAME}</span>
 	</a>
@@ -18,5 +18,14 @@
 		font-size: var(--big-title-size);
 		font-weight: var(--big-title-weight);
 		color: var(--primary-color);
+	}
+
+	@media (max-width: 480px) {
+		/* .main-logo-container{
+			
+		} */
+		span {
+			font-size: var(--title-size);
+		}
 	}
 </style>

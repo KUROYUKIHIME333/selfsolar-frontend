@@ -939,6 +939,9 @@
 		}
 	}
 
+	@media (min-width: 480px) {
+}
+
 	/* Animations amusantes */
 	@keyframes gentle-bounce {
 		0%,
