@@ -3,7 +3,8 @@
 	import { quintOut } from 'svelte/easing';
 	import { SvelteSet } from 'svelte/reactivity';
 	import type { HeaderProps, MenuItem } from '$lib/types/general.types';
-	import MainLogo from '$components/atoms/MainLogo.svelte';
+	//import MainLogo from '$components/atoms/MainLogo.svelte';
+	import logoPicture from "$lib/assets/LOGO.webp"
 
 	let { menu = [] }: HeaderProps = $props();
 
@@ -67,7 +68,10 @@
 
 <header class="site-header">
 	<div class="header-container">
-		<MainLogo onClickAction={closeAll} />
+		<!-- <MainLogo onClickAction={closeAll} /> -->
+		<a href="/" class="logo-link" onclick={closeAll}>
+			<img src={logoPicture} alt="Logo de currentify" class="logo-image" />
+		</a>
 
 		<nav class="desktop-nav" aria-label="Navigation principale">
 			<ul class="nav-list">
@@ -384,6 +388,11 @@
 </header>
 
 <style>
+	.logo-image{
+		width: 210px;
+		height: 70px;
+		object-fit: fill;
+	}
 	.site-header {
 		width: var(--full-width);
 		height: var(--header-height);
