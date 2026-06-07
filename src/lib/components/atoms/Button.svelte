@@ -53,7 +53,7 @@
 	.btn {
 		border: none;
 		cursor: pointer;
-		font-family: inherit;
+		font-family: var(--font-body);
 		font-weight: var(--btn-weight);
 		font-size: var(--btn-size);
 		display: inline-flex;
@@ -78,7 +78,7 @@
 		border: none;
 		cursor: not-allowed;
 		opacity: 0.6;
-		font-family: inherit;
+		font-family: var(--font-body);
 	}
 
 	/* Primary - Gradient Artisan */
