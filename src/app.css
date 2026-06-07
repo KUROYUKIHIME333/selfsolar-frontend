@@ -1,5 +1,10 @@
+@font-face {
+	font-family: 'myFont';
+	src: url(./lib/assets/fonts/PPTelegraf-Regular-BF6417cecb5d571.otf);
+}
+
 :root {
-	--font-main: 'Inter', sans-serif;
+	--font-main: 'myFont', sans-serif;
 	--font-title: 'Playfair Display', serif;
 	--primary-color: #994f08;
 	--secondary-color: #c88239;
