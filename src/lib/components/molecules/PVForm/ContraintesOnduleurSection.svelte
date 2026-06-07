@@ -83,7 +83,7 @@
 			</div>
 		</div>
 
-		{#if onduleurCustom === true && params}
+		{#if onduleurCustom && params}
 			<div class="pumping-fields" transition:slide>
 				<p class="group-label">Caractéristiques de l'onduleur candidat</p>
 
