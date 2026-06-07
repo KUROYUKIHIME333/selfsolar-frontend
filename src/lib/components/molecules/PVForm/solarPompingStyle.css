@@ -1,0 +1,101 @@
+.project-selector {
+	margin-bottom: 2rem;
+}
+.group-label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 1rem;
+	color: #444;
+}
+
+.card-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+}
+
+.type-card {
+	display: flex;
+	padding: 1.2rem;
+	background: white;
+	border: 2px solid #ddd;
+	border-radius: 12px;
+	cursor: pointer;
+	text-align: left;
+	transition: 0.2s;
+}
+
+.type-card:hover {
+	scale: 1.005;
+	background: var(--back-yellow-gray);
+}
+
+.type-card.selected {
+	border-color: var(--tertiary-color);
+	background: var(--back-yellow-gray);
+}
+
+.card-icon {
+	font-size: 2rem;
+	margin-right: 1rem;
+}
+.card-txt strong {
+	display: block;
+}
+.card-txt span {
+	font-size: 0.8rem;
+	color: #777;
+}
+
+.inputs-row {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.storage-strategy {
+	margin-top: 2rem;
+}
+.strategy-title {
+	font-weight: bold;
+	margin-bottom: 1rem;
+}
+
+.strategy-options {
+	display: flex;
+	flex-direction: column;
+	gap: 0.8rem;
+}
+
+.strategy-btn {
+	text-align: left;
+	padding: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	background: #fafafa;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.strategy-btn.active {
+	border-color: var(--tertiary-color);
+	background: var(--back-yellow-gray);
+	box-shadow: 0 2px 8px rgba(204, 146, 46, 0.2);
+}
+
+.strategy-btn strong {
+	color: #333;
+}
+.strategy-btn p {
+	font-size: 0.8rem;
+	color: #666;
+	margin: 4px 0 0 0;
+}
+
+@media (max-width: 650px) {
+	.card-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+}

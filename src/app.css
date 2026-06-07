@@ -1,0 +1,146 @@
+@font-face {
+	font-family: 'myFont';
+	src: url(./lib/assets/fonts/PPTelegraf-Regular-BF6417cecb5d571.otf);
+}
+
+:root {
+	--font-main: 'myFont', sans-serif;
+	--font-title: 'Playfair Display', serif;
+	--primary-color: #994f08;
+	--secondary-color: #c88239;
+	--tertiary-color: #f5a570;
+	--back-dark: rgb(225, 227, 222);
+	--back-yellow-gray: rgb(250, 249, 244);
+	--super-gray-text: rgb(65, 66, 68);
+	--gray-text: rgb(114, 115, 120);
+	--less-gray-text: rgb(164, 165, 172);
+	--min-gray-text: rgb(193, 194, 202);
+	--color-text: rgba(0, 0, 0, 0.7);
+	--dark-text: rgb(24, 24, 22);
+	--marron-text: rgb(147, 72, 4);
+	--back-more-dark: #e0e1db;
+	--bg-dark: #1a1a1a;
+	--back-dark-blue: rgb(52, 92, 145);
+	--back-blue: rgb(80, 147, 234);
+	--back-light-blue: rgb(212, 227, 255);
+	--back-yellow: rgb(250, 235, 216);
+	--danger: rgb(235, 19, 19);
+	--good: rgb(3, 174, 35);
+	--ligth-good: rgb(191, 255, 203);
+	--dark-good: rgb(2, 108, 22);
+	--big-title-size: 2rem;
+	--little-big-title-size: 1.5rem;
+	--title-size: 1.2rem;
+	--text-size: 1rem;
+	--small-text-size: 0.9rem;
+	--big-title-weight: 800;
+	--title-weight: 600;
+	--text-weight: 400;
+	--btn-weight: 400;
+	--btn-hover-weight: 600;
+	--btn-size: 0.95rem;
+	--btn-hover-size: 1rem;
+	--max-width: 95vw;
+	--full-width: 100vw;
+	--header-height: 4rem;
+	--post-it-max-width: 25vw;
+	--post-it-min-width: 10vw;
+	--test-border: 2px solid red;
+	--test-border-2: 2px solid blue;
+}
+
+body {
+	font-family: var(--font-main);
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+.title-font {
+	font-family: var(--font-title);
+	color: var(--dark-text);
+	/* Une petite touche de sympa, je pense, l'italique sur certains mots donne cet aspect fait main je trouve. */
+	/* On verra plus tard */
+}
+
+h2 {
+	font-size: var(--title-size);
+}
+
+/* .full-screen-width {
+	width: var(--max-width);
+} */
+
+.moving-gradient-text {
+	background: linear-gradient(
+		90deg,
+		var(--primary-color) 0%,
+		var(--secondary-color) 51%,
+		var(--tertiary-color) 100%
+	);
+	background-clip: text;
+	color: transparent;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: gradientMove 2s ease infinite;
+}
+
+.moving-gradient {
+	background: linear-gradient(
+		90deg,
+		var(--primary-color) 0%,
+		var(--secondary-color) 51%,
+		var(--tertiary-color) 100%
+	);
+	animation: gradientMove 2s ease infinite;
+}
+
+.nav-link {
+	color: var(--color-text);
+	text-decoration: none;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 0.9rem;
+}
+
+.nav-link:hover {
+	color: var(--primary-color);
+}
+
+.nav-link-container {
+	display: flex;
+	align-items: center;
+	height: 50px;
+	border: 1.5px solid transparent;
+}
+
+.nav-link-container:hover {
+	height: 50px;
+	color: var(--primary-color);
+	border-bottom: 1.5px solid var(--primary-color);
+	/* border-top: 1.5px solid var(--primary-color); */
+}
+
+.horizontal-line-full-primary {
+	width: 100vw;
+	height: 2px;
+	background: var(--tertiary-color);
+}
+
+.horizontal-line-full-less-gray {
+	width: 100vw;
+	height: 2px;
+	background: var(--less-gray-text);
+}
+
+@keyframes gradientMove {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
