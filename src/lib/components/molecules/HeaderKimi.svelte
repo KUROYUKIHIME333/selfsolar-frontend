@@ -4,7 +4,7 @@
 	import { SvelteSet } from 'svelte/reactivity';
 	import type { HeaderProps, MenuItem } from '$lib/types/general.types';
 	//import MainLogo from '$components/atoms/MainLogo.svelte';
-	import logoPicture from "$lib/assets/LOGO.webp"
+	import logoPicture from '$lib/assets/LOGO.webp';
 
 	let { menu = [] }: HeaderProps = $props();
 
@@ -388,7 +388,7 @@
 </header>
 
 <style>
-	.logo-image{
+	.logo-image {
 		width: 210px;
 		height: 70px;
 		object-fit: fill;
@@ -441,7 +441,6 @@
 		color: var(--color-text);
 		text-decoration: none;
 		font-size: var(--text-size);
-		font-weight: var(--title-weight);
 		border-radius: 8px;
 		transition: all 0.2s ease;
 		background: none;
@@ -453,7 +452,6 @@
 	.nav-link:hover,
 	.nav-link.active {
 		color: var(--primary-color);
-		scale: 1.05;
 	}
 
 	.chevron {
