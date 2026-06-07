@@ -392,11 +392,7 @@
 		z-index: 1000;
 		background: var(--back-yellow-gray);
 		border-bottom: 1px solid var(--back-dark);
-		font-family:
-			'Inter',
-			system-ui,
-			-apple-system,
-			sans-serif;
+		font-family: var(--font-body);
 	}
 
 	.header-container {
@@ -442,7 +438,7 @@
 		background: none;
 		border: none;
 		cursor: pointer;
-		font-family: inherit;
+		font-family: var(--font-body);
 	}
 
 	.nav-link:hover,
@@ -516,7 +512,7 @@
 		cursor: pointer;
 		width: 100%;
 		text-align: left;
-		font-family: inherit;
+		font-family: var(--font-body);
 	}
 
 	.sub-nav-link:hover,
@@ -734,7 +730,7 @@
 		border: none;
 		cursor: pointer;
 		text-align: left;
-		font-family: inherit;
+		font-family: var(--font-body);
 		transition: all 0.2s ease;
 	}
 
@@ -814,7 +810,7 @@
 		border: none;
 		cursor: pointer;
 		text-align: left;
-		font-family: inherit;
+		font-family: var(--font-body);
 		transition: all 0.2s ease;
 	}
 
@@ -909,7 +905,7 @@
 		font-weight: var(--title-weight);
 		cursor: pointer;
 		transition: all 0.2s ease;
-		font-family: inherit;
+		font-family: var(--font-body);
 	}
 
 	.mobile-close-btn:hover {
@@ -940,7 +936,7 @@
 	}
 
 	@media (min-width: 480px) {
-}
+	}
 
 	/* Animations amusantes */
 	@keyframes gentle-bounce {
