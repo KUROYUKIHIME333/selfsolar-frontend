@@ -17,7 +17,8 @@
 		icon = '',
 		L = undefined,
 		inputMode = undefined,
-		writingPattern = undefined
+		writingPattern = undefined,
+		changeAction = () => {}
 	}: {
 		customClass?: string;
 		type?: string;
@@ -26,6 +27,7 @@
 		label?: string;
 		bindValue?: string | number | undefined;
 		keydownAction?: (e: KeyboardEvent) => false | Promise<void> | void;
+		changeAction?: () => false | Promise<void> | void;
 		isLabeled?: boolean;
 		isHidden?: boolean;
 		isRequired?: boolean;
@@ -67,6 +69,7 @@
 			style={L ? `width: ${L}` : undefined}
 			inputmode={inputMode}
 			pattern={writingPattern}
+			onchange={changeAction}
 		/>
 	</div>
 </div>
