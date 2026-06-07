@@ -74,15 +74,7 @@
 		technologieBatterie: undefined as TechnologieBatterie | undefined,
 		tensionSystemeBatterie: undefined as number | undefined,
 		contraintesOnduleur: undefined as undefined | ParametresOnduleur,
-		cablage: {
-			materiau: undefined,
-			longueurString: undefined,
-			longueurPrincipalDC: undefined,
-			longueurAC: undefined,
-			methodePoseDC: undefined,
-			methodePoseAC: undefined,
-			conditionEnvironnement: undefined
-		} as Cablage,
+		cablage: undefined as undefined | Cablage,
 		pompageSolaire: undefined as boolean | undefined,
 		pompageCaracteristiques: undefined as undefined | PompageCaracteristiques
 	});
