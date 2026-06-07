@@ -29,7 +29,6 @@
 	const hasSubMenu = (item: FooterNavItem): boolean => {
 		return Array.isArray(item.sub_menu) && item.sub_menu.length > 0;
 	};
-
 </script>
 
 <footer class="site-footer">
@@ -182,11 +181,7 @@
 		border-top: 1px solid var(--back-dark);
 		padding: 3rem 0 1.5rem;
 		margin-top: auto;
-		font-family:
-			'Inter',
-			system-ui,
-			-apple-system,
-			sans-serif;
+		font-family: var(--font-body);
 	}
 
 	.footer-container {
@@ -490,19 +485,19 @@
 	}
 
 	.divider-icon {
-    position: relative;
-    display: inline-flex; /* Utilisation de flex pour centrer l'icône/le texte */
-    align-items: center;
-    justify-content: center;
-    width: 5vw;
-    height: 5vw;
-    border-radius: 50%;
-    background: white;
-    color: var(--tertiary-color);
-    font-size: 0.8rem;
-    padding: 0; 
-    animation: gentle-spin 4s linear infinite;
-}
+		position: relative;
+		display: inline-flex; /* Utilisation de flex pour centrer l'icône/le texte */
+		align-items: center;
+		justify-content: center;
+		width: 5vw;
+		height: 5vw;
+		border-radius: 50%;
+		background: white;
+		color: var(--tertiary-color);
+		font-size: 0.8rem;
+		padding: 0;
+		animation: gentle-spin 4s linear infinite;
+	}
 
 	@keyframes gentle-spin {
 		from {
@@ -541,7 +536,7 @@
 		font-weight: var(--title-weight);
 		cursor: pointer;
 		transition: all 0.25s ease;
-		font-family: inherit;
+		font-family: var(--font-body);
 	}
 
 	.back-to-top:hover {
