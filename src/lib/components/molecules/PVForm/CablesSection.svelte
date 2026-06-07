@@ -1,5 +1,7 @@
 <script lang="ts">
 	import './pannelsBatteries.css';
+	import './solarPompingStyle.css';
+	import { slide } from 'svelte/transition';
 	import Input from '$components/atoms/Input.svelte';
 	import Select from '$components/atoms/Select.svelte';
 	import type { Cablage } from '$lib/types/pv.types';
@@ -11,9 +13,31 @@
 
 	let {
 		visibility = true,
-		params = $bindable() as Cablage
-	}: { visibility: boolean; params: Cablage } = $props();
+		params = $bindable()
+	}: {
+		visibility: boolean;
+		params: Cablage | undefined;
+	} = $props();
+
 	let inputWidth = $state('90%');
+	let valuesDefined = $state(false);
+
+	$effect(() => {
+		if (valuesDefined) {
+			params = {
+				materiau: undefined,
+				longueurString: NaN,
+				longueurPrincipalDC: NaN,
+				longueurAC: NaN,
+				methodePoseDC: undefined,
+				methodePoseAC: undefined,
+				conditionEnvironnement: undefined
+			};
+		}
+		if (!valuesDefined) {
+			params = undefined;
+		}
+	});
 </script>
 
 <fieldset class="form-section {visibility ? '' : 'is-hidden-now'}">
@@ -22,72 +46,113 @@
 	</legend>
 
 	<div class="section-content">
-		<Select
-			name="cable-materiau"
-			label="Conducteur"
-			bind:value={params.materiau}
-			options={MATERIAUX_OPTIONS}
-			isRequired={true}
-		/>
+		<div class="project-selector">
+			<div class="card-grid">
+				<button
+					type="submit"
+					class="type-card {valuesDefined === false ? 'selected' : ''}"
+					onclick={() => {
+						valuesDefined = false;
+					}}
+				>
+					<!-- <span class="card-icon"></span> -->
+					<div class="card-txt">
+						<strong>Calculer sans le câblage</strong>
+						<span>Se passer de cette partie, et dimensionner sans le câblage</span>
+					</div>
+				</button>
 
-		<Input
-			type="number"
-			name="cable-longueur-string"
-			label="Longueur des câble champ PV (strings) → boîte jonction , en m."
-			defaultName="ex. 15"
-			bind:bindValue={params.longueurString}
-			minValue="1"
-			inputMode="numeric"
-			L={inputWidth}
-			isRequired={true}
-		/>
+				<button
+					type="button"
+					class="type-card {valuesDefined === true ? 'selected' : ''}"
+					onclick={() => {
+						valuesDefined = true;
+					}}
+				>
+					<!-- <span class="card-icon"></span> -->
+					<div class="card-txt">
+						<strong>Définir le câblage</strong>
+						<span
+							>Entrer les caractéristiques de l'installation pour dimensionner son câblage
+							(sections, protections, ...)</span
+						>
+					</div>
+				</button>
+			</div>
+		</div>
 
-		<Input
-			type="number"
-			name="cable-longueur-DC"
-			label="Longueur du câble DC principal (boîte de jonction → onduleur) , en m."
-			defaultName="ex. 10"
-			bind:bindValue={params.longueurPrincipalDC}
-			minValue="1"
-			inputMode="numeric"
-			L={inputWidth}
-			isRequired={true}
-		/>
+		{#if valuesDefined && params}
+			<div class="custom-editor" transition:slide>
+				<div class="inputs-grid">
+					<Select
+						name="cable-materiau"
+						label="Conducteur"
+						bind:value={params.materiau}
+						options={MATERIAUX_OPTIONS}
+						isRequired={true}
+					/>
 
-		<Select
-			name="cable-methode-pose-dc"
-			label="Méthode de pose - cable DC"
-			bind:value={params.methodePoseDC}
-			options={METHODE_POSE_OPTIONS}
-			isRequired={true}
-		/>
+					<Input
+						type="number"
+						name="cable-longueur-string"
+						label="câble champ PV (strings) → boîte jonction"
+						defaultName="m"
+						bind:bindValue={params.longueurString}
+						minValue="1"
+						inputMode="numeric"
+						L={inputWidth}
+						isRequired={true}
+					/>
 
-		<Input
-			type="number"
-			name="cable-longueur-AC"
-			label="Longueur du câble AC (onduleur → tableau/tableau divisionnaire) , en m."
-			defaultName="ex. 20"
-			bind:bindValue={params.longueurAC}
-			minValue="1"
-			inputMode="numeric"
-			L={inputWidth}
-			isRequired={true}
-		/>
+					<Input
+						type="number"
+						name="cable-longueur-DC"
+						label="câble DC (boîte de jonction → onduleur)"
+						defaultName="m"
+						bind:bindValue={params.longueurPrincipalDC}
+						minValue="1"
+						inputMode="numeric"
+						L={inputWidth}
+						isRequired={true}
+					/>
 
-		<Select
-			name="cable-methode-pose-dc"
-			label="Méthode de pose - cable AC"
-			bind:value={params.methodePoseAC}
-			options={METHODE_POSE_OPTIONS}
-			isRequired={true}
-		/>
+					<Select
+						name="cable-methode-pose-dc"
+						label="Méthode de pose - cable DC"
+						bind:value={params.methodePoseDC}
+						options={METHODE_POSE_OPTIONS}
+						isRequired={true}
+					/>
 
-		<Select
-			name="cable-conditions-environnement"
-			label="Conditions de l'environnement des câbles (ayant un impact ou dé-rating)"
-			bind:value={params.conditionEnvironnement}
-			options={CONDITION_ENVIRONNEMENT_OPTIONS}
-			isRequired={true}
-		/>
+					<Input
+						type="number"
+						name="cable-longueur-AC"
+						label="câble AC (onduleur → tableau)"
+						defaultName="m"
+						bind:bindValue={params.longueurAC}
+						minValue="1"
+						inputMode="numeric"
+						L={inputWidth}
+						isRequired={true}
+					/>
+
+					<Select
+						name="cable-methode-pose-dc"
+						label="Méthode de pose - cable AC"
+						bind:value={params.methodePoseAC}
+						options={METHODE_POSE_OPTIONS}
+						isRequired={true}
+					/>
+
+					<Select
+						name="cable-conditions-environnement"
+						label="Environnement des câbles (dé-rating)"
+						bind:value={params.conditionEnvironnement}
+						options={CONDITION_ENVIRONNEMENT_OPTIONS}
+						isRequired={true}
+					/>
+				</div>
+			</div>
+		{/if}
 	</div>
 </fieldset>
